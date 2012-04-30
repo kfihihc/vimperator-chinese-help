@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ***** BEGIN LICENSE BLOCK ***** {{{
+ Copyright (c) 2006-2010 by Martin Stubenschrott <stubenschrott@vimperator.org>
+
+ This work is licensed for reuse under an MIT license. Details are
+ given in the License.txt file included with this file.
+}}} ***** END LICENSE BLOCK ***** -->
+
+<?xml-stylesheet href="chrome://liberator/skin/liberator.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "liberator.dtd" [
+    <!ENTITY liberator.content "chrome://liberator/content/">
+    <!ENTITY and "&amp;&amp;">
+]>
+
+<overlay id="liberator"
+    xmlns:liberator="http://vimperator.org/namespaces/liberator"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:nc="http://home.netscape.com/NC-rdf#"
+    xmlns:html="http://www.w3.org/1999/xhtml"
+    xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+    <script type="application/x-javascript;version=1.8" src="&liberator.content;liberator-overlay.js"/>
+
+    <window id="&liberator.mainWindow;">
+        <stringbundleset id="liberator-stringbundles">
+            <stringbundle id="liberator-charset-bundle"
+                src="chrome://global/locale/charsetTitles.properties"/>
+        </stringbundleset>
+
+        <keyset id="&liberator.idkeyset;">
+            <key id="key_open_vimbar" key=":" oncommand="window.liberator &and; liberator.modules.commandline.open('', '', liberator.modules.modes.EX);" modifiers=""/>
+            <key id="key_stop" keycode="VK_ESCAPE" oncommand="window.liberator &and; liberator.modules.events.onEscape();"/>
+            <!-- other keys are handled inside the event loop in events.js -->
+        </keyset>
+
+        <popupset>
+            <panel id="liberator-visualbell" liberator:highlight="Bell"/>
+        </popupset>
+
+        <!--this notifies us also of focus events in the XUL
+            from: http://developer.mozilla.org/en/docs/XUL_Tutorial:Updating_Commands !-->
+        <commandset id="onVimperatorFocus"
+            commandupdater="true"
+            events="focus"
+            oncommandupdate="if (window.liberator &and; liberator.modules.events != undefined) liberator.modules.events.onFocusChange(event);"/>
+        <commandset id="onVimperatorSelect"
+            commandupdater="true"
+            events="select"
+            oncommandupdate="if (window.liberator &and; liberator.modules.events != undefined) liberator.modules.events.onSelectionChange(event);"/>
+
+        <!-- a visual seperator between the content and our command line -->
+        <html:div id="liberator-separator" liberator:highlight="ContentSeparator"/>
+
+        <!-- As of Firefox 3.1pre, <iframe>.height changes do not seem to have immediate effect,
+             therefore we need to put them into a <vbox> for which that works just fine -->
+        <vbox class="liberator-container liberator-floatbox" hidden="false" collapsed="true">
+            <iframe id="liberator-multiline-output" src="chrome://liberator/content/buffer.xhtml"
+                flex="1" hidden="false" collapsed="false"
+                onclick="window.liberator &and; liberator.modules.commandline.onMultilineOutputEvent(event)"/>
+        </vbox>
+
+        <vbox class="liberator-container liberator-floatbox" hidden="false" collapsed="true">
+            <iframe id="liberator-completions" src="chrome://liberator/content/buffer.xhtml"
+                flex="1" hidden="false" collapsed="false"
+                onclick="window.liberator &and; liberator.modules.commandline.onMultilineOutputEvent(event)"/>
+        </vbox>
+
+        <hbox id="liberator-bottombar">
+            <stack id="liberator-bottombar-deck" orient="horizontal" align="stretch" class="liberator-container" flex="1" liberator:highlight="Normal">
+                <toolbar id="liberator-statusline" hidden="false" collapsed="false" class="liberator-container"
+                    toolbarname       = "Liberator Statusline Toolbar"
+                    toolboxid         = "navigator-toolbox"
+                    mode              = "icons"
+                    iconsize          = "small"
+                    defaulticonsize   = "small"
+                    lockiconsize      = "small"
+                    customizable      = "true"
+                    fullscreentoolbar = "true"
+                    context           = "toolbar-context-menu"
+                    defaultset        = "liberator-mode-toolbar,liberator-message-toolbar,liberator-status-toolbar"
+                >
+                    <!-- the flex values are like they are to make sure the liberator-message always gets
+                         maximum size up to the screen size, but still do not enlarge the whole window for very, very long strings-->
+                    <toolbaritem id="liberator-mode-toolbar" flex="1">
+                        <label class="plain" collapsed="true" id="liberator-mode" flex="1" crop="end" liberator:highlight="ModeMsg"/>
+                    </toolbaritem>
+                    <toolbaritem id="liberator-message-toolbar" flex="1">
+                        <label class="plain" collapsed="false" id="liberator-message" flex="1" crop="end" liberator:highlight="Normal"/>
+                    </toolbaritem>
+                    <toolbaritem id="liberator-status-toolbar" flex="10000000" >
+                        <label flex="1" class="plain" id="liberator-status" crop="center" style="text-align: end;" liberator:highlight="StatusLine"/>
+                    </toolbaritem>
+                </toolbar>
+                <hbox id="liberator-commandline" class="liberator-container" liberator:highlight="CmdLine">
+                    <label class="plain" id="liberator-commandline-prompt-text" liberator:highlight="PromptText" flex="0" crop="end" value="" collapsed="false"/>
+                    <label class="plain" id="liberator-commandline-prompt" liberator:highlight="Prompt" flex="0" crop="none" value="" collapsed="false"/>
+                    <textbox class="plain" id="liberator-commandline-command" flex="1" type="timed" timeout="100"
+                        oninput="window.liberator &and; liberator.modules.commandline.onEvent(event);"
+                        onkeyup="window.liberator &and; liberator.modules.commandline.onEvent(event);"
+                        onfocus="window.liberator &and; liberator.modules.commandline.onEvent(event);"
+                        onblur="window.liberator &and; liberator.modules.commandline.onEvent(event);"/>
+                </hbox>
+            </stack>
+        </hbox>
+
+        <vbox class="liberator-container" hidden="false" collapsed="false" liberator:highlight="CmdLine">
+            <textbox id="liberator-multiline-input" class="plain" flex="1" rows="1" hidden="false" collapsed="true" multiline="true" liberator:highlight="Normal"
+                onkeypress="window.liberator &and; liberator.modules.commandline.onMultilineInputEvent(event);"
+                oninput="window.liberator &and; liberator.modules.commandline.onMultilineInputEvent(event);"
+                onblur="window.liberator &and; liberator.modules.commandline.onMultilineInputEvent(event);"/>
+        </vbox>
+
+    </window>
+
+
+</overlay>
+
+<!-- vim: set fdm=marker sw=4 ts=4 et: -->

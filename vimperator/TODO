@@ -1,0 +1,66 @@
+Priority list:
+1-9 as in Vim (9 = required for next release, 5 = would be nice, 1 = probably not)
+
+This is just a quick list of general ideas, which shouldn't be forgotten.
+Many other ideas are listed in the wiki and probably these things should
+be transfered there as well, for now it just quicker to add/change
+things in this list.
+
+BUGS:
+- add window resize support to hints
+- searching backwards incrementally does not work i.e. with 'incsearch' set
+- insert abbreviations broken on <space>
+- :sidebar improvements (:sidebar! Downloads while downloads is open should refocus the sidebar)
+- ;s saves the page rather than the image
+- RC file is sourced once per window
+- :undo seems to be effected by the tabstrip state
+
+(the new XML help system bugs):
+- markup/links breakage:
+  - except for Ex commands and alphabetic mappings (like m), most elements seem
+    to link correctly *only* inside a single page (when added after '#' to the
+    URI, i.e. liberator://help/foo#bar, but not as liberator://help-tag/bar, which
+    is by far the most common unless using all.xml (which is not very usable
+    because of the long loading time))
+  - the <t> tag does not linkify at all
+  - nested tags don't work (e.g. <ex>:set <a>option</a>!</ex>) and often break
+    the markup (hide content)
+- util.generateHelp() is not there
+- the help system seems to take quite some time to set up, so when you have
+  some help file opened and saved in a session, you get "File not found"
+  initially at start up and have to reload the page
+
+
+FEATURES:
+8 Incremental searches should retreat to their starting position on <Backspace>
+8 Replace config.name tests in liberator with more specific feature
+  tests or overridable APIs where at all feasible.
+8 MAYBE change the extension ID to vimperator@vimperator.org rather than
+  vimperator@mozdev.org
+8 use the storage module for autocommands
+8 middleclick in content == p, and if command line is open, paste there the clipboard buffer
+8 all search commands should start searching from the top of the visible viewport
+8 :bmark -keyword wikpedia http://en.wikipedia.org/wiki/Special:Search?search=%s 
+  should overwrite existing keywords. This allows saving of quick searches in the RC file.
+8 <C-o>/<C-i> should work as in vim (i.e., save page positions as well as
+  locations in the history list).
+7 [d could go to the last domain in the history stack. So if I browse from
+  google to another page and click 10 links there, [d would take me back to the google page
+  opera's fast forward does something like this
+7 make an option to disable session saving by default when you close Firefox
+7 The output of the pageinfo-command should contain the security-information of ssl-encrypted sites
+7 Add :every command
+6 check/correct spellings in insert mode with some mappings
+6 jump to the next heading with ]h, next image ]i, previous textbox [t and so on
+6 :grep support (needs location list)
+6 pipe selected text/link/website to an external command
+6 Use ctrl-w+j/k/w to switch between sidebar, content, preview window
+6 ;?<hint> should show more information
+5 when looking at a zoomed out image (because it's large), zi should zoom in
+  maybe with this? : http://mxr.mozilla.org/seamonkey/source/content/html/document/public/nsIImageDocument.idl
+5 make a command to search within google search results
+  (http://gadelkareem.com/2007/01/28/using-google-ajax-api-as-an-array/)
+  maybe impossible, needs a per-site key from google
+4 } { should jump to the next paragraph of the page
+4 use ctrl-n/p in insert mode for word completion
+

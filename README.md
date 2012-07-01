@@ -1,8 +1,5 @@
-vimperator-chinese-help
+Vimperator 中文帮助文件
 =======================
-
-vimperator 中文帮助
-
 ##说明
 
 

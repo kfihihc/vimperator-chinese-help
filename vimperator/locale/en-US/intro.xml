@@ -5,7 +5,7 @@
 
 <document
     name="intro"
-    title="&liberator.appname; Introduction"
+    title="&liberator.appname; 绍介"
     xmlns="http://vimperator.org/namespaces/liberator"
     xmlns:html="http://www.w3.org/1999/xhtml">
 
@@ -13,13 +13,15 @@
 First there was a Navigator, then there was an Explorer.
 Later it was time for a Konqueror. Now it's time for an Imperator, the
 VIMperator :)
+最初世上有 Navigator，然后是 Explorer，继而 Konqueror 的时代，而现在，该是 Imperator 的时代了，我们的 VIMperator :)
 </html:p>
 
-<h1 tag="intro">Introduction</h1>
+<h1 tag="intro">绍介</h1>
 
 <p>
-<link topic="http://vimperator.org">&liberator.appname;</link> is a
+<link topic="http://vimperator.org">&liberator.appname;</link> 是一个
 <link topic="http://www.mozilla.com/firefox/">Firefox</link>
+浏览器扩展，它很大程度受启于 Vim 文本编辑器，希望创造出一个更快更高效的冲浪环境。它有类似于 Vim 的键绑定，你可以把它称为模式化 web 浏览器，因为不同的模式里有着不同的键绑定。比如，它有个很特别的 Hint 模式，你可以仅通过键盘就可轻松跟踪链接。几乎所有的功能都可以通过命令完成，键入 <ex>:back</ex> 会在当前网页历史中后退，就好像点击了工具条上的后退按钮一样。
 browser extension with strong inspiration from the Vim text editor,
 with a mind towards faster and more efficient browsing. It has similar key
 bindings and you could call it a modal web browser, as key bindings differ
@@ -36,6 +38,7 @@ toolbar.
     but also of faster computers. Furthermore, great care is taken into making
     its command line interface more consistent and easier to use, while still
     being a powerful extension for advanced users.
+    不过，&liberator.appname; 并不打算成为 Vim 的百分百复制品，它更像是把 Vim 的思想带到21世纪里。这意味着利用好新的图形处理能力与更快的计算机。而且，我们也深入考虑，以使命令行界面更为统一、易用的同时，也不失为高级用户们的有力扩展。
 </p>
         
 <p>
@@ -44,6 +47,7 @@ toolbar.
     enjoy an interactive JavaScript shell — even with completion support. Or if you
     want to extend &liberator.appname;, you can easily do that by just dropping a JavaScript
     file in its plugin directory.
+    但 &liberator.appname; 又不仅仅是 Firefox 的一个简单命令入口 - 它同时也是个完整的开发环境。如果你是个 web 开发者，你就可以享用到一个交互式的 JavaScript shell - 甚至支持补齐功能。又或者你想拓展 &liberator.appname;，可以简单拖动 JavaScript 到它的 plugin 文件夹里即可完成。
 </p>
 
 <tags>author donation sponsor</tags>

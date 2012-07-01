@@ -95,15 +95,22 @@ const Bookmarks = Module("bookmarks", {
 
             this.isBookmark = function (id) rootFolders.indexOf(self.findRoot(id)) >= 0;
 
-            this.isRegularBookmark = function findRoot(id) {
-                do {
-                    var root = id;
-                    if (services.get("livemark") && services.get("livemark").isLivemark(id))
-                        return false;
-                    id = bookmarksService.getFolderIdForItem(id);
-                } while (id != bookmarksService.placesRoot && id != root);
-                return rootFolders.indexOf(root) >= 0;
-            };
+            // nsILivemarkService will be deprecated since Gecho version 13
+            // and a livemark item doesn't have id, so the id (gotten by bookmarkService.getBookmarkIdsForURI)
+            // is not livemark item always.
+            // TODO: remove this code when minVersion >= 13
+            this.isRegularBookmark = ("mozIAsyncLivemarks" in Ci) ?
+                function() true :
+                function findRoot(id) {
+                    var livemarkService = PlacesUtils.livemarks;
+                    do {
+                        var root = id;
+                        if (livemarkService.isLivemark(id))
+                            return false;
+                        id = bookmarksService.getFolderIdForItem(id);
+                    } while (id != bookmarksService.placesRoot && id != root);
+                    return rootFolders.indexOf(root) >= 0;
+                };
 
             // since we don't use a threaded bookmark loading (by set preload)
             // anymore, is this loading synchronization still needed? --mst
@@ -309,7 +316,7 @@ const Bookmarks = Module("bookmarks", {
     // also ensures that each search engine has a Liberator-friendly alias
     getSearchEngines: function getSearchEngines() {
         let searchEngines = [];
-        for (let [, engine] in Iterator(services.get("browserSearch").getVisibleEngines({}))) {
+        for (let [, engine] in Iterator(services.get("search").getVisibleEngines({}))) {
             let alias = engine.alias;
             if (!alias || !/^[a-z0-9_-]+$/.test(alias))
                 alias = engine.name.replace(/^\W*([a-zA-Z_-]+).*/, "$1").toLowerCase();
@@ -337,7 +344,7 @@ const Bookmarks = Module("bookmarks", {
     getSuggestions: function getSuggestions(engineName, query, callback) {
         const responseType = "application/x-suggestions+json";
 
-        let engine = services.get("browserSearch").getEngineByAlias(engineName);
+        let engine = services.get("search").getEngineByAlias(engineName);
         if (engine && engine.supportsResponseType(responseType))
             var queryURI = engine.getSubmission(query, responseType).uri.spec;
         if (!queryURI)
@@ -389,7 +396,7 @@ const Bookmarks = Module("bookmarks", {
                 param = url.substr(offset + 1);
             }
 
-            var engine = services.get("browserSearch").getEngineByAlias(keyword);
+            var engine = services.get("search").getEngineByAlias(keyword);
             if (engine) {
                 var submission = engine.getSubmission(param, null);
                 return [submission.uri.spec, submission.postData];
@@ -489,7 +496,7 @@ const Bookmarks = Module("bookmarks", {
             return null;
         }
     },
-    iterateFolderChildren: function (node, onlyFolder) {
+    iterateFolderChildren: function (node, onlyFolder, onlyWritable) {
         if (!node.containerOpen)
             node.containerOpen = true;
 
@@ -498,7 +505,11 @@ const Bookmarks = Module("bookmarks", {
             if (PlacesUtils.nodeIsContainer(child))
                 child.QueryInterface(Ci.nsINavHistoryContainerResultNode);
 
-            if (onlyFolder && !PlacesUtils.nodeIsFolder(child))
+            if (PlacesUtils.nodeIsFolder(child)) {
+                if (onlyWritable && child.childrenReadOnly)
+                    continue;
+            }
+            else if (onlyFolder)
                 continue;
 
             yield child;
@@ -580,7 +591,7 @@ const Bookmarks = Module("bookmarks", {
                           [["-tags", "-T"],     commands.OPTION_LIST, null, tags],
                           [["-keyword", "-k"],  commands.OPTION_STRING, function (arg) /\w/.test(arg)],
                           [["-folder", "-f"],   commands.OPTION_STRING, null, function (context, args) {
-                              return completion.bookmarkFolder(context, args, PlacesUtils.bookmarksMenuFolderId, true);
+                              return completion.bookmarkFolder(context, args, PlacesUtils.bookmarksMenuFolderId, true, true);
                           }]],
             });
 
@@ -742,7 +753,7 @@ const Bookmarks = Module("bookmarks", {
             let engineList = (engineAliases || options["suggestengines"] || "google").split(",");
 
             engineList.forEach(function (name) {
-                let engine = services.get("browserSearch").getEngineByAlias(name);
+                let engine = services.get("search").getEngineByAlias(name);
                 if (!engine)
                     return;
                 let [, word] = /^\s*(\S+)/.exec(context.filter) || [];
@@ -761,7 +772,7 @@ const Bookmarks = Module("bookmarks", {
             });
         };
 
-        completion.bookmarkFolder = function bookmarkFolder (context, args, rootFolderId, onlyFolder) {
+        completion.bookmarkFolder = function bookmarkFolder (context, args, rootFolderId, onlyFolder, onlyWritable) {
             let filter = context.filter,
                 folders = filter.split("/"),
                 item = folders.pop();
@@ -784,7 +795,7 @@ const Bookmarks = Module("bookmarks", {
                 results.push(["TOOLBAR", "Bookmarks Toolbar"]);
             }
             if (folder) {
-                for (let child in Bookmarks.iterateFolderChildren(folder, onlyFolder)) {
+                for (let child in Bookmarks.iterateFolderChildren(folder, onlyFolder, onlyWritable)) {
                     if (PlacesUtils.nodeIsSeparator(child))
                         continue;
 

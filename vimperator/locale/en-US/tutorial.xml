@@ -5,66 +5,49 @@
 
 <document
     name="tutorial"
-    title="&liberator.appname; Tutorial"
+    title="&liberator.appname; 教程"
     xmlns="http://vimperator.org/namespaces/liberator"
     xmlns:html="http://www.w3.org/1999/xhtml">
 <!-- Initial revision: Sun Jun  8 10:07:05 UTC 2008 (penryu) -->
 
-<h1 tag="tutorial">Quick-start tutorial</h1>
+<h1 tag="tutorial">快速入门教程</h1>
 
 <html:p style="text-align: center">
-    This is a quickstart tutorial to help get new users up and running
-    in &liberator.appname;. It is not intended as a full reference explaining all
-    features.
+	这是快速入门教程，帮助新用户上手 &liberator.appname;。它并非完整的参考，并不解释所有的特性。
 </html:p>
 
-<h2 tag="modal">&liberator.appname;'s modal interface</h2>
+<h2 tag="modal">&liberator.appname; 的模式界面</h2>
 
 <p>
-    &liberator.appname;'s power, like Vim's, comes from it's modal interface. Keys have
-    different meanings depending on which mode the browser is in. &liberator.appname; has
-    several modes, but the 2 most important are <em>Normal</em> mode and
-    <em>Command-line</em> mode.
+	&liberator.appname; 的强大，类于 Vim，来自于它的模式界面。浏览器所处的模式不同，键就有不同的意义。&liberator.appname; 有多个模式，两个最重要的模式是<em>正常</em>模式与<em>命令行</em>模式。
 </p>
 
 <p>
-    When &liberator.appname; starts, it is in Normal mode by default. This is probably where
-    you will spend the majority of your time.
+	&liberator.appname; 启动时，默认处于正常模式。这也将是费上你最多时间的地方。
 </p>
 
 <p>
-    The other core mode of &liberator.appname;, Command-line mode, can be entered from
-    Normal mode by typing a <k>:</k> (colon). You will frequently see &liberator.appname;
-    commands start with a <k>:</k>, indicating that what follows is a command.
+	&liberator.appname; 的另一个核心模式，命令行模式，可以在正常模式下键入 <k>:</k>(冒号)进入。你将会经常看到以 <k>:</k> 开头的 &liberator.appname; 命令，指示着后来所跟的是一个命令。
 </p>
 
 <p>
-    To return to Normal mode from Command-line mode, type <k name="Esc"/>. Pressing
-    <k name="Esc"/> will also return you to Normal mode from most other modes in
-    &liberator.appname;.
+	要从命令行模式返回正常模式，请按 <k name="Esc"/> 键。在 &liberator.appname; 里，大部分其他模式都可以通过按 <k name="Esc"/> 键返回正常模式。
 </p>
 
-<h2 tag="getting-help">Getting help</h2>
+<h2 tag="getting-help">取得帮助</h2>
 
 <p>
-    Vim is a great editor but it's not much of a web browser. So even seasoned Vim
-    users will probably have to look at &liberator.appname; documentation sooner or later.
-    Most of the documentation for &liberator.appname;'s features are easily found using the
-    <ex>:help</ex> command. For example, you can find help on the <ex>:help</ex> command
-    by typing
+	Vim 是一个伟大的编辑器，但它并非一个 web 浏览器。因此哪怕是 Vim 的熟手，也可能需要不时查阅 &liberator.appname; 文档。&liberator.appname; 的大部分文档都可以通过 <ex>:help</ex> 命令来轻松找得。比如，你可以键入以下命令找到关于 <ex>:help</ex> 命令的帮助:
 </p>
 
 <code><ex>:help :help<key name="CR"/></ex></code>
 
 <p>
-    Similarly, help on configurable options is available with
-    <ex>:help '<a>option_name</a>'</ex>. (Note the single quotes
-    around the option name as in Vim.) Information on all available
-    options is, predictably, <ex>:help options</ex>.
+	类似的，配置选项的帮助内容也可以通过 <ex>:help '<a>option+name</a>'</ex> 命令来取得。（注意选项名两边的单引号，这是与 Vim 一致的）可以想到，所有选项的帮助信息可以通过 <ex>:help options</ex> 来取得。
 </p>
 
 <p>
-    And you can find out about the <k>gt</k> and <k>gT</k> mapping with
+	因此你可以通过下列命令取得 <k>gt</k> 和 <k>gT</k> 映射的信息	
 </p>
 
 <code>
@@ -73,87 +56,77 @@
 </code>
 
 <p>
-    Finally, in addition to the help system itself, <ex>:exusage</ex>, <ex>:viusage</ex>
-    and <ex>:optionusage</ex> are useful quick-reference commands.
+	最后，除了帮助系统外，<ex>:exusage</ex>、<ex>:viusage</ex> 和 <ex>:optionusage</ex> 也是有用的快速参考命令。
 </p>
 
-<h2 tag="living-mouseless">Mouseless</h2>
+<h2 tag="living-mouseless">无鼠标化</h2>
 
-<em>– or how I learned to stop worrying and love the 80+ buttons I already have.</em>
+<em>– 或说我怎样or how I learned to stop worrying and love the 80+ buttons I already have.</em>
 
 <p>
-    The efficiency of &liberator.appname;, as with the legendary editor it was inspired by,
-    relies on the user being able to keep his fingers on the keyboard where they
-    can do the most good. While there are some areas where the mouse is clearly
-    superior at, such as GUI design or some games, &liberator.appname; acts on the
-    assumption that a web browser doesn't have to be one of those. However,
-    the mouse is of course fully supported if you prefer moving this little rodent.
+	&liberator.appname; 的高效性，正如它所受启示的传奇编辑器一样，在于用户可以在保持手指在键盘上时就可以完成绝大部分工作。虽说在某些领域比如图形用户界面设计或一些游戏中，鼠标显然要更擅长，但 &liberator.appname; 认为 web 浏览器不必要成为它们中的一个。不过如果你更喜欢移动这小小的啮齿动物，鼠标也当然是全然支持的。
 </p>
 
-<h2 tag="keyboard-scrolling">Scrolling</h2>
+<h2 tag="keyboard-scrolling">滚动</h2>
 
 <p>
-    Scrolling the browser window is done with simple keystrokes:
+	滚动浏览器窗口可以通过简单几个按键完成：
 </p>
 
 <ul>
     <li><k>j</k>/<k>k</k> –
-        scroll window down/up by one line, respectively
+		相应的向下/上滚动一行的窗口
     </li>
     <li><k>h</k>/<k>l</k> –
-        scroll window left/right
+		左/右滚动窗口
     </li>
     <li><k name="Space"/>/<k name="C-b"/> –
-        scroll down/up by one page
+		向下/上滚动一页的窗口
     </li>
     <li><k name="C-d"/>/<k name="C-u"/> –
-        scroll down/up by 1/2 page
+		向下/上滚动半页的窗口
     </li>
 </ul>
 
 <p>
-    Your standard buttons (<k name="Up"/>/<k name="Down"/>/<k name="PgUp"/>/<k name="PgDn"/>) will
-    also work as expected.
+	标准按键（<k name="Up"/>/<k name="Down"/>/<k name="PgUp"/>/<k name="PgDn"/>）也如所你所料的还一样工作着。
 </p>
 
-<h2 tag="history-navigation tab-navigation">History and tabs</h2>
+<h2 tag="history-navigation tab-navigation">历史记录与标签页</h2>
 
 <p>
     History navigation (e.g., <em>Back</em>, <em>Forward</em>) are done similarly to
     scrolling.
+	类似于滚动窗口，历史记录的导航（譬如 <em>Back</em>，<em>Forward</em>） 也很简单。
 </p>
 
 <ul>
     <li><k name="C-o"/>/<k name="C-i"/> –
-        move Back/Forward in the current window/tab's history, respectively
+		相应地在当前窗口/标签页历史记录中后退/前进
     </li>
 </ul>
 
 <p>
-    Move between tabs using these keystrokes which may also be familiar to tabbing
-    Vimmers.
+	对于使用标签页的 Vimmers 来说，在标签页间移动所用的按键应该很熟悉。
 </p>
 
 <ul>
     <li><k>gt</k>/<k name="C-n"/> –
-        go to the next tab
+		转到下一个标签页
     </li>
     <li><k>gT</k>/<k name="C-p"/> –
-        go to the previous tab
+		转到上一个标签页
     </li>
     <li><k>g0</k>/<k>g$</k> –
-        go to the first/last tab
+		转到第一个/最后一个标签页
     </li>
     <li><k>d</k> –
-        close the active tab (delete the buffer)
+		关闭当前标签页（删除 buffer）
     </li>
 </ul>
 
 <p>
-    To open a web page in a new tab, use the <ex>:tabopen <a>url</a></ex>. To open a URL in
-    the current tab, use <ex>:open</ex>. The Normal mode mappings <k>t</k> and <k>o</k>,
-    respectively, map to these commands, so the following pairs of sequences are
-    equivalent:
+	<ex>:tabopen <a>url</a></ex> 在新标签页中打开网页，<ex>:open</ex> 命令则在当前标签页中打开一个 URL。正常模式下，<k>t</k> 和 <k>o</k> 相应地被映射给这些命令，因此下面成双的命令结果是相当的：
 </p>
 
 <code>

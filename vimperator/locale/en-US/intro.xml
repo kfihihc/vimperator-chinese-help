@@ -170,9 +170,7 @@
 
 <h2 tag="contact bugs patches">联系</h2>
 <p>
-	请使用项目的 <link topic="http://code.google.com/p/vimperator-labs/issues/list">bug tracker</link> 来报告任何 bug/特性请求。你也可以在那儿附上补丁。另一个办法是使用<link topic="http://www.mozdev.org/mailman/listinfo/vimperator">邮件列表</link>。
-	你也可以在 IRC 频道 <link topic="irc://irc.freenode.neet/vimperator">#vimperator</link> 上找到我们。更多的信息或贴士可以在 <link topic="http://code.google.com/p/vimperator-labs/w/list?q=label%3Aproject-vimperator">Wiki</link> 上的<link topic="http://code.google.com/p/vimperator-labs/wiki/&liberator.appname;FAQ">常见问题 (FAQ) </link> 上找到。
-	请确保你已经事先阅读 <link topic="http://vimperator-labs.googlecode.com/hg/vimperator/TODO">TODO</link> 文件，事实上我们知道有许多可以改进的地方，只要我们有时间就会做出改进，又或收到补丁。
+	请使用项目的 <link topic="http://code.google.com/p/vimperator-labs/issues/list">bug tracker</link> 来报告任何 bug/特性请求。你也可以在那儿附上补丁。另一个办法是使用<link topic="http://www.mozdev.org/mailman/listinfo/vimperator">邮件列表</link>。你也可以在 IRC 频道 <link topic="irc://irc.freenode.neet/vimperator">#vimperator</link> 上找到我们。更多的信息或贴士可以在 <link topic="http://code.google.com/p/vimperator-labs/w/list?q=label%3Aproject-vimperator">Wiki</link> 上的<link topic="http://code.google.com/p/vimperator-labs/wiki/&liberator.appname;FAQ">常见问题 (FAQ) </link> 上找到。请确保你已经事先阅读 <link topic="http://vimperator-labs.googlecode.com/hg/vimperator/TODO">TODO</link> 文件，事实上我们知道有许多可以改进的地方，只要我们有时间就会做出改进，又或收到了补丁。
 </p>
 
 </document>

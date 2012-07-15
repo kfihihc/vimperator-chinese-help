@@ -95,8 +95,6 @@
 <h2 tag="history-navigation tab-navigation">历史记录与标签页</h2>
 
 <p>
-    History navigation (e.g., <em>Back</em>, <em>Forward</em>) are done similarly to
-    scrolling.
 	类似于滚动窗口，历史记录的导航（譬如 <em>Back</em>，<em>Forward</em>） 也很简单。
 </p>
 
@@ -137,179 +135,130 @@
 <k>t</k>vimperator.org<key name="CR"/>
 </code>
 
-<h2 tag="hints-tutorial">Some hints about surfing…</h2>
+<h2 tag="hints-tutorial">网页浏览的一些小提示...</h2>
 
 <p>
-    So now you can navigate around in &liberator.appname;. But wait… how do you <em>open</em> a
-    page or tab linked in a web page? How do you <em>click</em> on all those links
-    without your tailed friend?
+	你现在可以在 &liberator.appname; 中导航了。但是等等，怎样从一个网页中<em>打开</em>一个新页面或标签页？在没有了你那带尾巴的朋友的情况下，你怎样<em>点击</em>这些链接？ 
 </p>
 
 <p>
-    The answer is <em>hints</em>. Activating hints displays a number next to every link
-    &liberator.appname; can find. To follow the link, simply type the number corresponding
-    to the hint, a white number inside a red square by default.
+	答案是 <em>hints</em>.启用 hints 将在每个 &liberator.appname; 能找到的链接边展示一个数字。要跟踪链接，你只需要键入相应的数字，一个默认为红色方框中的白色数字。
 </p>
 
 <p>
-    For text links, there's an additional shortcut; you can type some text
-    contained in the link and &liberator.appname; will search all the links it can find and
-    only hint the matching links, further narrowing down the list. If the text you
-    type uniquely identifies any given link, &liberator.appname; will follow that link
-    immediately without any further user input.
+	对于文本，我们有其他的快捷方式；你可以键入链接中所含的部分文本，&liberator.appname; 会搜寻所有它可以找到的链接并仅 hint 出符合条件的链接，这可以进一步地缩小范围。如果你所键入的文本唯一的锚定某个链接，则 &liberator.appname; 会自动打开该链接，无需用户其他的任何输入。
 </p>
 
 <p>
-    Whichever way you choose to indicate your target link, once &liberator.appname; has
-    highlighted the link you want, simply hit <k name="Enter"/> to open it.
+	不管你选择了哪个办法来确定你的目标链接，一旦 &liberator.appname; 高亮出你所要的链接，单击 <k name="Enter"/> 即可打开它。
 </p>
 
 <p>
-    The most common hint mode is called <t>quick-hints</t>.
-    To activate QuickHint mode, press either <k>f</k> or <k>F</k>. The lower-case
-    <k>f</k> will open the resulting link in the current tab, while the upper-case
-    <k>F</k> will open it in a new tab.
+	最常见的 hint 模式叫 <t>quick-hints</t>。要启动 QuickHint 模式，按 <k>f</k> 或 <k>F</k> 键。小写的 <k>f</k> 将在当前标签页中打开结果链接，大写的 <k>F</k> 则将在新标签页中打开。
 </p>
 
 <p>
-    To test it, try this link: <link topic="http://vimperator.org/">&liberator.appname; Homepage</link>.
-    Activate QuickHint mode with <k>f</k> or <k>F</k> to highlight all currently
-    visible links. Then start typing the text of the link. The link should be
-    uniquely identified soon, and &liberator.appname; will open it. Once you're done,
-    remember to use <k name="C-o"/> (<em>History Back</em>) or <k>d</k> (<em>Delete Buffer</em>)
-    to return here, depending on which key you used to activate QuickHint mode.
+	测试下这个链接：<link topic="http://vimperator.org/">&liberator.appname; Homepage</link>。
+	使用 <k>f</k> 或 <k>F</k> 启动 QucikHint 模式来高亮显示当前所有可见链接。然后键入链接的文本。该链接可以很快地唯一锁定出，然后 &liberator.appname; 打开它。一旦你完成了上述操作，记得使用 <k name="C-o"/>（<em>History Back</em>）a或 <k>d</k>（<em>Delete Buffer</em>）返回这儿，至于用哪个键返回，则取决于你用哪个键启动的 QuickHint mode。
 </p>
 
-<h2 tag="common-issues">Common issues</h2>
+<h2 tag="common-issues">常见问题</h2>
 
 <p>
-    Say you get half-way done typing in a new URL, only to remember that you've
-    already got that page open in the previous tab. Your command line might look
-    something like this:
+	假设，你键入一个新的 URL 到一半，然后记起你已经在前一个标签页中打开。这时你的命令行看起来有点像这样：
 </p>
 
 <code><ex>:open my.partial.url/fooba</ex></code>
 
 <p>
-    You can exit the command line and access the already loaded page with the
-    following:
+	你可以使用下列方式退出命令行然后访问已经加载页面：
 </p>
 
 <code><k name="Esc"/></code>
 
-<h2 tag="vimperatorrc">Saving for posterity - vimperatorrc</h2>
+<h2 tag="vimperatorrc">保存以备往后再用 - vimperatorrc</h2>
 
 <p>
-    Once you get &liberator.appname; set up with your desired options, maps, and commands,
-    you'll probably want them to be available the next time you open &liberator.appname;.
-    Continuing the Vim theme, this is done with a vimperatorrc file.
+	一旦你根据你需要的选项，映射与命令设置好 &liberator.appname; 后，你可以希望在下次打开 &liberator.appname; 时它们仍然可用。延续 Vim 的概念，这可以通过一个 vimperatorrc 文件完成。
 </p>
 
 <p>
-    To save your current settings and allow them to be loaded automatically
-    next time you start &liberator.appname;, issue the <ex>:mkv</ex> command.
+	要保存你当前设置内容并允许它们在下次启动 &liberator.appname; 时自动加载，请使用 <ex>:mkv</ex> 命令。
 </p>
 
 <p>
-    This will create the file <em>$HOME/.vimperatorrc</em> containing your settings.
-    It is a simple text file, just like a vimrc file and can be easily
-    edited to suit your preferences.
+	这将生成 <em>$HOME/.Vimperatorrc</em>，其中包含了你的设置。它只是个简单的文本文件，就像 vimrc 文件，可以轻松编辑以符合你的偏好。
 </p>
 
-<h2 tag="quitting-without-menus">Find the exit nearest you</h2>
+<h2 tag="quitting-without-menus">找到离你最近的出口</h2>
 
 <p>
-    &liberator.appname; supports all of Vim's classic methods of exiting.
+	&liberator.appname; 支持 Vim 的所有经典退出方式。
 </p>
 
 <ul>
-    <li><ex>:xall</ex> – command to quit and save the current browsing
-        session for next time; the default.
+    <li><ex>:xall</ex> – 退出并为下次使用保存当前浏览会话，预设值。
     </li>
-    <li><ex>:qall</ex> – command to quit <em>without</em> saving the session
+    <li><ex>:qall</ex> – 退出，但<em>不</em>保存会话。
     </li>
-    <li><k>ZZ</k> – Normal mode mapping equivalent to <ex>:xall</ex>
+    <li><k>ZZ</k> – 正常模式下的映射，相当于 <ex>:xall</ex>。
     </li>
-    <li><k>ZQ</k> – Normal mode mapping equivalent to <ex>:qall</ex>
+    <li><k>ZQ</k> – 正常模式下的映射，相当于 <ex>:qall</ex>。
     </li>
 </ul>
 
-<h2 tag="whither-&liberator.host;">Where did &liberator.host; go?</h2>
+<h2 tag="whither-&liberator.host;">&liberator.host; 哪儿去了？</h2>
 
 <p>
-    You might feel pretty disoriented now. Don't worry. This is still &liberator.host;
-    underneath. Here are some ways &liberator.appname; allows &liberator.host; to shine through. See
-    the <ex>:help</ex> for these commands and mappings for more information on how to
-    make the best use of them.
+	你现在可能有些迷失感了。不要担心，这仍是在 &liberator.host; 下。以下是一些方法，可以让 &liberator.host; 透出 &liberator.appname;。请使用 <ex>:help</ex> 查看这些命令与映射的更多信息，这样你可以更好地应用它们。
 </p>
 
 <ul>
-    <li><ex>:dialog</ex> –
-        To access some of &liberator.host;'s many dialog windows, you can use the
-        <ex>:dialog</ex> command. See <ex>:help :dialog</ex>.
+    <li><ex>:dialog</ex> 
+		要访问 &liberator.host; 的诸多对话框窗口，你可以使用 <ex>:dialog</ex> 命令。请查阅 <ex>:help :dialog</ex>。
     </li>
     <li><ex>:bmarks</ex> –
-        &liberator.appname; provides a new interface to bookmarks, but they're still your
-        standard &liberator.host; bookmarks under the hood. <ex>:bmark</ex> will add a new
-        bookmark, while <ex>:bmarks</ex> will list the bookmarks currently defined.
+		&liberator.appname; 为书签提供一个新的界面，但从根本来说，它们仍是你的标准 &liberator.host; 书签。<ex>:bmark</ex> 会添加一个新书签，<ex>:bmarks</ex> 将会列出当前所有定义的书签。
     </li>
     <li><ex>:history</ex> –
-        It's exactly what it sounds like. This command will display a colorized,
-        scrollable and clickable list of the locations in &liberator.appname;'s history.
+		正如它的名字所表述的，这个命令将 &liberator.appname; 历史记录中的所有位置显示成一个列表，有色并且可滚动、可点击。
     </li>
     <li><ex>:emenu</ex> –
-        Access the &liberator.host; menus through the &liberator.appname; command line.
+		通过 &liberator.appname; 命令行访问 &liberator.host; 菜单。
     </li>
 </ul>
 
 <p>
-    Feel free to explore at this point. If you use the <ex>:tabopen</ex> command,
-    remember to use the <k>gt</k>/<k>gT</k> mappings to get back to this page. If
-    using the <ex>:open</ex> command, use the history keys (e.g., <k>H</k>) to return.
-    If you get hopelessly lost, just type <ex>:help<key name="CR"/></ex> and click the
-    <em>Tutorial</em> link to return.
+	这里请尽情尝试。如果你使用 <ex>:tabopen</ex> 命令，记得使用 <k>gt</k>/<k>gT</k> 映射来返回本页面。如果使用 <ex>:open</ex> 命令，则使用历史按键（比如 <k>H</k>）来返回。如果你全然无助地迷失了，则键入 <ex>:help<key name="CR"/></ex> 然后单击 <em>Tutorial</em> 链接来返回这儿。
 </p>
 
 
 <!-- TODO: other sections? -->
 
 
-<h2 tag="removal">Get me out of here!</h2>
+<h2 tag="removal">放我出去吧！</h2>
 
 <p>
-    If you've given it a fair shot and determined … TODO
+	如果你玩了一圈然后决定 ... TODO
 </p>
 
 <p>
-    The &liberator.appname; way to do this is with the command <ex>:addons</ex>. Issuing this
-    command brings up the &liberator.host; Add-ons dialog window; you can then remove it as
-    normal, selecting &liberator.appname; from the list and clicking (yes, clicking)
-    <em>Uninstall</em>.
+	&liberator.appname; 的方式是使用命令 <ex>:addons</ex>。使用这个命令将调出 &liberator.host; 扩展组件对话框窗口；你可以如往常那样移除它，从列表中选择 &liberator.appname; 然后点击（是的，是点击）<em>卸载</em>。
 </p>
 
 <p>
-    Alternatively, you can do this the old-fashioned way: re-enable the menubar,
-    as above, with <ex>:set toolbars=menu</ex>, and select <em>Add-ons</em> from the <em>Tools</em> menu.
+	另外，你也可以使用旧式的方法，使用命令 <ex>:set toolbars=menu</ex> 重新调出菜单栏，然后从 <em>工具</em> 菜单中选择 <em>扩展组件</em>。
 </p>
 
 
-<h2 tag="support">I'm interested… but lost!</h2>
+<h2 tag="support">我很感兴趣诶...可是真的迷茫！</h2>
 
 <p>
-    &liberator.appname; has an energetic and growing user base. If you've run into a problem
-    that you can't seem to solve with &liberator.appname;, or if you think you might have
-    found a bug, please let us know! There is support available on the
-    <link topic="http://code.google.com/p/vimperator-labs/w/list?q=label%3Aproject-vimperator">wiki</link>
-    or in the <link topic="irc://irc.freenode.net/vimperator">#vimperator</link> IRC
-    channel on <link topic="http://freenode.net/">freenode</link>.
+	&liberator.appname; 有一个精力十足、不断增长的用户群。如果你碰上一个 &liberator.appname; 无法解决的问题，又或者你觉得你发现一个 bug，则请让我们知道！在 <link topic="http://code.google.com/p/vimperator-labs/w/list?q=label%3Aproject-vimperator">wiki</link> 或者 <link topic="http://freenode.net/">freenode</link> 的 IRC 频道 <link topic="irc://irc.freenode.net/vimperator">#vimperator</link> 上都有提供帮助。
 </p>
 
 <p>
-    If you have any feature requests or (even better) offers to help, we'd love to
-    hear from you as well. Developers work on &liberator.appname; whenever possible, but we
-    are neither infinite nor omnipotent; please bear with us. If you can't wait for
-    us to get around to it, rest assured patches are welcome! See the
-    <t>developer</t> page for more information.
+	如果你有任何特性要求或（更好的）愿意提供帮助，我们也一样非常乐意。&liberator.appname; 的开发工作任何时候都可能进行，但我们即不永恒也不万能，请多加包涵我们。如果你实在等不及我们，那么补丁是非常受欢迎的！请打开 <t>developer</t> 页面查看更多信息。
 </p>
 
 </document>

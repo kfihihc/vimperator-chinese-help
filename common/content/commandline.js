@@ -120,7 +120,6 @@ const CommandLine = Module("commandline", {
         this._completions = null;
         this._history = null;
 
-        this._startHints = false; // whether we're waiting to start hints mode
         this._lastSubstring = "";
 
         // the label for showing the mode message
@@ -329,7 +328,6 @@ const CommandLine = Module("commandline", {
 
         win.focus();
 
-        this._startHints = false;
         modes.set(modes.COMMAND_LINE, modes.OUTPUT_MULTILINE);
     },
 
@@ -497,6 +495,11 @@ const CommandLine = Module("commandline", {
         this._completions = null;
 
         // liberator.log('closing with : ' + modes.main + "/" + modes.extended);
+
+        // do nothing because RPOMPT is still available
+        if (modes.extended & modes.PROMPT)
+            return;
+
         // don't have input and output widget open at the same time
         if (modes.extended & modes.INPUT_MULTILINE)
             this._outputContainer.collapsed = true;
@@ -507,6 +510,7 @@ const CommandLine = Module("commandline", {
             liberator.focusContent();
             this._multilineInputWidget.collapsed = true;
             this._outputContainer.collapsed = true;
+            this._messageBox.value = "";
             this.hide();
             //modes.pop(true);
             modes.reset();
@@ -692,9 +696,8 @@ const CommandLine = Module("commandline", {
             }, 0);
         }
         else if (event.type == "focus") {
-            if (!this._commandShown() && event.target == this._commandWidget.inputField) {
-                event.target.blur();
-                liberator.beep();
+            if (!this._commandShown() && event.originalTarget == this._commandWidget.inputField) {
+                event.originalTarget.blur();
             }
         }
         else if (event.type == "input") {
@@ -814,7 +817,8 @@ const CommandLine = Module("commandline", {
                 case "<LeftMouse>":
                     if (event.originalTarget.getAttributeNS(NS.uri, "highlight") == "URL buffer-list") {
                         event.preventDefault();
-                        tabs.select(parseInt(event.originalTarget.parentNode.parentNode.firstChild.textContent, 10) - 1, false, true);
+                        let textContent = event.originalTarget.parentNode.parentNode.firstElementChild.textContent.trim();
+                        tabs.select(parseInt(textContent.replace(/^[^\d]*/, ""), 10) - 1, false, true);
                     }
                     else
                         openLink(liberator.CURRENT_TAB);
@@ -837,16 +841,7 @@ const CommandLine = Module("commandline", {
             return;
         }
 
-        if (this._startHints) {
-            statusline.updateInputBuffer("");
-            this._startHints = false;
-            hints.show(key, undefined, win);
-            return;
-        }
-
-        function isScrollable() { if (win.scrollMaxY == 0) liberator.beep(); return !win.scrollMaxY == 0; }
-        function atEnd() win.scrollY / win.scrollMaxY >= 1;
-
+        let isScrollable = win.scrollMaxY !== 0;
         let showHelp = false;
         switch (key) {
             // close the window
@@ -862,9 +857,8 @@ const CommandLine = Module("commandline", {
 
             // extended hint modes
             case ";":
-                statusline.updateInputBuffer(";");
-                this._startHints = true;
-                break;
+                hints.startExtendedHint("", win)
+                return;
 
             // down a line
             case "j":
@@ -872,28 +866,36 @@ const CommandLine = Module("commandline", {
             case "<C-j>":
             case "<C-m>":
             case "<Return>":
-                if (isScrollable())
+                if (isScrollable)
                     win.scrollByLines(1);
+                else
+                    showHelp = true;
                 break;
 
             // up a line
             case "k":
             case "<Up>":
             case "<BS>":
-                if (isScrollable())
+                if (isScrollable)
                     win.scrollByLines(-1);
+                else
+                    showHelp = true;
                 break;
 
             // half page down
             case "d":
-                if (isScrollable())
+                if (isScrollable)
                     win.scrollBy(0, win.innerHeight / 2);
+                else
+                    showHelp = true;
                 break;
 
             // half page up
             case "u":
-                if (isScrollable())
+                if (isScrollable)
                     win.scrollBy(0, -(win.innerHeight / 2));
+                else
+                    showHelp = true;
                 break;
 
             // page down
@@ -901,32 +903,47 @@ const CommandLine = Module("commandline", {
             case "<C-f>":
             case "<Space>":
             case "<PageDown>":
-                if (isScrollable())
+                if (isScrollable)
                     win.scrollByPages(1);
+                else
+                    showHelp = true;
                 break;
 
             // page up
             case "b":
             case "<C-f>":
             case "<PageUp>":
-                if (isScrollable())
+                if (isScrollable)
                     win.scrollByPages(-1);
+                else
+                    showHelp = true;
                 break;
 
             // top of page
             case "g":
             case "<Home>":
-                if (isScrollable())
+                if (isScrollable)
                     win.scrollTo(0, 0);
+                else
+                    showHelp = true;
                 break;
 
             // bottom of page
             case "G":
             case "<End>":
-                if (isScrollable())
+                if (isScrollable)
                     win.scrollTo(0, win.scrollMaxY);
+                else
+                    showHelp = true;
                 break;
-
+            case "Y":
+                let (sel = win.getSelection().toString()) {
+                    if (sel)
+                        util.copyToClipboard(sel, false);
+                    else
+                        showHelp = true;
+                }
+                break;
             // unmapped key -> show Help
             default:
                 showHelp = true;
@@ -934,7 +951,13 @@ const CommandLine = Module("commandline", {
 
         if (showHelp) {
             this.hide(); // hide the command line
-            this._echoLine("SPACE/d/j: screen/page/line down | b/u/k: screen/page/line up | HOME/g: top | END/G: bottom | ;f: follow hint | ESC/q: quit", this.HL_MOREMSG, true);
+            let helpMsg = "Y: yank | ;o: follow hint | ESC/q: quit";
+            if (isScrollable)
+                helpMsg = "SPACE/d/j: screen/page/line down | b/u/k: screen/page/line up | " +
+                          "HOME/g: top | END/G: bottom | " +
+                          helpMsg;
+
+            this._echoLine(helpMsg, this.HL_MOREMSG, true);
         } else {
             this.show();
         }

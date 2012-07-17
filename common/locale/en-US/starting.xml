@@ -5,18 +5,16 @@
 
 <document
     name="starting"
-    title="&liberator.appname; Starting"
+    title="启动 &liberator.appname;"
     xmlns="http://vimperator.org/namespaces/liberator"
     xmlns:html="http://www.w3.org/1999/xhtml">
-<h1 tag="starting">Starting &liberator.appname;</h1>
+<h1 tag="starting">启动 &liberator.appname;</h1>
 <toc start="2"/>
 
-<tags>startup-options</tags>
+<tags>启动选项</tags>
 
 <p>
-    Command-line options can be passed to &liberator.appname; via the -&liberator.name; &liberator.host;
-    option. These are passed as a single string argument.
-    E.g., &liberator.hostbin; -&liberator.name; <str>++cmd 'set exrc' +u 'tempRcFile' ++noplugin</str>
+	命令行选项可以以 -&liberator.appname; 这样的 &liberator.host; 启动参数形式传递。它们是作为一个简单字符串参数传递的。比如，&liberator.hostbin; -&liberator.appname; <str>++cmd 'set exrc' +u 'tempRcFile' ++noplugin</str>
 </p>
 
 <item>
@@ -24,11 +22,10 @@
     <spec>+c <a>command</a></spec>
     <description>
         <p>
-            Execute a single Ex command after all initialization has been performed. See
-            <t>initialization</t>.
+			在完成所有初始化任务后执行一个 Ex 命令。参见 <t>intialization</t>。
         </p>
 
-        <p>This option can be specified multiple times.</p>
+        <p>本设置项可以多次使用。</p>
     </description>
 </item>
 
@@ -38,11 +35,10 @@
     <spec>++cmd <a>command</a></spec>
     <description>
         <p>
-            Execute a single Ex command before any initialization has been performed. See
-            <t>initialization</t>.
+			在任何初始化执行前执行一条 Ex 命令。参见 <t>initialization</t>。
         </p>
 
-        <p>This option can be specified multiple times.</p>
+        <p>本设置项可以多次使用。</p>
     </description>
 </item>
 
@@ -52,10 +48,7 @@
     <spec>+u <a>rcfile</a></spec>
     <description>
         <p>
-            The file <a>rcfile</a> is used for user initialization commands. If <a>rcfile</a> is
-            "NORC" then no startup initialization is performed except for the loading of
-            plugins, i.e., steps 1. and 2. in <t>initialization</t> are skipped. If <a>rcfile</a>
-            is "NONE" then plugin loading is also skipped.
+			<a>rcfile</a> 文件用于初始化用户命令。如果 <a>rcfile</a> 值为 "NORC"，则只加载插件，其他初始化内容均不执行，即，<t>initialization</t> 中的第1、2步骤被忽略。如果 <a>rcfile</a> 值为 "NONE" 则甚至插件都不加载。
         </p>
     </description>
 </item>
@@ -65,97 +58,78 @@
     <tags>++noplugin</tags>
     <spec>++noplugin</spec>
     <description>
-        <p>Prevents plugin scripts from being loaded at startup. See <o>loadplugins</o>.</p>
+        <p>阻止插件脚本在启动时加载。参见 <o>loadplugins</o>。</p>
     </description>
 </item>
 
 
-<h2 tag="initialization startup">Initialization</h2>
+<h2 tag="initialization startup">初始化</h2>
 
-<p>At startup, &liberator.appname; completes the following tasks in order. </p>
+<p>在启动时，&liberator.appname; 依次完成下列任务。</p>
 
 <ol>
-    <li> &liberator.appname; can perform user initialization commands. When
-    one of the following is successfully located, it is executed,
-    and no further locations are tried.
-
+    <li>
+	&liberator.appname; 可执行用户初始化命令。当以下任一文件被成功找到时，该文件就会被执行，然后其余位置的会被忽略。
         <ol>
             <li tag="$&liberator.idname;_INIT">
-                <em>$&liberator.idname;_INIT</em> — May contain a single Ex command (e.g.,
-                "<ex>:source <a>file</a></ex>").
+                <em>$&liberator.idname;_INIT</em> — 可能包含一条简单的 Ex 命令，比如 ”<ex>:source <a>file</a></ex>"。
             </li>
             <li tag="$MY_&liberator.idname;RC">
-                <em>~/_&liberator.name;rc</em> — Windows only. If this file exists, its contents
-                are executed and <em>$MY_&liberator.idname;RC</em> set to its path.
+                <em>~/_&liberator.name;rc</em> — 仅在 Windows 平台。如果文件存在，则执行其内容，并且将 <em>$MY_&liberator.idname;RC</em> 设置为其路径。
             </li>
             <li>
-                <em>~/.&liberator.name;rc</em> — If this file exists, its contents are executed.
+                <em>~/.&liberator.name;rc</em> — 如果此文件存在，就执行其内容。
             </li>
         </ol>
     </li>
     <li>
-        If <o>exrc</o> is set and the +u command-line option was not
-        specified, then any RC file in the current directory is also
-        sourced.
+		如果设置 <o>exrc</o> 并且 +u 命令没有，则当前目录下的任何 RC 文件同样被导入。
     </li>
     <li>
-        All directories in <o>runtimepath</o> are searched for a
-        "plugin" subdirectory and all yet unloaded plugins are loaded.
-        For each plugin directory, all <tt>*.{js,vimp}</tt> files (including
-        those in further subdirectories) are sourced alphabetically. No
-        plugins will be sourced if:
-
+		在所有的 <o>runtimepath</o> 里搜寻 "plugin" 子目录，并加载所有未曾加载的插件。针对每个插件目录，所有的 <tt>*.{js,vimp}</tt> （包括更深层的子孙目录）文件按字母顺序加载。有下列条件时，不加载插件：
         <ul>
-            <li><o>noloadplugins</o> is set.</li>
-            <li>the ++noplugin command-line option was specified.</li>
-            <li>the +u=NONE command-line option specified set.</li>
+            <li>设置 <o>noloadplugins</o>。</li>
+            <li>明确 ++noplugin 命令行选项。</li>
+            <li>明确 +u=NONE 命令行选项。</li>
         </ul>
 
-        Any particular plugin will not be loaded if it has already been
-        loaded (e.g., by an earlier <ex>:loadplugins</ex> command).
+		任何已加载的插件将不再加载（比如早期通过 <ex>:loadplugins</ex> 命令加载的）。
     </li>
 </ol>
 
-The user's ~ (i.e., "home") directory is determined as follows:
+用户的 ~ （即 "home" ）目录根据下列来决定：
 
 <ul>
-    <li>On Unix and Mac, the environment variable  <em>$HOME</em> is used.</li>
+    <li>在 Unix 与 Mac 系统下，使用环境变量 <em>$HOME</em> 的值。</li>
     <li>
-        On Windows, &liberator.appname; checks for the existence of
-        <em>%HOME%</em>, then <em>%USERPROFILE%</em>, and then
-        <em>%HOMEDRIVE%%HOMEPATH%</em>. It uses the first one it
-        finds.
+		在 Windows 系统下，&liberator.appname; 首先检查 <em>%HOME%</em>，然后是 <em>%USERPROFILE%</em>,最后 <em>%HOMEDRIVE%%HOMEPATH%</em>。使用第一个找到的值。
     </li>
 </ul>
 
-<h2 tag="save-settings">Saving settings</h2>
+<h2 tag="save-settings">保存设置</h2>
 
 <item>
     <tags>:mkv :mk&liberator.name;rc</tags>
     <spec>:mkv<oa>imperatorrc</oa><oa>!</oa> <oa>file</oa></spec>
     <description>
         <p>
-            Write current key mappings and changed options to <oa>file</oa>. If no
-            <oa>file</oa> is specified then <em>~/.&liberator.name;rc</em> is written unless this file
-            already exists. The special version <ex>:mk&liberator.name;rc!</ex> will overwrite
-            <oa>file</oa> if it exists.
+			保存当前的键映射与设置项到 <oa>file</oa> 文件。假如没有明确 <oa>file</oa>，则除非 <em>~/.&liberator.appname;</em> 已存在，否则写入这个文件。如果文件存在，使用 <ex>:mk&liberator.name;rc!</ex> 会覆盖文件。 
         </p>
 
         <p>
-            Warning: this differs from Vim's behavior which defaults to writing the file
-            in the current directory.
+			注意：本项设置与 Vim 的不同，Vim 里是默认在当前目录写入文件的。
         </p>
     </description>
 </item>
 
 
-<h2 tag="restarting">Restarting</h2>
+<h2 tag="restarting">重启</h2>
 
 <item>
     <tags>:res :restart</tags>
     <spec>:res<oa>tart</oa></spec>
     <description>
-        <p>Force &liberator.host; to restart. Useful when installing extensions.</p>
+        <p>强制 &liberator.host; 重启，在安装扩展组件时经常用到。</p>
     </description>
 </item>
 

@@ -10,3 +10,4 @@ Vimperator 中文帮助文件
 
 2012.7.17 common/locale/en-US/starting.xml finished
 
+2012.7.19 common/locale/en-US/browsing.xml finished

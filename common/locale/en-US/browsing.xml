@@ -5,18 +5,15 @@
 
 <document
     name="browsing"
-    title="&liberator.appname; Browsing"
+    title="&liberator.appname; 网页浏览"
     xmlns="http://vimperator.org/namespaces/liberator"
     xmlns:html="http://www.w3.org/1999/xhtml">
-<h1 tag="surfing browsing">Browsing</h1>
+<h1 tag="surfing browsing">网页浏览</h1>
 <toc start="2"/>
 
-<h2 tag="ignoring">Temporarily disable &liberator.appname;</h2>
+<h2 tag="ignoring">暂时停用 &liberator.appname;</h2>
 
-&liberator.appname; overrides nearly all &liberator.host; keys in order to make browsing more
-pleasant for Vim users. On the rare occasions when you want to pass a keystroke
-to &liberator.host;, or to the web page, and have it retain its original meaning you
-have the following possibilities:
+&liberator.appname; 为保证 Vim 用户流畅使用，几乎重写所有的 Firefox 按键。但在某些情况下，你可能想把某击键传递给 &liberator.host; 又或网页，必须保持击键的原来意义，则可以有两个办法：
 
 <item>
     <tags><![CDATA[ignore-all-keys <S-Esc> <Insert>]]></tags>
@@ -24,14 +21,7 @@ have the following possibilities:
     <spec>&lt;Insert></spec>
     <description>
         <p>
-            Disable all &liberator.appname; keys and pass them to the next event
-            handler.  This mode is especially useful if JavaScript controlled
-            forms (e.g., the RichEdit form fields of Gmail) don't work anymore
-            or you want to work with web apps like Google Reader which have a
-            lot of useful shortcuts themselves. To exit this mode, press <k
-                name="S-Esc"/> again. <k name="Esc"/> is a special case as
-            it is sent to the web page, but still handles unfocusing of input
-            fields.
+			禁用 &liberator.appname; 所有的击键，将它们传递给下一个事件处理器。在 JavaScript 控制的表单（比如 Gmail 的 RichEdit 表单域）不再工作时，这可以派上用场。又或者你想使用自带大量快捷键的 web apps 如 Google Reader 时。要退出这个模式，再次按<k name="S-Esc"/>。<k name="Esc"/> 是一个特殊情况，虽然它仍发送给网页，但仍然能让输入域失去焦点。
         </p>
     </description>
 </item>
@@ -42,15 +32,13 @@ have the following possibilities:
     <spec>i</spec>
     <description>
         <p>
-            If you only need to pass a single key to a JavaScript form field or another
-            extension prefix the key with <k>i</k>. Also works to unshadow &liberator.host;
-            shortcuts like <k name="C-o"/> which are otherwise hidden in &liberator.appname;.
+			如果你只是需要传递一个击键给 JavaScript 表单域或是另一个扩展时，事先按下 <k>i</k> 键即可。这对于唤出被 &liberator.appname; 隐藏的 &liberator.host; 快捷键 <k name="C-o"/> 同样适用。
         </p>
     </description>
 </item>
 
 
-<h2 tag="opening">Opening web pages</h2>
+<h2 tag="opening">打开网页</h2>
 
 <item>
     <tags>o :o :open</tags>
@@ -58,43 +46,25 @@ have the following possibilities:
     <spec>o</spec>
     <description>
         <p>
-            Open one or more URLs in the current tab.
-            Multiple URLs can be separated with <o>urlseparator</o> (default: ", " Note that the
-            space after the comma is required.)
-            The first URL is opened in the current tab, and all other URLs are
-            opened in new tabs.
-            Each token is analyzed and in this order:
+			在当前标签页中打开一个或多个 URLs。多个 URL 可以用 <o>urlseparator</o> 来分隔（默认为 ","，注意逗号后的空格是必须的）。第一个 URL 在当前标签页中打开，其余的 URL 在新标签页里打开。每个参数按以下顺序分析：
         </p>
 
         <ol>
             <li>
-                Opened as a local file if it is an existing relative or absolute filename.
+				如果参数是个已有的相对或绝对文件名，则打开本地电脑上的文件。
                 <ul>
-                    <li><ex>:open /etc/fstab</ex> shows the file system table.</li>
-                    <li><ex>:open ../other/foo.html</ex> in your home directory opens <tt>/home/other/foo.html</tt></li>
+                    <li><ex>:open /etc/fstab</ex> 打开系统表。</li>
+                    <li>在你的 home 目录下，<ex>:open ../other/foo.html</ex> 打开 <tt>/home/other/foo.html</tt> 文件</li>
                 </ul>
             </li>
             <li>
-                 Opened with the specified search engine if the
-                 token looks like a search string and the first word
-                 is the name of a search engine (
-                 <ex>:open wikipedia linus torvalds</ex> opens the Wikipedia entry for
-                 linus torvalds). The short name of a search engine
-                 is automatically guessed from its name. If you want
-                 to set a custom name, you can change it with
-                 <ex>:dialog searchengines</ex>.
+				 如果参数看起来像是搜索词串且第一个单词是某个搜索引擎的名称，则使用该搜索引擎搜索关键词 （<ex>:open wikipedia linus torvalds</ex> 打开 Wikipedia 上的 linus torvalds 条目）。搜索引擎的短名称由其名字自动猜出。如果你想设置一个名称，则可以通过 <ex>:dialog searchengines</ex> 来作更改。
             </li>
             <li>
-                Opened with the default search engine or keyword
-                (specified with the <o>defsearch</o> option) if the first
-                word is no search engine (<ex>:open linus torvalds</ex>
-                opens a Google search for linus torvalds).
+				如果第一个词不是搜索引擎名称，则使用关键字或默认搜索引擎打开 （由 <o>defsearch</o> 来确定），比如 <ex>:open linus torvalds</ex> 打开 Google 搜索 linus torvalds。
            </li>
            <li>
-               Passed directly to &liberator.host; in all other cases
-               (<ex>:open www.osnews.com, www.slashdot.org</ex>
-               opens OSNews in the current, and Slashdot in a new
-               background tab).
+			   其他情况下直接传递给 &liberator.host; （<ex>:open www.osnews.com, www.slashdot.org</ex> 在当前页打开 OSNews 网站，在背景标签页中打开 Slashdot 网站）。
            </li>
         </ol>
 
@@ -115,8 +85,7 @@ have the following possibilities:
     <spec>t</spec>
     <description>
         <p>
-            Just like <ex>:open</ex> but also uses a new tab for the first URL. When
-            used with <oa>!</oa>, the <em>tabopen</em> value of the <o>activate</o> option is negated.
+			与 <ex>:open</ex> 相似，但第一个 URL 也是在新标签页中打开。与 <oa>!</oa> 一同使用时，<o>activate</o> 选项中 <em>tabopen</em> 的值被逆转。
         </p>
     </description>
 </item>
@@ -127,8 +96,7 @@ have the following possibilities:
     <spec>T</spec>
     <description>
         <p>
-            Show a <ex>:tabopen</ex> prompt containing the current URL. Useful if you want to
-            go somewhere by editing the URL of the current page.
+			在命令行上显示 <ex>:tabopen</ex> 命令，并自动补入当前页面 URL。如果你要通过编辑当前页 URL地址访问其他网址，这很好用。
         </p>
     </description>
 </item>
@@ -139,9 +107,7 @@ have the following possibilities:
     <spec>:<oa>count</oa>tabdu<oa>plicate</oa><oa>!</oa></spec>
     <description>
         <p>
-            Duplicates current tab <oa>count</oa> times. Uses <em>tabopen</em> value of the <o>activate</o>
-            option to determine if the last cloned tab should be activated. When used with
-            <oa>!</oa>, <em>tabopen</em> value is negated.
+			复制当前标签页 <oa>count</oa> 次。<o>activate</o> 的 <em>tabopen</em> 的值可以决定所复制的最后一个标签页是否置为当前。与 <oa>!</oa> 一同使用时，<em>tabopen</em> 的值被逆转。
         </p>
     </description>
 </item>
@@ -152,8 +118,7 @@ have the following possibilities:
     <spec>O</spec>
     <description>
         <p>
-            Show an <ex>:open</ex> prompt containing the current URL. Useful if you want to
-            go somewhere by editing the URL of the current page.
+			在命令行上显示 <ex>:open</ex> 命令并自动补入当前页面 URL。如果你在基于当前页面的 URL 地址访问其他网址，这可以用到。
         </p>
     </description>
 </item>
@@ -164,7 +129,7 @@ have the following possibilities:
     <spec>:wino<oa>pen</oa><oa>!</oa> <oa>arg1</oa>, <oa>arg2</oa>, …</spec>
     <spec>w</spec>
     <description>
-        <p>Just like <ex>:tabopen</ex> but opens the resulting web page(s) in a new window.</p>
+        <p>近于 <ex>:tabopen</ex>，只不过在新窗口中打开结果页。</p>
     </description>
 </item>
 
@@ -174,8 +139,7 @@ have the following possibilities:
     <spec>W</spec>
     <description>
         <p>
-            Open one or more URLs in a new window based on current location. Works like
-            <k>w</k> but preselects current URL in the <ex>:winopen</ex> query.
+			基于当前地址，在新窗口中打开一个或多个 URL。类似于 <k>w</k>，只不过在 <ex>:winopen</ex> 命令里预选了当前页 URL 地址。
         </p>
     </description>
 </item>
@@ -186,10 +150,7 @@ have the following possibilities:
     <spec>p</spec>
     <description>
         <p>
-            Open (put) a URL based on the current clipboard contents in the current buffer.
-            You can also just select (for non-X11 users: copy) some non-URL text, and
-            search for it with the default search engine or keyword (specified by the
-            <o>defsearch</o> option) with <k>p</k>.
+			在当前 buffer 打开当前剪切板中的 URL 地址。你也可以选中（非 X11 用户请复制）某些非 URL 的文本，然后按 <k>p</k> 可以使用默认搜索引擎或关键字搜索（由 <o>defsearch</o> 选项设定）。
         </p>
     </description>
 </item>
@@ -200,11 +161,10 @@ have the following possibilities:
     <spec>P</spec>
     <description>
         <p>
-            Open (put) a URL based on the current clipboard contents in a new buffer. Works
-            like <k>p</k> but opens a new tab.
+			基于当前剪切板内容在新 buffer 里打开 URL。类于 <k>p</k>，只是在新标签页中打开。
         </p>
         <p>
-            Whether the new buffer is activated, depends on the <o>activate</o> option.
+			<o>activate</o> 选项决定是否新标签页置为当前。
         </p>
     </description>
 </item>
@@ -215,8 +175,7 @@ have the following possibilities:
     <spec>gP</spec>
     <description>
         <p>
-            Open (put) a URL based on the current clipboard contents in a new buffer.
-            Works like <k>P</k> but inverts the <o>activate</o> option.
+			基于当前剪切板内容在新 buffer 中打开 URL。类于 <k>P</k>，但反转了 <o>activate</o> 选项。
         </p>
     </description>
 </item>
@@ -227,9 +186,7 @@ have the following possibilities:
     <spec><oa>count</oa>&lt;C-x></spec>
     <description>
         <p>
-            Decrements the last number in URL by 1, or by <oa>count</oa> if given. Negative
-            numbers are not supported, as this is not generally useful, so the number cannot
-            be decremented past 0.
+			将 URL 地址最后一个数字值减 1，又或者减去 <oa>count</oa> 值。因为负数基本上不怎么有用到，所以不支持负数，最多只能减到 0。
         </p>
     </description>
 </item>
@@ -239,7 +196,7 @@ have the following possibilities:
     <tags><![CDATA[<C-a>]]></tags>
     <spec><oa>count</oa>&lt;C-a></spec>
     <description>
-        <p>Increments the last number in URL by 1, or by <oa>count</oa> if given.</p>
+        <p>将 URL 地址最后一个数字值加上 1，又或者加上 <oa>count</oa> 值。</p>
     </description>
 </item>
 
@@ -249,14 +206,13 @@ have the following possibilities:
     <spec>~</spec>
     <description>
         <p>
-            Open home directory. You can also use the hints and have the probably fastest
-            file browser on earth. :)
+			打开 home 目录。这其中你可以使用 hints，这可能会是地球上最快的文件浏览器。：）
         </p>
     </description>
 </item>
 
 
-<h2 tag="navigating">Navigating</h2>
+<h2 tag="navigating">导航</h2>
 
 <item>
     <tags><![CDATA[H <C-o> CTRL-O :ba :back]]></tags>
@@ -265,9 +221,7 @@ have the following possibilities:
     <spec>CTRL-o</spec>
     <description>
         <p>
-            Go <oa>count</oa> pages back in the browser history. If <oa>url</oa> is specified go back to
-            the first matching URL. The special version <ex>:back!</ex> goes to the beginning
-            of the browser history.
+			在浏览器历史中后退 <oa>count</oa> 页。指定 <oa>url</oa> 的话则是后退到第一个符合的 URL 页。特殊版本 <ex>:back!</ex> 后退到浏览器历史记录的最先一个页面。
         </p>
     </description>
 </item>
@@ -280,9 +234,7 @@ have the following possibilities:
     <spec>CTRL-i</spec>
     <description>
         <p>
-            Go <oa>count</oa> pages forward in the browser history. If <oa>url</oa> is specified go
-            forward to the first matching URL. The special version <ex>:forward!</ex> goes to
-            the end of the browser history.
+			在浏览器历史中前进 <oa>count</oa> 页。如果带 <oa>url</oa> 参数，则前进到第一个符合的 URL。版本 <ex>:forward!</ex> 表示进到浏览器历史的最后一个页面。
         </p>
     </description>
 </item>
@@ -292,11 +244,11 @@ have the following possibilities:
     <tags>:ju :jumps</tags>
     <spec>:ju<oa>mps</oa></spec>
     <description>
-        <p>List all jumps aka current tab's history aka session history.</p>
+        <p>列出所有跳转点，即当前标签页历史即会话历史记录。</p>
 
         <p>
-            Current history position is marked with >, jump numbers are counters to be used
-            with <ex>:back</ex> (above zero record) or <ex>:forward</ex> (below zero record).
+			当前历史位置用 > 标识，跳转数字用于在 <ex>:back</ex> （0 以上数字）或 <ex>:forward</ex> （0 以下数字）中搭配使用。
+			
         </p>
     </description>
 </item>
@@ -306,7 +258,7 @@ have the following possibilities:
     <tags>gh</tags>
     <spec>gh</spec>
     <description>
-        <p>Go home. Opens the homepage in the current tab.</p>
+        <p>在当前标签页中打开浏览器主页。</p>
     </description>
 </item>
 
@@ -316,8 +268,7 @@ have the following possibilities:
     <spec>gH</spec>
     <description>
         <p>
-            Go home in a new tab. Opens the homepage in a new tab. Whether the new tab is
-            activated or not depends on the <o>activate</o> option.
+			在新标签页中打开浏览器主页。新标签页是否置为当前取决于 <o>activate</o> 选项。
         </p>
     </description>
 </item>
@@ -327,9 +278,9 @@ have the following possibilities:
     <tags>gu</tags>
     <spec><oa>count</oa>gu</spec>
     <description>
-        <p>Go to <oa>count</oa>th parent directory.</p>
+        <p>跳转到第 <oa>count</oa> 层父目录。</p>
 
-        <p>Pressing <k>gu</k> repeatedly would ascend the URL in this order:</p>
+        <p>按 <k>gu</k> 将按以下顺序上溯 URL 地址：</p>
         <ul>
             <li><tt>http://www.example.com/path/to/file.txt?query=value#anchor</tt></li>
             <li><tt>http://www.example.com/path/to/file.txt?query=value</tt></li>
@@ -348,24 +299,24 @@ have the following possibilities:
     <tags>gU</tags>
     <spec>gU</spec>
     <description>
-        <p>Go to the root of the web site.</p>
+        <p>跳到网站根目录。</p>
 
         <p>
-            <k>gU</k> on <tt>http://www.example.com/dir1/dir2/file.htm</tt> opens
+            <k>gU</k> on <tt>http://www.example.com/dir1/dir2/file.htm</tt> 打开
             <tt>http://www.example.com/</tt>.
-            When browsing a local directory, it goes to the root directory.
+            如果在浏览本地目录，则访问到根目录。
         </p>
     </description>
 </item>
 
 
-<h2 tag="reloading">Reloading</h2>
+<h2 tag="reloading">重载</h2>
 
 <item>
     <tags>r</tags>
     <spec>r</spec>
     <description>
-        <p>Force reloading of the current web page.</p>
+        <p>强制重载当前页。</p>
     </description>
 </item>
 
@@ -374,7 +325,7 @@ have the following possibilities:
     <tags>R</tags>
     <spec>R</spec>
     <description>
-        <p>Force reloading of the current web page skipping the cache.</p>
+        <p>跳过缓存内容，强制重载当前页面。</p>
     </description>
 </item>
 
@@ -384,8 +335,7 @@ have the following possibilities:
     <spec>:re<oa>load</oa><oa>!</oa></spec>
     <description>
         <p>
-            Reload current web page. Forces reloading of the current page. If <oa>!</oa> is given,
-            skip the cache.
+			重载当前页面。强制重载当前页面。<oa>!</oa> 表示跳过缓存内容。
         </p>
     </description>
 </item>
@@ -395,20 +345,19 @@ have the following possibilities:
     <tags>:reloada :reloadall</tags>
     <spec>:reloada<oa>ll</oa><oa>!</oa></spec>
     <description>
-        <p>Reload all pages. Forces reloading of all pages. If <oa>!</oa> is given, skip the cache.</p>
+        <p>重载所有页面。强制重载所有页面。<oa>!</oa> 表示跳过缓存内容。</p>
     </description>
 </item>
 
 
-<h2 tag="stopping">Stopping</h2>
+<h2 tag="stopping">停止</h2>
 
 <item>
     <tags><![CDATA[<C-c>]]></tags>
     <spec>&lt;C-c></spec>
     <description>
-        <p>Stop loading the current web page. This only works if there is no selection, otherwise the
-           selected text is copied to the clipboard. Usually this duality isn't a problem, as while
-           a page is loading, there is seldom a text to copy.
+        <p>
+		   停止载入当前网页。如果有选择文本，则是复制文本到剪切板。不过通常这不是个问题，因为页面在载入时，基本不可能有文本被选中准备复制。
         </p>
     </description>
 </item>
@@ -418,7 +367,7 @@ have the following possibilities:
     <tags>:st :stop</tags>
     <spec>:st<oa>op</oa></spec>
     <description>
-        <p>Stop loading the current web page.</p>
+        <p>停止载入当前网页。</p>
     </description>
 </item>
 
@@ -427,35 +376,32 @@ have the following possibilities:
     <tags>:stopa :stopall</tags>
     <spec>:stopa<oa>ll</oa></spec>
     <description>
-        <p>Stop loading all web pages.</p>
+        <p>停止载入所有网页。</p>
     </description>
 </item>
 
 
-<h2 tag="writing save-file">Writing</h2>
+<h2 tag="writing save-file">写入</h2>
 
 <item>
     <tags>:w :write :sav :saveas</tags>
     <spec>:sav<oa>eas</oa><oa>!</oa> <oa>file</oa></spec>
     <description>
         <p>
-            Save current web page to disk. If <oa>file</oa> is omitted, save to the page's
-            default filename. Existing documents will only be overwritten if <oa>!</oa> is given.
+			保存当前网页到硬盘。如果没有明确指定 <oa>file</oa>，则保存为页面的默认文件名。如果明确给定 <oa>!</oa>，则已有的同名文件会被覆盖。
         </p>
     </description>
 </item>
 
 
-<h2 tag="quitting save-session">Quitting</h2>
+<h2 tag="quitting save-session">退出</h2>
 
 <item>
     <tags>:q :quit</tags>
     <spec>:q<oa>uit</oa></spec>
     <description>
         <p>
-            Quit current tab. If this is the last tab in the window, close the window. If
-            this was the last window, close &liberator.appname;. When quitting &liberator.appname;, the
-            session is not stored.
+			退出当前标签页。如果这是窗口中的最后一个标签页，则关闭窗口。如果这是最后一个窗口，则关闭 &liberator.appname;。在退出 &liberator.appname;时，会话不保存。
         </p>
     </description>
 </item>
@@ -466,8 +412,7 @@ have the following possibilities:
     <spec>:quita<oa>ll</oa></spec>
     <description>
         <p>
-            Quit &liberator.appname;. Quit &liberator.appname;, no matter how many tabs/windows are open.
-            The session is not stored.
+			退出 &liberator.appname;。无论开启着多少个标签页/窗口，都退出 &liberator.appname;，会话不保存。
         </p>
     </description>
 </item>
@@ -477,7 +422,7 @@ have the following possibilities:
     <tags>:wc :wclose :winc :winclose</tags>
     <spec>:winc<oa>lose</oa></spec>
     <description>
-        <p>Close window.</p>
+        <p>关闭窗口。</p>
     </description>
 </item>
 
@@ -486,7 +431,7 @@ have the following possibilities:
     <tags>:winon :winonly</tags>
     <spec>:winon<oa>ly</oa></spec>
     <description>
-        <p>Close all other windows.</p>
+        <p>关闭所有其他窗口。</p>
     </description>
 </item>
 
@@ -497,10 +442,7 @@ have the following possibilities:
     <spec>:xa<oa>ll</oa></spec>
     <description>
         <p>
-            Save the session and quit. Quit &liberator.appname;, no matter how many tabs/windows
-            are open. The session is stored. <ex>:wq</ex> is different from Vim, as it
-            closes the window instead of just one tab by popular demand. Complain on the
-            mailing list if you want to change that.
+			保存会话并退出。无论打开着多少个标签页/窗口，都退出 &liberator.appname;。会话被保存。<ex>:wq</ex> 与 Vim 下的作用不一样，在这里关闭的是窗口，而非平常所见的关闭一个标签页。如果你想改掉那，请在邮件列表上发牢骚吧。
         </p>
     </description>
 </item>
@@ -510,7 +452,7 @@ have the following possibilities:
     <tags>ZQ</tags>
     <spec>ZQ</spec>
     <description>
-        <p>Quit and don't save the session. Works like <ex>:qall</ex>.</p>
+        <p>退出，不保存会话。与 <ex>:qall</ex> 作用一样。</p>
     </description>
 </item>
 
@@ -520,20 +462,19 @@ have the following possibilities:
     <spec>ZZ</spec>
     <description>
         <p>
-            Quit and save the session. Quit &liberator.appname;, no matter how many tabs/windows
-            are open. The session is stored. Works like <ex>:xall</ex>.
+			退出并保存会话。无论打开着多少个标签页/窗口，都退出 &liberator.appname;，但保存会话，就像 <ex>:xall</ex> 一样。
         </p>
     </description>
 </item>
 
 
-<h2 tag="current-directory">The current directory</h2>
+<h2 tag="current-directory">当前目录</h2>
 
 <item>
     <tags>:chd :chdir :cd</tags>
     <spec>:cd <oa>-|path</oa></spec>
     <description>
-        <p>Change the current directory. <ex>:cd -</ex> changes to the last directory.</p>
+        <p>更改当前目录位置。<ex>:cd -</ex> 切换到上一个访问的目录。</p>
     </description>
 </item>
 
@@ -542,7 +483,7 @@ have the following possibilities:
     <tags>:pw :pwd</tags>
     <spec>:pw<oa>d</oa></spec>
     <description>
-        <p>Print the current directory name.</p>
+        <p>输出当前目录名称。</p>
     </description>
 </item>
 

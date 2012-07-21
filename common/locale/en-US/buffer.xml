@@ -11,18 +11,16 @@
 <h1 tag="buffer document">Buffer</h1>
 <toc start="2"/>
 
-&liberator.appname; holds exactly one buffer object for each tab. It is usually an
-(X)HTML document with advanced features.
+对于每个标签页，&liberator.appname; 都仅占据一个 buffer 对象。这通常是一个有高级特性的 (X)HTML 文档。
 
-<h2 tag="buffer-information">Buffer information</h2>
+<h2 tag="buffer-information">Buffer 信息</h2>
 
 <item>
     <tags><![CDATA[<C-g>]]></tags>
     <spec>&lt;C-g></spec>
     <description>
         <p>
-            Print the current file name. Also shows some additional file information like
-            file size or the last modified date.
+			输出当前文件名。也包括其他的文件信息如文件大小、最后修改日期。
         </p>
     </description>
 </item>
@@ -32,7 +30,7 @@
     <tags><![CDATA[g<C-g>]]></tags>
     <spec>g&lt;C-g></spec>
     <description>
-        <p>Print file information. Same as <ex>:pa<oa>geinfo</oa></ex>.</p>
+        <p>输出文件信息。与 <ex>:pa<oa>geinfo</oa></ex> 一样。</p>
     </description>
 </item>
 
@@ -41,7 +39,7 @@
     <tags>:pa :pageinfo</tags>
     <spec>:pa<oa>geinfo</oa></spec>
     <description>
-        <p>Show various page information. See <ex>:help <o>pageinfo</o></ex> for available options.</p>
+        <p>显示许多页面信息。查阅 <ex>:help <o>pageinfo</o></ex> 帮助信息可以看到所有的可选选项。</p>
     </description>
 </item>
 
@@ -51,8 +49,7 @@
     <spec>gf</spec>
     <description>
         <p>
-            Toggle between rendered and source view. Alternates the page in the current tab
-            between a normally rendered view and the internal editor source view.
+			在渲染页与源代码间切换。即当前标签页在正常渲染及内置编辑器源码视图间切换。
         </p>
     </description>
 </item>
@@ -63,9 +60,7 @@
     <spec>gF</spec>
     <description>
         <p>
-            View source with an external editor. Opens the source code of the current web
-            site with the external editor specified by the <o>editor</o> option. For now the
-            external editor must be able to download and open files from a remote URL.
+			使用外部编辑器查看源代码。外部编辑器由 <o>editor</o> 选项设定。目前来说，该外部编辑器必须可以从远程 URL 下载并打开文件。
         </p>
     </description>
 </item>
@@ -76,24 +71,21 @@
     <spec>:vie<oa>wsource</oa><oa>!</oa> <oa>url</oa></spec>
     <description>
         <p>
-            View source code of current document. If <oa>url</oa> is specified then view the
-            source of that document. When <oa>!</oa> is given, it is opened with the external
-            editor.
+			查看当前文档的源代码。如果命令后跟随 <oa>url</oa> 则查看该 URL 地址的文档。如果还跟随 <oa>!</oa>，则使用外部编辑器打开。
         </p>
     </description>
 </item>
 
 
 
-<h2 tag="motion scrolling">Motion commands</h2>
+<h2 tag="motion scrolling">移动命令</h2>
 
 <item>
     <tags>^ 0</tags>
     <spec>0</spec>
     <description>
         <p>
-            Scroll to the absolute left of the document. Unlike in Vim, <k>0</k> and <k>^</k>
-            work exactly the same way.
+			滚动到文档最左侧。不像 Vim，在这儿 <k>0</k> 和 <k>^</k> 的作用是一致的。
         </p>
     </description>
 </item>
@@ -103,7 +95,7 @@
     <tags>$</tags>
     <spec>$</spec>
     <description>
-        <p>Scroll to the absolute right of the document</p>
+        <p>滚动到文档的最右侧。</p>
     </description>
 </item>
 
@@ -113,8 +105,7 @@
     <spec><oa>count</oa>gg</spec>
     <description>
         <p>
-            Go to the top of the document. When used with <oa>count</oa> like in <k>35gg</k>, it
-            scrolls to 35% of the document.
+			滚动到页面最顶端。如果使用 <oa>count</oa> 比如 <k>35gg</k>，则是滚动到页面 35% 位置。
         </p>
     </description>
 </item>
@@ -125,8 +116,7 @@
     <spec><oa>count</oa>G</spec>
     <description>
         <p>
-            Go to the end of the document. When used with <oa>count</oa> like in <k>35G</k>, it
-            scrolls to 35% of the document.
+			滚动到页面最底端。如果使用 <oa>count</oa> 比如 <k>35G</k>，则滚动到页面 35% 位置。
         </p>
     </description>
 </item>
@@ -136,7 +126,7 @@
     <tags>N%</tags>
     <spec><a>count</a>%</spec>
     <description>
-        <p>Scroll to <a>count</a> percent of the document.</p>
+        <p>滚动到页面百分之 <a>count</a> 位置。</p>
     </description>
 </item>
 
@@ -146,12 +136,10 @@
     <spec><oa>count</oa>h</spec>
     <description>
         <p>
-            Scroll document to the left. If <oa>count</oa> is specified then move <oa>count</oa> times as
-            much to the left.
+			向左滚动页面。如果指明 <oa>count</oa>，则往左移动 <oa>count</oa> 次。
         </p>
         <p>
-            If the document cannot scroll more, a beep is emitted (unless <o>visualbell</o> is
-            set).
+			如果页面再无法往左了，则会发出提示声（除非 <o>visualbell</o> 被设定）。
         </p>
     </description>
 </item>
@@ -162,12 +150,10 @@
     <spec><oa>count</oa>j</spec>
     <description>
         <p>
-            Scroll document down. If <oa>count</oa> is specified then move <oa>count</oa> times as much
-            down.
+			向下滚动文档。如果指明 <oa>count</oa> 则向下滚动 <oa>count</oa> 次。
         </p>
         <p>
-            If the document cannot scroll more, a beep is emitted (unless <o>visualbell</o> is
-            set).
+			如果文档再无法滚动了，则会发出提示声（除非 <o>visualbell</o> 被设定）。
         </p>
     </description>
 </item>
@@ -178,11 +164,10 @@
     <spec><oa>count</oa>k</spec>
     <description>
         <p>
-            Scroll document up. If <oa>count</oa> is specified then move <oa>count</oa> times as much up.
+			向上滚动文档。如果指明 <oa>count</oa> 则向上滚动 <oa>count</oa> 次。
         </p>
         <p>
-            If the document cannot scroll more, a beep is emitted (unless <o>visualbell</o> is
-            set).
+			如果文档再无法滚动了，则会发出提示声（除非 <o>visualbell</o> 被设定）。
         </p>
     </description>
 </item>
@@ -193,12 +178,10 @@
     <spec><oa>count</oa>l</spec>
     <description>
         <p>
-            Scroll document to the right. If <oa>count</oa> is specified then move <oa>count</oa> times
-            as much to the right.
+			向右滚动文档。如果指明 <oa>count</oa> 则向右滚动 <oa>count</oa> 次。
         </p>
         <p>
-            If the document cannot scroll more, a beep is emitted (unless <o>visualbell</o> is
-            set).
+			如果文档再无法滚动了，则会发出提示声（除非 <o>visualbell</o> 被设定）。
         </p>
     </description>
 </item>
@@ -209,9 +192,8 @@
     <spec><oa>count</oa>&lt;C-d></spec>
     <description>
         <p>
-            Scroll window downwards in the buffer. The number of lines is set by the
-            <o>scroll</o> option which defaults to half a page. If <oa>count</oa> is given <o>scroll</o> is
-            first set to this value.
+			向下滚动窗口。滚动的行距离可以通过 <o>scroll</o> 选项设置，默认为半个页面。如果提供 <oa>count</oa> 值，则 <o>scroll</o> 选项首先被设为这个值。
+			
         </p>
     </description>
 </item>
@@ -222,9 +204,7 @@
     <spec><oa>count</oa>&lt;C-u></spec>
     <description>
         <p>
-            Scroll window upwards in the buffer. The number of lines is set by the
-            <o>scroll</o> option which defaults to half a page. If <oa>count</oa> is given <o>scroll</o> is
-            first set to this value.
+			向上滚动窗口。滚动的行距离可以通过 <o>scroll</o> 选项设置，默认为半屏页面。如果提供 <oa>count</oa> 值，则 <o>scroll</o> 选项首先被设为这个值。
         </p>
     </description>
 </item>
@@ -234,7 +214,7 @@
     <tags><![CDATA[<S-Space> <PageUp> <C-b>]]></tags>
     <spec><oa>count</oa>&lt;C-b></spec>
     <description>
-        <p>Scroll up a full page. Scroll window <oa>count</oa> pages Backwards (upwards) in the buffer.</p>
+        <p>向上滚动一屏页面。</p>
     </description>
 </item>
 
@@ -243,18 +223,18 @@
     <tags><![CDATA[<Space> <PageDown> <C-f>]]></tags>
     <spec><oa>count</oa>&lt;C-f></spec>
     <description>
-        <p>Scroll down a full page. Scroll window <oa>count</oa> pages Forwards (downwards) in the buffer.</p>
+        <p>向下滚动一屏页面。</p>
     </description>
 </item>
 
 
-<h2 tag="jumping">Jumping to elements</h2>
+<h2 tag="jumping">跳转到元素位置</h2>
 
 <item>
     <tags><![CDATA[<Tab>]]></tags>
     <spec>&lt;Tab></spec>
     <description>
-        <p>Advance keyboard focus to the next element.</p>
+        <p>将键盘焦点移到后一个元素。</p>
     </description>
 </item>
 
@@ -263,7 +243,7 @@
     <tags><![CDATA[<S-Tab>]]></tags>
     <spec>&lt;S-Tab></spec>
     <description>
-        <p>Rewind keyboard focus to the previous element.</p>
+        <p>将键盘焦点移到前一个元素。</p>
     </description>
 </item>
 
@@ -273,9 +253,7 @@
     <spec><oa>count</oa>gi</spec>
     <description>
         <p>
-            Focus last used input field. If there is no last input field, it focuses the
-            first input field. When used with <oa>count</oa> it directly jumps to the <oa>count</oa>th input
-            field.
+			聚焦到使用的最后一个输入域。如果没有，则聚焦到第一个输入域。有提供 <oa>count</oa> 值则直接跳到第 <oa>count</oa> 个输入域。
         </p>
     </description>
 </item>
@@ -286,8 +264,7 @@
     <spec><oa>count</oa>]f</spec>
     <description>
         <p>
-            Focus next frame. Transfer keyboard focus to the <oa>count</oa>th next frame in
-            order. The newly focused frame is briefly colored red. Does not wrap.
+			聚焦到下一个框架。<oa>count</oa> 表示将键盘焦点移到按顺序排列的第 <oa>count</oa> 个框架。新聚焦的框架以红色短暂标示，并不包围起来。
         </p>
     </description>
 </item>
@@ -298,8 +275,7 @@
     <spec><oa>count</oa>[f</spec>
     <description>
         <p>
-            Focus previous frame. Transfer keyboard focus to the <oa>count</oa>th previous frame
-            in order. The newly focused frame is briefly colored red. Does not wrap.
+			聚焦到上一个框架。<oa>count</oa> 表示将键盘焦点移到按顺序排列的前面第 <oa>count</oa> 个框架。新聚焦的框架以红色短暂标示，并不包围起来。
         </p>
     </description>
 </item>
@@ -310,10 +286,7 @@
     <spec><oa>count</oa>]]</spec>
     <description>
         <p>
-            Follow the link labeled <str>next</str> or <str>></str>
-            if it exists. Useful when browsing forums or
-            documentation. Change <o>nextpattern</o> to modify its
-            behavior. It follows relations between files too.
+			跟踪文字为 <str>next</str> 或 <str>></str> 的链接。在浏览论坛或文档时非常有用。可以改变 <o>nextpattern</o> 值来修改其行为。它也同时跟踪着文件间的关系。
         </p>
     </description>
 </item>
@@ -324,44 +297,35 @@
     <spec><oa>count</oa>[[</spec>
     <description>
         <p>
-            Follow the link labeled <str>prev</str>,
-            <str>previous</str> or <str>&lt;</str> if it exists. Useful
-            when browsing forums or documentation. Change
-            <o>previouspattern</o> to modify its behavior. It
-            follows relations between files too.
+			跟踪文字为 <str>prev</str> 或 <str>&lt;</str> 的链接。在浏览论坛或文档时非常有用。可以改变 <o>previouspattern</o> 值来修改其行为。它也同时跟踪着文件间的关系。
         </p>
     </description>
 </item>
 
 
-<h2 tag="zooming zoom">Zooming</h2>
+<h2 tag="zooming zoom">缩放</h2>
 
-The zooming commands are dependent on two properties -- a zoom range and a
-series of levels within that range.
+缩放命令取决于两个属性 -- 一个缩放范围，及缩放范围内的一系列取值。
 
-The absolute value of the page zoom is limited to a value within the configured
-zoom range (default: 30%--300%). The zoom levels are used by
-<k>zi</k>/<k>zo</k>, and similar commands, to change the zoom value in steps. The
-default zoom levels are 30%, 50%, 67%, 80%, 90%, 100%, 110%, 120%, 133%, 150%,
-170%, 200%, 240%, 300%.
+页面缩放的绝对值限定在设定的缩放范围内（默认：30%--300%）的某个值。<k>zi</k>/<k>zo</k> 及其他相似命令会使用到缩放的标准取值来逐步改变缩放值。默认的缩放标准取值为 30%, 50%, 67%, 80%, 90%, 100%, 110%, 120%, 133%, 150%,
+170%, 200%, 240%, 300%。
 
-The available zoom range can be changed by setting the
-<link topic="http://kb.mozillazine.org/Zoom.minPercent">'zoom.minPercent'</link> and
-<link topic="http://kb.mozillazine.org/Zoom.maxPercent">'zoom.maxPercent'</link> &liberator.host;
-preferences. The zoom levels can be changed using the
+可用的缩放范围可以通过下列 &liberator.host; 选项改变：
+<link topic="http://kb.mozillazine.org/Zoom.minPercent">'zoom.minPercent'</link> 和
+<link topic="http://kb.mozillazine.org/Zoom.maxPercent">'zoom.maxPercent'</link> 
+。 缩放的标准则可以通过
 <link topic="http://kb.mozillazine.org/Toolkit.zoomManager.zoomValues">'toolkit.ZoomManager.zoomLevels'</link>
-preference.
+选项来更改。
 
 <note>
-    'toolkit.ZoomManager.zoomLevels' is specified as a list of
-    values between 0 and 1, not as a percentage.
+    'toolkit.ZoomManager.zoomLevels' 只能取为 0 和 1 间的一列值，不能是百分数。
 </note>
 
 <item>
     <tags>+ zi</tags>
     <spec><oa>count</oa>zi</spec>
     <description>
-        <p>Enlarge text zoom of current web page. Mnemonic: zoom in.</p>
+        <p>放大当前页面的文本。记忆法：zoom in。</p>
     </description>
 </item>
 
@@ -370,7 +334,7 @@ preference.
     <tags>zm</tags>
     <spec><oa>count</oa>zm</spec>
     <description>
-        <p>Enlarge text zoom of current web page by a larger amount. Mnemonic: zoom more.</p>
+        <p>更大程度将当前网页文本。记忆法：zoom more。</p>
     </description>
 </item>
 
@@ -379,7 +343,7 @@ preference.
     <tags>- zo</tags>
     <spec><oa>count</oa>zo</spec>
     <description>
-        <p>Reduce text zoom of current web page. Mnemonic: zoom out.</p>
+        <p>缩小当前网页文本。记忆法：zoom out。</p>
     </description>
 </item>
 
@@ -388,7 +352,7 @@ preference.
     <tags>zr</tags>
     <spec><oa>count</oa>zr</spec>
     <description>
-        <p>Reduce text zoom of current web page by a larger amount. Mnemonic: zoom reduce.</p>
+        <p>更大比例地缩小当前网页文本。记忆法：zoom reduce。</p>
     </description>
 </item>
 
@@ -398,8 +362,7 @@ preference.
     <spec><oa>count</oa>zz</spec>
     <description>
         <p>
-            Set text zoom value of current web page. Zoom value can be between 30% and 300%.
-            If it is omitted, text zoom is reset to 100%.
+			设置当前网页的文本缩放值。缩放值可以取 30% 到 300% 之间，如果忽略，则重置为 100%.
         </p>
     </description>
 </item>
@@ -409,7 +372,7 @@ preference.
     <tags>zI</tags>
     <spec><oa>count</oa>zI</spec>
     <description>
-        <p>Enlarge full zoom of current web page. Mnemonic: zoom in.</p>
+        <p>最大程度放大当前网页。记忆法：zoom in。</p>
     </description>
 </item>
 
@@ -418,7 +381,7 @@ preference.
     <tags>zM</tags>
     <spec><oa>count</oa>zM</spec>
     <description>
-        <p>Enlarge full zoom of current web page by a larger amount. Mnemonic: zoom more.</p>
+        <p>更大程度将当前网页文本。记忆法：zoom more。</p>
     </description>
 </item>
 
@@ -446,8 +409,7 @@ preference.
     <spec><oa>count</oa>zZ</spec>
     <description>
         <p>
-            Set full zoom value of current web page. Zoom value can be between 30 and
-            300%. If it is omitted, full zoom is reset to 100%.
+			将当前网页放到最大。缩放值可以取 30% 与 300% 间。如果忽略，则重置为 100%.
         </p>
     </description>
 </item>
@@ -459,43 +421,37 @@ preference.
     <spec>:zo<oa>om</oa><oa>!</oa> +<a>value</a> | -<a>value</a></spec>
     <description>
         <p>
-            Set zoom value of current web page. <oa>value</oa> can be an absolute value
-            between 30% and 300% or a relative value if prefixed with "-" or "+". If
-            <oa>value</oa> is omitted, zoom is reset to 100%.
+			为当前网页设置缩放值。<oa>value</oa> 可以是 30% 与 300% 间的绝对值，又或者值的前缀使用 "-" 或 "+"。如果不写出 <oa>value</oa> 值，则缩放设置为 100%。
         </p>
 
         <p>
-            Normally this command operates on the text zoom; if used with <oa>!</oa>, it
-            operates on full zoom.
+			一般来说，此命令仅应用于文本的缩放；如果带 <oa>!</oa>，则缩放所有内容。
         </p>
     </description>
 </item>
 
 
-<h2 tag="frames">Working with frames</h2>
+<h2 tag="frames">使用框架</h2>
 
 <item>
     <tags>:frameo :frameonly</tags>
     <spec>:frameo<oa>nly</oa></spec>
     <description>
-        <p>Show only the current frame's page.</p>
+        <p>仅显示当前框架页面。</p>
     </description>
 </item>
 
 
-<h2 tag="copying yanking">Copying text</h2>
+<h2 tag="copying yanking">拷贝文本</h2>
 
-When running in X11, the text of the following commands is not only
-copied to the clipboard but is also put into the X11 selection, which
-can be pasted with the middle mouse button:
+当在 X11 系统里运行时，以下命令不仅将文本拷贝到剪切板，还复制到 X11 选择中，这样你就可以通过鼠标中键粘贴内容：
 
 <item>
     <tags>y</tags>
     <spec>y</spec>
     <description>
         <p>
-            Yank current location to the clipboard. When running in X11 the location is
-            also put into the selection, which can be pasted with the middle mouse button.
+			复制当前地址到剪切板。如果是在 X11 系统上运行，则地址也被复制到选择中，可能通过鼠标中键来粘贴。
         </p>
     </description>
 </item>
@@ -505,26 +461,24 @@ can be pasted with the middle mouse button:
     <tags>Y</tags>
     <spec>Y</spec>
     <description>
-        <p>Copy currently selected text to the system clipboard.</p>
+        <p>拷贝当前所选文本到系统剪切板。</p>
     </description>
 </item>
 
 
-<h2 tag="alternate-stylesheet">Alternate style sheets</h2>
+<h2 tag="alternate-stylesheet">可替换样式表</h2>
 
-Page authors may specify alternate style sheets for an HTML document. Users can
-then switch between these various style sheets, selecting their favorite.
+页面作者可以为一个 HTML 文档设置可替换样式表。用户就可以在这些样式表间切换，选择他们最喜欢的。
 
 <item>
     <tags>:pagest :pagestyle</tags>
     <spec>:pagest<oa>yle</oa> <oa>stylesheet</oa></spec>
     <description>
         <p>
-            Select the author style sheet to apply. If <oa>stylesheet</oa> is not specified
-            the page's default style sheet is used.
+			选择要应用的作者样式表。如果不指出 <oa>stylesheet</oa> 则使用默认样式表。
         </p>
 
-        <p>All author styling can be removed by setting the <o>usermode</o> option.</p>
+        <p>通过设置 <o>usermode</o> 选项可以移除所有作者样式。</p>
     </description>
 </item>
 

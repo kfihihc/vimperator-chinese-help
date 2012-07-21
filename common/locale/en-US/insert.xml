@@ -5,35 +5,33 @@
 
 <document
     name="insert"
-    title="&liberator.appname; Insert Mode"
+    title="&liberator.appname; 插入模式"
     xmlns="http://vimperator.org/namespaces/liberator"
     xmlns:html="http://www.w3.org/1999/xhtml">
-<h1 tag="Insert-mode Insert mode-insert">Insert mode</h1>
+<h1 tag="Insert-mode Insert mode-insert">插入模式</h1>
 <toc start="2"/>
 
 <p>
-    Insert mode is used to enter text in text boxes and text areas. When
-    <o>insertmode</o> is set, focusing on a text area immediately switches to
-    Insert mode.
+	插入模式用于在文本框及文本域中输入文本。当开启 <o>insermode</o> 选项时，聚焦一个文本域会进入插入模式。
 </p>
 
 <item>
     <tags>i_i</tags>
     <spec>i_i</spec>
     <description>
-        <p>Starts Insert mode in text areas when <o>insertmode</o> is not set.</p>
+        <p>关闭 <o>insertmode</o> 选项时在文本域启动插入模式。</p>
     </description>
 </item>
 
 
 
-<h2 tag="ins-special-keys">Insert-mode special keys</h2>
+<h2 tag="ins-special-keys">插入模式的特殊键</h2>
 
 <item>
     <tags><![CDATA[i_<C-i>]]></tags>
     <spec>&lt;C-i></spec>
     <description>
-        <p>Launch the external editor. See the <o>editor</o> option.</p>
+        <p>调用外部编辑器。请看 <o>editor</o> 选项。</p>
     </description>
 </item>
 
@@ -42,7 +40,7 @@
     <tags><![CDATA[i_<C-]>]]></tags>
     <spec>&lt;C-]></spec>
     <description>
-        <p>Expand an Insert-mode abbreviation.</p>
+        <p>扩展插入模式的缩略词。</p>
     </description>
 </item>
 

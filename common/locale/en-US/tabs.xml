@@ -5,19 +5,17 @@
 
 <document
     name="tabs"
-    title="&liberator.appname; Tabs"
+    title="&liberator.appname; 标签页"
     xmlns="http://vimperator.org/namespaces/liberator"
     xmlns:html="http://www.w3.org/1999/xhtml">
-<h1 tag="tabs">Tabs</h1>
+<h1 tag="tabs">标签页</h1>
 <toc start="2"/>
 
 <p>
-    Tabs are used to be able to view many web pages at the same time. Each tab
-    contains exactly one buffer—multiple buffers per tab are not supported. As a
-    result many buffer and tab commands are interchangeable.
+	标签页可用于同时浏览多个网页。每个标签页仅包含一个 buffer - 并不支持一个标签页内多个 buffer。也因此，许多 buffer 与标签页的命令是可以互换的。
 </p>
 
-<h2 tag="listing-tabs">Listing tabs</h2>
+<h2 tag="listing-tabs">列出标签页</h2>
 
 <item>
     <tags>B :tabs :ls :files :buffers</tags>
@@ -25,14 +23,13 @@
     <spec>B</spec>
     <description>
         <p>
-            Show a list of buffers (=tabs) matching <oa>filter</oa>. Without <oa>filter</oa>
-            list all tabs.
+			显示所有符合 <oa>filter</oa> 条件的 buffer （=标签页）。不指定 <oa>filter</oa> 则显示所有标签页。
         </p>
 
-        <p>A buffer may be marked with one of the following indicators:</p>
+        <p>一个 buffer 可能使用以下某个指示符标识：</p>
 
         <dl>
-            <dt>%</dt><dd>The current buffer</dd>
+            <dt>%</dt><dd>当前 buffer</dd>
             <dt>#</dt><dd>The alternate buffer for <ex>:e #</ex> and <k name="C-^"/></dd>
         </dl>
     </description>
@@ -43,20 +40,19 @@
     <tags>:keepa :keepalt</tags>
     <spec>:keepa<oa>lt</oa> <a>cmd</a></spec>
     <description>
-        <p>Execute a command without changing the current alternate buffer.</p>
+        <p>执行一个命令，但是不改变目前的交替 buffer。</p>
     </description>
 </item>
 
 
-<h2 tag="opening-tabs">Opening tabs</h2>
+<h2 tag="opening-tabs">打开标签页</h2>
 
 <item>
     <tags>:tab</tags>
     <spec>:tab <a>cmd</a></spec>
     <description>
         <p>
-            Execute <a>cmd</a> and tell it to output in a new tab. Works only for commands that
-            support it, currently:
+			执行 <a>cmd</a> 并在新标签页打开结果。只对支持它的命令有效，目前有：
         </p>
 
         <ul>
@@ -77,8 +73,7 @@
     <spec>:wind<oa>ow</oa> <a>cmd</a></spec>
     <description>
         <p>
-            Execute <a>cmd</a> and tell it to output in a new window. See <ex>:tab</ex> for the
-            list of supported commands.
+			执行 <a>cmd</a> 并在新窗口打开结果。请查看 <ex>:tab</ex> 了解它所支持的命令。
         </p>
     </description>
 </item>
@@ -89,25 +84,23 @@
     <spec>:<oa>count</oa>tabdu<oa>plicate</oa></spec>
     <description>
         <p>
-            Duplicate the current tab and switch to the duplicate. If <oa>count</oa> is given,
-            duplicate the tab <oa>count</oa> times.
+			复制当前标签页并转到复制的标签页。如果给定 <oa>count</oa>，则复制 <oa>count</oa> 次标签页。
         </p>
     </description>
 </item>
 
 
 <!-- TODO: should the tab commands be moved back here? -->
-See <t>opening</t> for other ways to open new tabs.
+请查阅 <t>opening</t> 了解其他的打开新标签页的方法。
 
-<h2 tag="changing-tabs">Changing tabs</h2>
+<h2 tag="changing-tabs">切换标签页</h2>
 
 <item>
     <tags>gb</tags>
     <spec><oa>count</oa>gb</spec>
     <description>
         <p>
-            Repeat last <ex>:buffer<oa>!</oa></ex> command. This is useful to quickly jump between
-            buffers which have a similar URL or title.
+			重复上次的 <ex>:buffer<oa>!</oa></ex> 命令。可以用于在含有相似 URL 或标题的 buffer 间切换。
         </p>
     </description>
 </item>
@@ -118,8 +111,7 @@ See <t>opening</t> for other ways to open new tabs.
     <spec><oa>count</oa>gB</spec>
     <description>
         <p>
-            Repeat last <ex>:buffer<oa>!</oa></ex> command in reverse direction. Just like <k>gb</k>
-            but in the other direction.
+			以相反的方向重复上次的 <ex>:buffer<oa>!</oa></ex> 命令。与 <k>gb</k> 相似，不过是反向进行。
         </p>
     </description>
 </item>
@@ -130,8 +122,7 @@ See <t>opening</t> for other ways to open new tabs.
     <spec><oa>count</oa>gt</spec>
     <description>
         <p>
-            Go to the next tab. Cycles to the first tab when the last is selected.
-            If <oa>count</oa> is specified go to the <oa>count</oa>th tab.
+			切换到下一标签页。如果位于最后一个标签页，则循环回第一个标签页。如果指定 <oa>count</oa> 则切换到第 <oa>count</oa> 个标签页。
         </p>
     </description>
 </item>
@@ -142,8 +133,7 @@ See <t>opening</t> for other ways to open new tabs.
     <spec><oa>count</oa>&lt;C-n></spec>
     <description>
         <p>
-            Go to the next tab. Cycles to the first tab when the last is selected.
-            If <oa>count</oa> is specified go to the <oa>count</oa>th next tab.
+			切换到下一个标签页。如果位于最后一个标签页，则循环回第一个标签页。如果指定 <oa>count</oa> 则切换到第 <oa>count</oa> 个标签页。
         </p>
     </description>
 </item>
@@ -154,8 +144,7 @@ See <t>opening</t> for other ways to open new tabs.
     <spec><oa>count</oa>gT</spec>
     <description>
         <p>
-            Go to the previous tab. Cycles to the last tab when the first is selected.
-            If <oa>count</oa> is specified go to the <oa>count</oa>th previous tab.
+			切换到上一个标签页。如果位于第一个标签页，则循环回最后一个标签页。如果指定 <oa>count</oa> 则切换到前面第 <oa>count</oa> 个标签页。
         </p>
     </description>
 </item>
@@ -168,8 +157,7 @@ See <t>opening</t> for other ways to open new tabs.
     <spec>:<oa>count</oa>bn<oa>ext</oa> <oa>count</oa></spec>
     <description>
         <p>
-            Switch to the next or <oa>count</oa>th tab. Cycles to the first tab when the last is
-            selected and <oa>count</oa> is not specified.
+			切换到下一个或第 <oa>count</oa> 个标签页。如果位于最后一个标签页并且不指定 <oa>count</oa>，则循环回第一个标签页。
         </p>
     </description>
 </item>
@@ -184,8 +172,7 @@ See <t>opening</t> for other ways to open new tabs.
     <spec>:<oa>count</oa>bN<oa>ext</oa> <oa>count</oa></spec>
     <description>
         <p>
-            Switch to the previous tab or go <oa>count</oa> tabs back. Wraps around from the
-            first tab to the last tab.
+			切换到上一个或前面第 <oa>count</oa> 个标签页。将从第一个标签页绕到最后一个。
         </p>
     </description>
 </item>
@@ -196,8 +183,7 @@ See <t>opening</t> for other ways to open new tabs.
     <spec><oa>count</oa>&lt;C-^></spec>
     <description>
         <p>
-            Select the previously selected tab. This provides a quick method of toggling
-            between two tabs. If <oa>count</oa> is specified, go to the <oa>count</oa>th tab.
+			选择前一个选中的标签页。这就可以在两个标签页间快速切换。如果指明 <oa>count</oa> 值，则切换到第 <oa>count</oa> 个标签页。
         </p>
     </description>
 </item>
@@ -209,20 +195,16 @@ See <t>opening</t> for other ways to open new tabs.
     <spec><oa>count</oa>b</spec>
     <description>
         <p>
-            Go to the specified buffer from the buffer list. Argument can be either the
-            buffer index or the full URL. If <oa>count</oa> is given, go to the <oa>count</oa>th buffer.
+			访问 buffer 列表中的某特定 buffer。参数可以是 buffer 的索引值或完整的 URL 地址。如果给定 <oa>count</oa>，则直接访问第 <oa>count</oa> 个 buffer。
         </p>
 
         <p>
-            If the argument is neither a full URL nor an index but uniquely identifies a
-            buffer, it is selected. With <oa>!</oa> the next buffer matching the argument is
-            selected, even if it cannot be identified uniquely. Use <k>b</k> as a
-            shortcut to open this prompt.
+			如果参数即不是完整的 URL 也不是索引值，但仍可唯一定位一个 buffer，则选中该 buffer。如果指定 <oa>!</oa> 则下一个符合条件的 buffer 被选中，哪怕它并不唯一定位出。可以按 <k>b</k> 作为访问该命令的快捷方式。
         </p>
 
-        <p>If the argument is <em>#</em>, the alternate buffer will be selected (see <k name="C-^"/>).</p>
+        <p>如果参数是 <em>#</em>，则交替 buffer 被选中（请看 <k name="C-^"/>）。</p>
 
-        <p>If no argument is given the current buffer remains current.</p>
+        <p>如果不带参数，则当前 buffer 仍是当前。</p>
     </description>
 </item>
 
@@ -236,7 +218,7 @@ See <t>opening</t> for other ways to open new tabs.
     <spec>g0</spec>
     <spec>g^</spec>
     <description>
-        <p>Switch to the first tab.</p>
+        <p>切换到第一个标签页。</p>
     </description>
 </item>
 
@@ -247,7 +229,7 @@ See <t>opening</t> for other ways to open new tabs.
     <spec>:bl<oa>ast</oa></spec>
     <spec>g$</spec>
     <description>
-        <p>Switch to the last tab.</p>
+        <p>切换到最后一个标签页。</p>
     </description>
 </item>
 
@@ -257,9 +239,7 @@ See <t>opening</t> for other ways to open new tabs.
     <spec>:tabde<oa>tach</oa></spec>
     <description>
         <p>
-            Detach the current tab, and open it in its own window. As each window must
-            contain at least one tab it is not possible to detach the only tab in a window.
-            Use <ex>:tabduplicate</ex> to copy the tab then call <ex>:tabdetach</ex>.
+			分享当前标签页，并打开在它自有的窗口中。因为每个窗口中必须包含最少一个标签页，因此并无法分离窗口中的唯一一个标签页。不过可以使用 <ex>:tabduplicate</ex> 先复制标签页然后再调用 <ex>:tabdetach</ex>。
         </p>
     </description>
 </item>
@@ -270,16 +250,13 @@ See <t>opening</t> for other ways to open new tabs.
     <spec>:taba<oa>ttach</oa> <a>window-index</a> <oa>tab-index</oa></spec>
     <description>
         <p>
-            Attach the current tab to another window. {window-index} is an index into the
-            list of open windows and <oa>tab-index</oa> is the index at which to insert the
-            tab in the other window's tab list. If this is the last tab in a window, the
-            window will be closed.
+			将当前标签页附加到另一个窗口。{window-inex} 是一个当前打开的窗口列表的索引值，<oa>tab-index</oa> 则是其他窗口中标签列表的索引值，指示将要附加的标签页的位置。如果这是窗口中的最后一个标签页，则窗口会被关闭。
         </p>
     </description>
 </item>
 
 
-<h2 tag="reordering-tabs">Reordering tabs</h2>
+<h2 tag="reordering-tabs">重新排布标签页</h2>
 
 <item>
     <tags>:tabm :tabmove</tags>
@@ -287,18 +264,14 @@ See <t>opening</t> for other ways to open new tabs.
     <spec>:tabm<oa>ove</oa><oa>!</oa> <oa>+N</oa> | <oa>-N</oa></spec>
     <description>
         <p>
-            Move the current tab to a position after tab <oa>N</oa>. When <oa>N</oa> is 0, the
-            current tab is made the first one. Without <oa>N</oa> the current tab is made the
-            last one. <oa>N</oa> can also be prefixed with "+" or "-" to indicate a relative
-            movement. If <oa>!</oa> is specified the movement wraps around the start or end of the
-            tab list.
+			移动当前标签页到标签页 <oa>N</oa> 后面。如果 <oa>N</oa> 值为 0,则当前标签页移动到最前。没有指定 <oa>N</oa> 的话则当前标签页移到最后。<oa>N</oa> 前也可以设定 "+" 或 "-" 来表示相对位置的移动。加上 <oa>!</oa> 则移动过程会循环首末标签页。	
         </p>
     </description>
 </item>
 
 
 
-<h2 tag="closing-tabs">Closing tabs</h2>
+<h2 tag="closing-tabs">关闭标签页</h2>
 
 <item>
     <tags>:tabc :tabclose :bun :bunload :bw :bwipeout :bd :bdelete</tags>
@@ -306,19 +279,14 @@ See <t>opening</t> for other ways to open new tabs.
 
     <description>
         <p>
-            Delete current tab. If <oa>count</oa> is specified then <oa>count</oa> tabs are
-            removed. By default, the tab to the right of the deleted tab(s) is selected.
+			关闭当前标签页。如果指定 <oa>count</oa> 则 <oa>count</oa> 个标签被删除。默认地，删除标签页右侧标签页被选中。
         </p>
 
         <p>
-            When used with <oa>arg</oa>, remove all tabs which contain <oa>arg</oa> in the
-            hostname. <oa>!</oa> forces this command to also search for <oa>arg</oa> in the full
-            URL and also the title of the tab, and closes even if the tab is an App tab.
-            Use with care.
+			当与 <oa>arg</oa> 一起使用时，移除在域名中包含 <oa>arg</oa> 的所有标签页。<oa>!</oa> 则能强制命令也在整个 URL 及标签页标题中搜索 <oa>arg</oa>，甚至标签页是个 App 标签页也可以关闭。不过请小心使用。	
         </p>
         <p>
-            The <oa>-select</oa> option specifies which tab is selected after closing the current one:
-            Possible values are:
+			<oa>-select</oa> 选项指定关闭当前标签页后哪个标签页被选定：
             <ul>
                 <li>left</li>
                 <li>right</li>
@@ -334,8 +302,7 @@ See <t>opening</t> for other ways to open new tabs.
     <spec><oa>count</oa>d</spec>
     <description>
         <p>
-            Delete current buffer tab. If <oa>count</oa> is specified then <oa>count</oa> tabs are
-            removed. Afterwards, the tab to the right of the deleted tab(s) is selected.
+			关闭当前标签页。如果指定 <oa>count</oa> 则 <oa>count</oa> 个标签被删除。默认地，删除标签页右侧标签页被选中。
         </p>
     </description>
 </item>
@@ -344,7 +311,7 @@ See <t>opening</t> for other ways to open new tabs.
     <tags>D</tags>
     <spec><oa>count</oa>D</spec>
     <description>
-        <p>Like <k>d</k> but selects the tab to the left of the deleted tab.</p>
+        <p>类似 <k>d</k>，只不过选中的是被删除的标签页左边的标签页。</p>
     </description>
 </item>
 
@@ -353,7 +320,7 @@ See <t>opening</t> for other ways to open new tabs.
     <tags>:tabo :tabonly</tags>
     <spec>:tabo<oa>nly</oa></spec>
     <description>
-        <p>Close all other tabs.</p>
+        <p>关闭所有其他的标签页。</p>
     </description>
 </item>
 
@@ -364,8 +331,7 @@ See <t>opening</t> for other ways to open new tabs.
     <spec><oa>count</oa>u</spec>
     <description>
         <p>
-            Undo closing of a tab. If a count is given, don't undo the last but the
-            <oa>count</oa>th last closed tab. With <oa>url</oa> restores the tab matching the URL.
+			撤销关闭标签页。如果给定数字，则撤销的不是最后一个，而是第 <oa>count</oa> 个被关闭的标签页。至于 <oa>url</oa> 则是恢复符合 URL 条件的已关闭标签页。
         </p>
     </description>
 </item>
@@ -376,28 +342,25 @@ See <t>opening</t> for other ways to open new tabs.
     <spec>:undoa<oa>ll</oa></spec>
     <description>
         <p>
-            Undo closing of all closed tabs. &liberator.host; stores up to 10 closed tabs, even
-            after a browser restart.
+			撤销所有被关闭的标签页。&liberator.host; 最多保存 10 被关闭的标签页，哪怕重启过浏览器。
         </p>
     </description>
 </item>
 
 
 
-<h2 tag="looping-over-tabs">Looping over tabs</h2>
+<h2 tag="looping-over-tabs">遍历标签页</h2>
 
 <item>
     <tags>:tabd :tabdo :bufd :bufdo</tags>
     <spec>:tabd<oa>o</oa> <a>cmd</a></spec>
     <description>
         <p>
-            Execute <a>cmd</a> in each tab. <a>cmd</a> is executed in each tab starting with the
-            first and ending with the last which becomes the current tab.
+			对每个标签页执行 <a>cmd</a>。<a>cmd</a> 从第一个开始执行，到最后一个结束，结束时最后一个标签页置为当前。
         </p>
 
         <p>
-            <a>cmd</a> should not alter the tab list state by adding, removing or reordering
-            tabs.
+            <a>cmd</a> 不要使用添加，移除或重排标签页来改变标签页列表的状态。
         </p>
     </description>
 </item>

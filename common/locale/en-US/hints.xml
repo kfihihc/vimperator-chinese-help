@@ -17,6 +17,7 @@ similar amount of minimal effort. This contrasts strongly with the traditional
 approaches offered by the mouse, in which you must first find and then aim for
 the link you would like, and by using repeated tabbing which quickly becomes
 tedious unless you always visit the first link on a page.
+通过 Hints，&liberator.appname; 允许你跟踪页面上的链接。只要提供给每个链接一个合适的 hint，你就可以花很小部分的精力访问所有链接。与鼠标提供的传统方法相比，两者差异很大。在传统方法里，你需要先查找然后定位出你想访问的链接，然后无止境地重复按 tab 键，除非你总是访问页面的第一个链接，否则过程会变得越来越乏味。
 
 <item>
     <tags>f</tags>
@@ -34,6 +35,7 @@ tedious unless you always visit the first link on a page.
             <ex>:let mapleader = "\"</ex>) toggles "escape-mode", where numbers are
             treated as normal text. <k name="Esc"/> stops this mode at any
             time.
+			启动 QucikHint 模式。在 QuickHint 模式中，根据 <o>hinttages</o> Xpath 查询的值，每个可 hint 的链接都被赋予一个唯一数字。你可以键入这个数字，也可以根据 <o>hintmatching</o> 选项的设定键入部分的链接文本，一旦链接被唯一锁定，就会自动打开。一般可以先键入一些字母来缩小范围，然后再键入一个数字来保证唯一。按 <k name="Leader"/>（默认为 <ex>:let mapleader = "\"</ex>）可以切换 "escape 模式"，该模式下数字被当作普通的文本处理。<k name="Esc"/> 可以在任何时候停止这个模式。
         </p>
     </description>
 </item>
@@ -48,12 +50,13 @@ tedious unless you always visit the first link on a page.
             mode (activated with <k>f</k>) but opens the link in a new tab. The new
             tab will be loaded in background according to the
             <str>browser.tabs.loadInBackground</str> &liberator.host; preference.
+			启动 QucikHint 模式，只是链接是在新标签页中打开。类似于普通的 QuickHint 模式（由 <k>f</k> 激活），只是在新标签页中打开链接。新标签页将根据 &liberator.host; 的首选项 <str>browser.tabs.loadInBackground</str> 来载入后台中。
         </p>
     </description>
 </item>
 
 
-<tags>extended-hints</tags>
+<tags>扩展 hints</tags>
 
 <item>
     <tags>;</tags>
@@ -66,45 +69,48 @@ tedious unless you always visit the first link on a page.
             them in a new window or save images.  If you want to yank the
             location of hint <em>24</em>, press <k>;y</k> to start this hint
             mode. Then press <em>24</em> to copy the hint location.
+			启动一个扩展 hint 模式。除开默认的鼠标左键单击外，扩展 Hint 模式可以在 hinted 元素上执行很多操作。比如，你可以拷贝链接地址，在新窗口中打开它们或者保存图片。如果你想拷贝 hint <em>24</em> 的链接地址，按 <k>;y</k> 启动这个 hint 模式，然后按 <em>24</em> 来拷贝位置。
         </p>
 
-        <p><a>mode</a> can be one of:</p>
+        <p><a>mode</a> 可以是以下任一种：</p>
 
         <ul>
-            <li><tag>;;</tag> <em>;</em> to focus an element</li>
-            <li><tag>;?</tag> <em>?</em> to show information about an element (incomplete)</li>
-            <li><tag>;s</tag> <em>s</em> to save a link's destination</li>
-            <li><tag>;S</tag> <em>S</em> to save a media object</li>
-            <li><tag>;a</tag> <em>a</em> to save a link's destination (prompting for save location)</li>
-            <li><tag>;A</tag> <em>B</em> to save a media object (prompting for save location)</li>
-            <li><tag>;f</tag> <em>f</em> to focus a frame</li>
-            <li><tag>;o</tag> <em>o</em> to open its location in the current tab</li>
-            <li><tag>;t</tag> <em>t</em> to open its location in a new tab</li>
-            <li><tag>;b</tag> <em>b</em> to open its location in a new background tab</li>
-            <li><tag>;w</tag> <em>w</em> to open its destination in a new window</li>
-            <li><tag>;F</tag> <em>F</em> to follow a sequence of <k name="CR"/>-delimited hints in background tabs</li>
-            <li><tag>;O</tag> <em>O</em> to generate an <ex>:open</ex> with hint's URL (like <k>O</k>)</li>
-            <li><tag>;T</tag> <em>T</em> to generate a <ex>:tabopen</ex> with hint's URL (like <k>T</k>)</li>
-            <li><tag>;W</tag> <em>W</em> to generate a <ex>:winopen</ex> with hint's URL</li>
-            <li><tag>;v</tag> <em>v</em> to view its destination source</li>
-            <li><tag>;V</tag> <em>V</em> to view its destination source in the external editor</li>
-            <li><tag>;y</tag> <em>y</em> to yank its destination location</li>
-            <li><tag>;Y</tag> <em>Y</em> to yank its text description</li>
-            <li><tag>;c</tag> <em>c</em> to open its context menu</li>
-            <li><tag>;i</tag> <em>i</em> to open a media object</li>
-            <li><tag>;I</tag> <em>I</em> to open a media object in a new tab</li>
-            <li><tag>;x</tag> <em>A</em> to display an element's title text, or alt text if none.</li>
+            <li><tag>;;</tag> <em>;</em> 聚焦于一个元素上</li>
+            <li><tag>;?</tag> <em>?</em> 显示元素的信息（不完整）</li>
+            <li><tag>;s</tag> <em>s</em> 链接另存为</li>
+            <li><tag>;S</tag> <em>S</em> 保存媒体对象</li>
+            <li><tag>;a</tag> <em>a</em> 链接另存为（弹出另存为对话框）</li>
+            <li><tag>;A</tag> <em>B</em> 保存媒体对象（弹出保存对话框）</li>
+            <li><tag>;f</tag> <em>f</em> 聚焦框架</li>
+            <li><tag>;o</tag> <em>o</em> 在当前标签页打开链接地址</li>
+            <li><tag>;t</tag> <em>t</em> 在新标签页打开链接地址</li>
+            <li><tag>;b</tag> <em>b</em> 在新的背景标签页打开链接地址</li>
+            <li><tag>;w</tag> <em>w</em> 在新窗口打开链接地址</li>
+            <li><tag>;F</tag> <em>F</em> 在背景标签页中打开多个链接。to follow a sequence of <k name="CR"/>-delimited hints in background tabs</li>
+            <li><tag>;O</tag> <em>O</em> 生成带 hint 的 URL 的 <ex>:open</ex> 命令（类似 <k>O</k>）</li>
+            <li><tag>;T</tag> <em>T</em> 生成带 hint 的 URL 的 <ex>:tabopen</ex> 命令（类似 <k>T</k>）</li>
+            <li><tag>;W</tag> <em>W</em> 生成带 hint 的 URL 的 <ex>:winopen</ex> 命令（类似 <k>W</k>）</li>
+            <li><tag>;v</tag> <em>v</em> 查看页面源代码</li>
+            <li><tag>;V</tag> <em>V</em> 在外部编辑器中查看页面源代码</li>
+            <li><tag>;y</tag> <em>y</em> 拷贝链接地址</li>
+            <li><tag>;Y</tag> <em>Y</em> 拷贝文本描述</li>
+            <li><tag>;c</tag> <em>c</em> 打开上下文菜单</li>
+            <li><tag>;i</tag> <em>i</em> 打开媒体对象</li>
+            <li><tag>;I</tag> <em>I</em> 在新标签页中打开媒体对象</li>
+            <li><tag>;x</tag> <em>A</em> 显示元素的 title 文本，如果没有，则显示 alt 文本。</li>
         </ul>
 
         <p>
             Depending on the value of <o>complete</o>, you can get a list of
             extended hint modes by pressing <k name="Tab"/> from the <k>;</k>
             prompt.
+			根据 <o>complete</o> 的值，你可以在 <k>;</k> 后按 <k name="Tab"/>得到一个扩展 hint 模式的清单。
         </p>
 
         <p>
             Hintable elements for all extended hint modes can be set in the
             <o>extendedhinttags</o> XPath string.
+			元素是否可用于扩展 hint 模式中可以通过 <o>extendedhinttags</o> Xpath 字符串来设定。
         </p>
     </description>
 </item>

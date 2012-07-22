@@ -5,26 +5,23 @@
 
 <document
     name="message"
-    title="&liberator.appname; Messages"
+    title="&liberator.appname; 信息"
     xmlns="http://vimperator.org/namespaces/liberator"
     xmlns:html="http://www.w3.org/1999/xhtml">
-<h1 tag="messages">Error and informational messages</h1>
+<h1 tag="messages">错误及指示性信息</h1>
 <toc start="2"/>
 
-<tags>message-history</tags>
+<tags>信息历史</tags>
 
 <p>
-    &liberator.appname; stores all info and error messages in a message
-    history. The type of info messages output can be controlled by
-    the <o>verbose</o> option. The number of stored messages can be set
-    with the <o>messages</o> option.
+	&liberator.appname; 在信息历史中保存所有指示性及错误性信息。指示性信息的输出可以通过 <o>verbose</o> 选项来控制。保存的信息数目可以通过 <o>messages</o> 选项设定。
 </p>
 
 <item>
     <tags>:mes :messages</tags>
     <spec>:mes<oa>sages</oa></spec>
     <description>
-        <p>Display previously given messages.</p>
+        <p>显示上一次给出的信息。</p>
     </description>
 </item>
 
@@ -33,7 +30,7 @@
     <tags>:messc :messclear</tags>
     <spec>:messc<oa>lear</oa></spec>
     <description>
-        <p>Clear the message history.</p>
+        <p>清空信息历史。</p>
     </description>
 </item>
 
@@ -43,8 +40,7 @@
     <spec>g&lt;</spec>
     <description>
         <p>
-            Redisplay the last command output. Only the most recent command's output is
-            available.
+			重新显示上一次命令的输出结果。只有最近命令的输出可用。
         </p>
     </description>
 </item>
@@ -60,6 +56,7 @@
     This message is given when the message window is filled with messages. It is
     only given when the <o>more</o> option is on. It is highlighted with the <em>MoreMsg</em>
     group.
+	当信息窗口填满信息时，会给出这个信息提示。当然，只有开启 <o>more</o> 选项时才有。
 </p>
 
 <dl>

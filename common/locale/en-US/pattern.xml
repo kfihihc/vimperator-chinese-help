@@ -8,30 +8,24 @@
     title="&liberator.appname; Patterns"
     xmlns="http://vimperator.org/namespaces/liberator"
     xmlns:html="http://www.w3.org/1999/xhtml">
-<h1 tag="text-search-commands">Text search commands</h1>
+<h1 tag="text-search-commands">文本搜索命令</h1>
 <toc start="2"/>
 
 <p>
-    &liberator.appname; provides a Vim-like interface to &liberator.host;'s standard text search
-    functionality. There is no support for using regular expressions in search
-    commands as &liberator.host; does not provide native regex support. It is unlikely that
-    this will ever be available.
+	&liberator.appname; 提供了一个类似 Vim 的界面来访问 &liberator.host; 的标准文本搜索功能。搜索命令不支持正则表达式，因为 &liberator.host; 不支持原生的正则。而且这很可能永远不会有。
 </p>
 
 <item>
     <tags>/</tags>
     <spec>/<a>pattern</a>[/]&lt;CR></spec>
     <description>
-        <p>Search forward for the first occurrence of <a>pattern</a>.</p>
+        <p>向前搜索第一个符合 <a>pattern</a> 的文本。</p>
 
         <p>
-            If <str>\c</str> appears anywhere in the pattern the whole pattern is handled as though
-            <o>ignorecase</o> is on. <str>\C</str> forces case-sensitive matching for the whole pattern.
+			如果 <str>\c</str> 出现在 pattern 中的任何地方，则表示开启 <o>ignorecase</o> 开关，忽略大小写区别。<str>\C</str> 则表示强制区分大小写。
         </p>
         <p>
-            If <str>\l</str> appears in the pattern only the text of links is searched for a
-            match as though <o>linksearch</o> is on. <str>\L</str> forces the entire page to be searched
-            for a match.
+			如果 <str>\l</str> 出现在 pattern 中则只从链接文本中搜索符合项，类似于开启 <o>linksearch</o> 选项。<str>\L</str> 则强制搜索整个页面。
         </p>
     </description>
 </item>
@@ -41,11 +35,11 @@
     <tags>?</tags>
     <spec>?<a>pattern</a>[?]&lt;CR></spec>
     <description>
-        <p>Search backwards for <a>pattern</a>.</p>
+        <p>向后搜索 <a>pattern</a>。</p>
 
-        <p><a>pattern</a> can use the same modifiers as for <k>/</k>.</p>
+        <p><a>pattern</a> 可以使用与 <k>/</k> 一样的修饰符。</p>
 
-        <note>Incremental searching currently only works in the forward direction.</note>
+        <note>渐进式搜索（Incremental searching） 目前只在向前搜索中可用。</note>
     </description>
 </item>
 
@@ -54,7 +48,7 @@
     <tags>n</tags>
     <spec>n</spec>
     <description>
-        <p>Find next. Repeat the last search 1 time (until count is supported).</p>
+        <p>查找下一个。重复 1（目前还不支持 count） 次最后一个搜索。</p>
     </description>
 </item>
 
@@ -64,8 +58,7 @@
     <spec>N</spec>
     <description>
         <p>
-            Find previous. Repeat the last search 1 time (until count is supported) in the
-            opposite direction.
+        	查找前一个。重复 1（目前还不支持 count） 次最后一个搜索。
         </p>
     </description>
 </item>
@@ -75,7 +68,7 @@
     <tags>*</tags>
     <spec>*</spec>
     <description>
-        <p>Search forward for the next word under the cursor.</p>
+        <p>搜索鼠标位置下的词下一次出现的位置。</p>
     </description>
 </item>
 
@@ -84,7 +77,7 @@
     <tags>#</tags>
     <spec>#</spec>
     <description>
-        <p>Search backward for the previous word under the cursor.</p>
+        <p>搜索鼠标位置下的词上一次出现的位置。</p>
     </description>
 </item>
 
@@ -94,8 +87,7 @@
     <spec>:noh<oa>lsearch</oa></spec>
     <description>
         <p>
-            Remove the search highlighting. The document highlighting is turned back on
-            when another search command is used or the <o>hlsearch</o> option is set.
+			不高亮显示搜索词。下一次搜索又或设置 <o>hlsearch</o> 选项后文档高亮显示仍会开启。
         </p>
     </description>
 </item>

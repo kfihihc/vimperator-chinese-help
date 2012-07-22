@@ -5,46 +5,47 @@
 
 <document
     name="options"
-    title="&liberator.appname; Options"
+    title="&liberator.appname; 选项"
     xmlns="http://vimperator.org/namespaces/liberator"
     xmlns:html="http://www.w3.org/1999/xhtml">
-<h1 tag="options">Options</h1>
+<h1 tag="options">选项</h1>
 <toc start="2"/>
 
 <p>
     &liberator.appname; has a number of internal variables and switches which can be set to
     achieve special effects. These options come in 5 forms:
+	&liberator.appname; 有若干内有变量与开关，设置它们可以达到某些特别效果。这些选项有 5 种形式：
 </p>
 
 <dl>
-    <dt>boolean</dt>       <dd>can only be on or off</dd>
-    <dt>number</dt>        <dd>has a numeric value</dd>
-    <dt>string</dt>        <dd>has a string value</dd>
-    <dt>charlist</dt>      <dd>like a string but with unique characters</dd>
-    <dt>stringlist</dt>    <dd>a comma-separated list of strings</dd>
+    <dt>boolean</dt>       <dd>只能是 on 或 off</dd>
+    <dt>number</dt>        <dd>有一个数字值</dd>
+    <dt>string</dt>        <dd>有一个字符串值</dd>
+    <dt>charlist</dt>      <dd>类似字符串，但是是独立的字符</dd>
+    <dt>stringlist</dt>    <dd>由逗号分隔的字符串列表</dd>
 </dl>
 
-<h2 tag="set-option">Setting options</h2>
+<h2 tag="set-option">设置选项</h2>
 
 <item>
     <tags>:set :se</tags>
     <spec>:se[t]</spec>
     <description short="true">
-        <p>Show all options that differ from their default value.</p>
+        <p>列出所有更改过默认值的选项。</p>
     </description>
 </item>
 
 <item>
     <spec>:se[t] all</spec>
     <description short="true">
-        <p>Show all options.</p>
+        <p>列出所有选项。</p>
     </description>
 </item>
 
 <item>
     <spec>:se[t] <a>option</a>?</spec>
     <description>
-        <p>Show value of <a>option</a>.</p>
+        <p>显示 <a>option</a> 的值。</p>
     </description>
 </item>
 
@@ -62,7 +63,7 @@
 <item>
     <spec>:se[t] no<a>option</a> […]</spec>
     <description>
-        <p>Toggle option: Reset, switch it off.</p>
+        <p>切换选项：重置，关闭它。</p>
     </description>
 </item>
 
@@ -93,14 +94,14 @@
     <tags>:set-default</tags>
     <spec>:se[t] <a>option</a>&amp; […]</spec>
     <description>
-        <p>Reset option to its default value.</p>
+        <p>将选项值重置为其默认值。</p>
     </description>
 </item>
 
 <item>
     <spec>:se[t] all&amp;</spec>
     <description>
-        <p>Set all options to their default value.</p>
+        <p>重置所有选项值。</p>
     </description>
 </item>
 
@@ -223,6 +224,7 @@
             preferences from this dialog. Be aware that not all &liberator.host;
             preferences work, because &liberator.appname; overrides some key bindings and
             changes &liberator.host;'s GUI.
+			打开 &liberator.host; 选项对话框。你可以从这儿更改浏览器选项。
         </p>
     </description>
 </item>
@@ -234,6 +236,7 @@
         <p>
             Opens about:config in the current tab where you can change advanced &liberator.host;
             preferences.
+			在当前标签页中打开 about:config，这里你可以修改更高阶的 &liberator.host; 选项。
         </p>
     </description>
 </item>
@@ -268,7 +271,7 @@
 
 <!-- TODO: others? -->
 
-<h2 tag="list-options">List of options</h2>
+<h2 tag="list-options">选项清单</h2>
 
 <item>
     <tags>'act' 'activate'</tags>
@@ -362,6 +365,7 @@
             Sets the default search engine. The default search engine name is
             used in the <ex>:open [arg]</ex> command if [arg] neither
             looks like a URL nor like a specified search engine/keyword.
+			设置默认搜索引擎。在命令 <ex>:open [arg]</ex> 中，如果 [arg] 即不像 URL 也不像某特定的搜索引擎/关键字，则默认搜索引擎的名字被调用。
         </p>
 
         <p>
@@ -369,6 +373,7 @@
             then <ex>:open arnold schwarzenegger</ex> will be exactly the same as
             <ex>:open youtube arnold schwarzenegger</ex>. Therefore, you need
             to add a keyword or search engine <str>youtube</str> first.
+			这意味着如果你把 <o>defsearch</o> 设置为 <str>youtube</str>，则 <ex>:open arnold schwarzenegger</ex> 的结果与 <ex>:open youtube arnold schwarzennegger</ex> 是一样的。
         </p>
 
         <p>
@@ -389,6 +394,8 @@
             Set the external text editor.
             Sets the editor to run when <k name="C-i"/> is pressed in Insert and TextArea
             modes.
+			设置外部编辑器。
+			设置在插入模式及文本域模式中按 <k name="C-i"/> 所调用的外部编辑器。
         </p>
 
         <warning>
@@ -463,6 +470,7 @@
         <p>
             Changes the character encoding of the current buffer. Valid only for
             the current page.
+			更改当前 buffer 的字符编码。仅对当前页有效。
         </p>
     </description>
 </item>
@@ -529,6 +537,7 @@
         <p>
             Show the current window fullscreen. Also hide certain GUI elements like the
             statusline.
+			全屏显示当前窗口。隐藏某些 GUI 元素，比如状态栏。
         </p>
     </description>
 </item>
@@ -1400,7 +1409,7 @@
     <type>boolean</type>
     <default>false</default>
     <description>
-        <p>animation on/off.</p>
+        <p>开/关动画。</p>
     </description>
 </item>
 </document>

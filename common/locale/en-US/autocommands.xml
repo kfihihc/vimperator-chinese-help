@@ -5,22 +5,23 @@
 
 <document
     name="autocommands"
-    title="&liberator.appname; Autocommands"
+    title="&liberator.appname; 自动化命令"
     xmlns="http://vimperator.org/namespaces/liberator"
     xmlns:html="http://www.w3.org/1999/xhtml">
-<h1 tag="autocommands">Automatic commands</h1>
+<h1 tag="autocommands">自动化命令</h1>
 <toc start="2"/>
 
 <p>
     Autocommands are a way to automatically execute code when
     certain events happen.
+	自动化命令是指在某些特定事件发生时自动执行代码的方法。
 </p>
 
 <item>
     <tags>:au :autocmd</tags>
     <spec>:au[tocmd]</spec>
     <description>
-        <p>Execute commands automatically on events.</p>
+        <p>在事件发生时自动执行命令。</p>
 
         <p><ex>:au[tocmd]</ex> <a>event</a> <a>pat</a> <a>cmd</a></p>
 
@@ -29,6 +30,7 @@
             option is specified, <a>cmd</a> is executed as JavaScript
             code, with any supplied arguments available as
             variables.
+			如果指定 <em>-javascript</em>（短名字 <em>-js</em>）选项，则 <a>cmd</a> 作为 JavaScript 代码执行， 任何提供的参数作为变量传递。
         </p>
 
         <p>Add <a>cmd</a> to the list of commands &liberator.appname; will execute on <a>event</a> for a URL matching <a>pat</a>:</p>
@@ -75,18 +77,19 @@
         </p>
     </description>
 </item>
-<h2 tag="autocmd-examples">Examples</h2>
+<h2 tag="autocmd-examples">举例</h2>
 
-<p>Enable <em>passthrough</em> mode on all Google sites:</p>
+<p>在所有 Google 网站上启用 <em>passthrough</em> 模式：</p>
 
 <code><ex>:autocmd LocationChange .* js modes.passAllKeys = /google\.com/.test(buffer.URL)</ex></code>
 
-<p>Enable <em>passthrough</em> mode on <em>some</em> Google sites:</p>
+<p>在<em>部分</em> Google 网站上启用 <em>passthrough</em> 模式：</p>
 
 <code><ex>:autocmd LocationChange .* js modes.passAllKeys = /(www|mail)\.google\.com/.test(buffer.URL)</ex></code>
 
 <p>
     Set the filetype to mail when editing email at Gmail:
+	在 Gmail 里编辑邮件里，将文件类型设置为 mail。
 </p>
 
 <code><!-- Why is the XSLT processor mangling newlines? -->

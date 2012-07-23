@@ -5,24 +5,25 @@
 
 <document
     name="marks"
-    title="&liberator.appname; Marks"
+    title="&liberator.appname; 标记"
     xmlns="http://vimperator.org/namespaces/liberator"
     xmlns:html="http://www.w3.org/1999/xhtml">
-<h1 tag="different-marks marks">Marks</h1>
+<h1 tag="different-marks marks">标记</h1>
 <toc start="2"/>
 
 <p>
     &liberator.appname; supports a number of different marks:
+	&liberator.appname; 支持若干不同标记：
 </p>
 
 <ul>
-    <li>Bookmarks which allow you to mark a web page as one of your favorites for easy access.</li>
-    <li>QuickMarks allow you to define up to 62 (a-zA-Z0-9) web sites (or groups of web sites) which you visit most often.</li>
-    <li>Local marks to store the position within a web page.</li>
-    <li>History is also a special type of marks, as &liberator.appname; automatically remembers sites which you have visited in the past.</li>
+    <li>书签，允许你将一个网页标记为你喜欢的，以方便往后访问。</li>
+    <li>快速书签允许你定义多达 62 个（a-zA-Z0-9）你最经常访问的网站（或说网站组）。</li>
+    <li>本地标记可以标记网页中的位置。</li>
+    <li>历史记录也是一种特殊类型的标记，因为 &liberator.appname; 自动记住你过往所访问的网站。</li>
 </ul>
 
-<h1 tag="bookmarks">Bookmarks</h1>
+<h1 tag="bookmarks">书签</h1>
 <toc start="2"/>
 
 <item>
@@ -30,20 +31,21 @@
     <spec>:bma[rk][!] <oa>-title=title</oa> <oa>-keyword=kw</oa> <oa>-tags=tag1,tag2</oa> <oa>-folder=folderPath</oa> <oa>url</oa></spec>
     <spec>a</spec>
     <description>
-        <p>Add a bookmark.</p>
+        <p>增加一个书签。</p>
 
-        <p>The following options are interpreted:</p>
+        <p>以下为选项的释义：The following options are interpreted:</p>
 
         <ul>
-            <li>-title="custom title" (short option: -t)</li>
-            <li>-tags=comma,separated,tag,list (short option: -T)</li>
-            <li>-keyword=keyword (short option: -k)</li>
-            <li>-folder=folderPath (short option: -f)</li>
+            <li>-title="自定义的标题" (短选项: -t)</li>
+            <li>-tags=逗号分隔的标签列表(短选项： -T)</li>
+            <li>-keyword=关键词(短选项： -k)</li>
+            <li>-folder=文件夹路径(短选项： -f)</li>
         </ul>
 
         <p>
             If [!] is present, a new bookmark is always added. Otherwise, the first
             bookmark matching <oa>url</oa> is updated.
+			如果命令含 [!]，则总是增加一个新书签。否则的话，第一个匹配 <oa>url</oa> 的书签被更新。
         </p>
 
         <p>
@@ -52,6 +54,7 @@
             just do <ex>:bmark</ex> to bookmark the currently loaded web page with a default
             title and without any tags.
             And the bookmark root folder is used when <oa>-folder=folderPath</oa> is omitted.
+			在创建新书签时，如果不给出 <oa>-title</oa>，则使用或页面标题，或页面 URL。你也可以忽略可选的 <oa>url</oa> 参数，这样，<ex>:bmark</ex> 会将当前已载入的网页加为书签，并且使用默认标题，不带任何标签。 
         </p>
     </description>
 </item>
@@ -65,6 +68,7 @@
             location, depending on if it is already bookmarked or not. In contrast to the
             <ex>:bmark</ex> command, the bookmark is just <em>starred</em> which means it is placed
             in the <em>Unfiled Bookmarks Folder</em> instead of the bookmarks menu.
+			切换当前 URL 的书签状态。根据它是否已经加入书签，来决定是增加当前地址到书签还是从书签中移除当前地址。与 <ex>:bmark</ex> 命令不同的是，书签仅仅加了 <em>星标</em>，这表示它是放在 <em>未分类书签</em> 文件夹下，而非书签菜单。
         </p>
     </description>
 </item>
@@ -78,14 +82,16 @@
             screen with all bookmarks which match <oa>filter</oa> either in the title or
             URL. You can then use extended hint commands like <k>;o</k> to open the desired
             bookmark.
+			列出或打开多个书签。在屏幕询问打开信息窗口，列出所有无论在标题或 URL 中匹配 <oa>filter</oa> 的书签。你可以使用扩展 hint 命令如 <k>;o</k> 来打开想要的书签。
         </p>
 
         <p>
             The special version <ex>:bmarks!</ex> works the same as <ex>:bmarks</ex> except it
             opens all the found bookmarks in new tabs.
+			命令 <ex>:bmarks!</ex> 与 <ex>:bmarks</ex> 相近，只不过它是在新标签中打开所有找到的书签。
         </p>
 
-        <p>Filter can also contain the following options:</p>
+        <p>Filter 也可以包含以下选项：</p>
 
         <ul>
             <li>-tags=comma,separated,tag,list (short option: -T)</li>
@@ -104,13 +110,14 @@
             Delete a bookmark. Deletes <em>all</em> bookmarks which match the <oa>url</oa>. If
             omitted, <oa>url</oa> defaults to the URL of the current buffer. Use <k name="Tab"/>
             key on a string to complete the URL which you want to delete.
+			删除一个书签。删除所有匹配 <oa>url</oa> 的书签。没有 <oa>url</oa> 的话则默认成当前 buffer 的 URL 地址。按 <k name="Tab"/> 键可以补齐你想删除的 URL 地址。
         </p>
 
-        <p>If ! is specified then all bookmarks will be deleted.</p>
+        <p>！ 表示删除所有的书签。</p>
     </description>
 </item>
 <!-- TODO: why is this duplicated in browsing? -->
-<h1 tag="history">History</h1>
+<h1 tag="history">历史</h1>
 <toc start="2"/>
 
 <item>
@@ -213,7 +220,7 @@
     </description>
 </item>
 
-<h1 tag="quickmarks">QuickMarks</h1>
+<h1 tag="quickmarks">快速标记</h1>
 <toc start="2"/>
 
 <item>
@@ -224,6 +231,7 @@
             Jump to a QuickMark in the current tab. Open any QuickMark in the current tab.
             You can mark any URLs with <k>M</k><a>a-zA-Z0-9</a>. These QuickMarks are
             persistent across browser sessions.
+			在当前标签页访问一个快速标记。你可以使用 <k>M</k><a>a-zA-Z0-9</a> 来标记任何 URL。这些快速标记在不同浏览器会话中是一致的。
         </p>
     </description>
 </item>
@@ -237,10 +245,12 @@
             <k>go</k><a>a-zA-Z0-9</a> but opens the QuickMark in a
             new tab. Whether the new tab is activated or not depends
             on the <o>activate</o> option.
+			在新标签页中访问一个快速标记。类似于 <k>go</k><a>a-zA-Z0-9</a> 用法，只不过在新标签页中打开书签标记。是否新标签页激活为当前取决于 <oa>activate</oa> 选项。
         </p>
         <p>
             Mnemonic: Go in a new tab. <k>gt</k> would make more
             sense but is already taken.
+			记忆法：Go in a new tab。<k>gt</k> 本来会更理想，不过已经被占用。
         </p>
     </description>
 </item>
@@ -255,6 +265,7 @@
             <k>go</k><a>a-zA-Z0-9</a> or in a new tab with
             <k>gn</k><a>a-zA-Z0-9</a>. These QuickMarks are
             persistent across browser sessions.
+			为当前 URL 增加一个新快速标记。之后你可以通过 <k>go</k><a>a-zA-Z0-9</a> 在当前标签页中访问，又或者通过 <k>go</k><a>a-zA-Z0-9</a> 在新标签页中访问。这些快速标记在不同浏览器会话间是一致的。
         </p>
     </description>
 </item>
@@ -264,14 +275,14 @@
     <spec>marks</spec>
     <spec>:delqm[arks]!</spec>
     <description>
-        <p>Delete the specified QuickMarks. QuickMarks are presented as a list.</p>
+        <p>删除快速标记。快速标记呈现为表形式。Delete the specified QuickMarks. QuickMarks are presented as a list.</p>
 
-        <p>Examples:</p>
+        <p>举例：</p>
 
         <ul>
-            <li><ex>:delqmarks Aa b p</ex> deletes QuickMarks A, a, b and p</li>
-            <li><ex>:delqmarks b-p</ex> deletes all QuickMarks in the range b to p</li>
-            <li><ex>:delqmarks!</ex> deletes all QuickMarks</li>
+            <li><ex>:delqmarks Aa b p</ex> 删除了快速标记 A, a, b 和 p</li>
+            <li><ex>:delqmarks b-p</ex> 删除 b 到 p 范围内的快速标记 </li>
+            <li><ex>:delqmarks!</ex> 删除所有快速标记</li>
         </ul>
     </description>
 </item>
@@ -283,6 +294,7 @@
         <p>
             Mark a URL with a letter for quick access. You can also mark whole groups
             like this:
+			用一个字母标记一个 URL 以便快速访问。你也可以像以下这样的方式标记整组的：
         </p>
 
         <p>
@@ -298,10 +310,11 @@
         <p>
             Show all QuickMarks. If <oa>arg</oa> is specified then
             limit the list to those QuickMarks mentioned.
+			显示所有快速标记。如果指定 <oa>arg</oa> 则将列表限定为这些提及的快速标记。
         </p>
     </description>
 </item>
-<h1 tag="localmarks">Local marks</h1>
+<h1 tag="localmarks">本地标记</h1>
 <toc start="2"/>
 
 <item>
@@ -311,6 +324,7 @@
         <p>
             Set mark at the cursor position. Marks a-z are local to the buffer, whereas
             A-Z are valid between buffers.
+			在光标位置设置一个标记。a-z 的标记仅针对当前 buffer，而 A-Z 则跨 buffer 都有效。
         </p>
     </description>
 </item>
@@ -322,6 +336,7 @@
         <p>
             Jump to the mark. Marks a-z are local to the buffer, whereas A-Z are valid
             between buffers.
+			跳转到标记位置。a-z 的标记仅针对当前 buffer，而 A-Z 则跨 buffer 都有效。
         </p>
     </description>
 </item>
@@ -331,14 +346,14 @@
     <spec>marks</spec>
     <spec>:delm[arks]!</spec>
     <description>
-        <p>Delete the specified marks. Marks are presented as a list.</p>
+        <p>删除指定标记。标记呈现为列表形式。</p>
 
-        <p>Examples:</p>
+        <p>举例：</p>
 
         <ul>
-            <li><ex>:delmarks Aa b p</ex> deletes marks A, a, b and p</li>
-            <li><ex>:delmarks b-p</ex> deletes all marks in the range b to p</li>
-            <li><ex>:delmarks!</ex> deletes all marks for the current buffer</li>
+            <li><ex>:delmarks Aa b p</ex> 删除标记 A, a, b 和 p</li>
+            <li><ex>:delmarks b-p</ex> 删除 b 到 p 间的所有标记</li>
+            <li><ex>:delmarks!</ex> 删除当前 buffer 所有标记</li>
         </ul>
 
     </description>
@@ -348,7 +363,7 @@
     <tags>:ma :mark</tags>
     <spec>a-zA-Z</spec>
     <description>
-        <p>Mark current location within the web page.</p>
+        <p>在网页中标记当前位置。</p>
     </description>
 </item>
 
@@ -360,6 +375,7 @@
             Show all location marks of the current web page. If
             <oa>arg</oa> is specified then limit the list to those
             marks mentioned.
+			显示当前网页所有地址标记。如果给出 <oa>arg</oa> 则限定显示这些提及的标记。
         </p>
     </description>
 </item>

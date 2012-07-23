@@ -302,23 +302,25 @@
     words. An abbreviation can be one of three types that are defined by the
     types of constituent characters. Whitespace and quotes are non-keyword
     types, and all other characters are keyword types.
-	&liberator.appname; 可以将识别为缩略词的词自动替换掉，也因此缩略词可以用于减少输入，或者纠正经常拼写错误的单词。
+	&liberator.appname; 可以将识别为缩略词的词自动替换掉，也因此缩略词可以用于减少输入，或者纠正经常拼写错误的单词。根据组成字符的类型可以将缩略词分成三类。空白与引号是非关键词类的，所有其他字符都是关键词类的。
 </p>
 
 <ol>
-    <li>A "full-id" abbreviation consists entirely of keyword characters (e.g., "teh", "msoft").</li>
-    <li>An "end-id" abbreviation ends in keyword character but otherwise contains all non-keyword characters (e.g., "'i").</li>
-    <li>A "non-id" abbreviation ends in a non-keyword character but otherwise contains any non-whitespace character (e.g., "def'").</li>
+    <li>一个 "full-id" 的缩略词整个都由关键词字符组成（比如，"teh", "msoft"）。</li>
+    <li>一个 "end-id" 的缩略词，结尾是关键词字符，其他的则全是非关键词字符（比如，"'i"）。</li>
+    <li>一个 "non-id" 缩略词以非关键词字符结束，其他的是任何非空白符字符（比如，"def'"）。</li>
 </ol>
 
 <p>
     Strings that cannot be abbreviations include "a'b" and "a b".
+	字符串如 "a'b" 和 "a b" 是不能作为缩略词的。
 </p>
 
 <p>
     An abbreviation is recognized when a space, quote character, or
     <k name="C-]"/> is typed after the abbreviation. There are no default
     abbreviations, and abbreviations are never recursive.
+	当缩略词后跟着空格，引号符号或 <k name="C-]"/> 时它就被识别出来。没有默认的缩略词，缩略词也无法递归。
 </p>
 
 <item>
@@ -333,6 +335,7 @@
             <a>rhs</a> will be expanded to the result of the JavaScript code.
             If only <a>lhs</a> is given, list all abbreviations that start with <a>lhs</a>.
             If no arguments are given, list all abbreviations.
+			定义一个缩略词。展开 <a>lhs</a> 成 <a>rhs</a>。如果带 <oa>-javascript</oa> 参数并且 <a>rhs</a> 包含 JavaScript 代码，则 <a>rhs</a> 将展开成 JavaScript 代码的执行结果。如果命令后仅跟着 <a>lhs</a>，则列出所有以 <a>lhs</a> 开头的缩略词。如果没有任何参数，则列出所有缩略词。
         </p>
     </description>
 </item>
@@ -347,6 +350,7 @@
         <p>
             Define an abbreviation for Command-line mode. Same as <ex>:ab<oa>breviate</oa></ex>,
             but for Command-line mode only.
+			为命令行模式定义一个缩略词。类于 <ex>:ab<oa>breviate</oa></ex>，不过仅在命令行模式下。
         </p>
     </description>
 </item>
@@ -361,6 +365,7 @@
         <p>
             Define an abbreviation for Insert mode. Same as <ex>:ab<oa>breviate</oa></ex> but
             for Insert mode only.
+			为插入模式定义一个缩略词。类于 <ex>:ab<oa>breviate</oa></ex>，不过仅在插入模式下。
         </p>
     </description>
 </item>
@@ -370,7 +375,7 @@
     <tags>:una :unabbreviate</tags>
     <spec>:una<oa>bbreviate</oa> <a>lhs</a></spec>
     <description>
-        <p>Remove an abbreviation.</p>
+        <p>移除一个缩略词。</p>
     </description>
 </item>
 
@@ -382,6 +387,7 @@
         <p>
             Remove an abbreviation for Command-line mode. Same as <ex>:una<oa>bbreviate</oa></ex>,
             but for Command-line mode only.
+			移除一个命令行下的缩略词。类于 <ex>:una<oa>bbreviate</oa></ex>，只是仅针对命令行模式。
         </p>
     </description>
 </item>
@@ -394,6 +400,7 @@
         <p>
             Remove an abbreviation for Insert mode. Same as <ex>:una<oa>bbreviate</oa></ex> but for
             Insert mode only.
+			移除一个插入模式下的缩略词。类于 <ex>:una<oa>bbreviate</oa></ex>，只是仅针对插入模式。
         </p>
     </description>
 </item>
@@ -403,7 +410,7 @@
     <tags>:abc :abclear</tags>
     <spec>:abc<oa>lear</oa></spec>
     <description>
-        <p>Remove all abbreviations.</p>
+        <p>移除所有缩略词。</p>
     </description>
 </item>
 
@@ -412,7 +419,7 @@
     <tags>:cabc :cabclear</tags>
     <spec>:cabc<oa>lear</oa></spec>
     <description>
-        <p>Remove all abbreviations for Command-line mode.</p>
+        <p>移除命令行模式下所有缩略词。</p>
     </description>
 </item>
 
@@ -421,18 +428,18 @@
     <tags>:iabc :iabclear</tags>
     <spec>:iabc<oa>lear</oa></spec>
     <description>
-        <p>Remove all abbreviations for Insert mode.</p>
+        <p>移除插入模式下所有缩略词。</p>
     </description>
 </item>
 
 
-<h2 tag="user-commands">User-defined commands</h2>
+<h2 tag="user-commands">用户定义命令</h2>
 
 <item>
     <tags>:com :command</tags>
     <spec>:com<oa>mand</oa></spec>
     <description>
-        <p>List all user-defined commands.</p>
+        <p>列出所有用户定义命令。</p>
     </description>
 </item>
 
@@ -440,7 +447,7 @@
 <item>
     <spec>:com<oa>mand</oa> <a>cmd</a></spec>
     <description>
-        <p>List all user-defined commands that start with <a>cmd</a>.</p>
+        <p>列出所有以 <a>cmd</a> 开头的用户定义命令。</p>
     </description>
 </item>
 
@@ -454,11 +461,13 @@
             already exists an error is reported unless <oa>!</oa> is specified, in which case the
             command is redefined. Unlike Vim, the command may start with a lowercase
             letter.
+			定义一个新的用户命令。命令名称是 <a>cmd</a>，它的替换文本是 <a>rep</a>。而属性则是 <a>attr</a>。如果指定的命令名称已经存在就会报告一个错误，除非使用 <oa>!</oa>，这种情况下命令就被重定义了。不像 Vim，这儿的命令可以以小写字母开头。
         </p>
 
         <p>
             The command's behavior can be specified by providing attributes when the
             command is defined.
+			命令定义时，命令的行为可以通过提供属性来指定。
         </p>
 
         <p tag=":command-nargs">
@@ -468,26 +477,28 @@
         <p>
             By default user commands accept no arguments. This can be changed by specifying
             the -nargs attribute.
+			默认的，用户命令不接受参数。不过可以通过指定 -nargs 属性来改变。
         </p>
 
-        <p>The valid values are:</p>
+        <p>有效的值为：</p>
 
         <dl>
-            <dt>-nargs=0</dt><dd>No arguments are allowed (default)</dd>
-            <dt>-nargs=1</dt><dd>One argument is allowed</dd>
-            <dt>-nargs=*</dt><dd>Zero or more arguments are allowed</dd>
-            <dt>-nargs=?</dt><dd>Zero or one argument is allowed</dd>
-            <dt>-nargs=+</dt><dd>One or more arguments are allowed</dd>
+            <dt>-nargs=0</dt><dd>不接受参数（默认值）</dd>
+            <dt>-nargs=1</dt><dd>接受一个参数</dd>
+            <dt>-nargs=*</dt><dd>接受零个或更多参数</dd>
+            <dt>-nargs=?</dt><dd>接受零个或1个参数</dd>
+            <dt>-nargs=+</dt><dd>接受1个及1个以上参数</dd>
         </dl>
 
         <p tag=":command-complete">
-            Argument completion
+			补齐参数
         </p>
 
         <p>
             Completion for arguments to user defined commands is not available by default.
             Completion can be enabled by specifying one of the following arguments to the
             -complete option when defining the command.
+			默认情况下，用户定义命令的参数并不支持补齐。不过可以在定义命令时通过指定下列参数给 -complete 选项来开始补齐功能。
         </p>
 
         <dl>
@@ -519,7 +530,7 @@
         </dl>
 
         <p tag=":command-completion-custom">
-            Custom completion
+			自定义补齐
         </p>
 
         <p>
@@ -528,6 +539,7 @@
             an object describing the command's arguments. It should set the context's
             <str>completions</str> property, or return an object, with <str>items</str> and <str>start</str>
             properties, describing the completions and where the replacement is to start.
+			通过指定 <str>custome,<a>func</a></str> 参数给 -complete 我们可以提供自定义补齐。
         </p>
 
         <p>
@@ -603,7 +615,7 @@
     <tags>:comc :comclear</tags>
     <spec>:comc<oa>lear</oa></spec>
     <description>
-        <p>Delete all user-defined commands.</p>
+        <p>删除所有用户定义命令。</p>
     </description>
 </item>
 
@@ -612,14 +624,14 @@
     <tags>:delc :delcommand</tags>
     <spec>:delc<oa>ommand</oa> <a>cmd</a></spec>
     <description>
-        <p>Delete the user-defined command <a>cmd</a>.</p>
+        <p>删除用户定义命令 <a>cmd</a>。</p>
     </description>
 </item>
 
 
-<h2 tag="command-examples">Examples</h2>
+<h2 tag="command-examples">例子</h2>
 
-<p>Add a :Google command to search via google:</p>
+<p>增加一个 :Google 命令，可以打开 google 搜索内容：</p>
 <code><ex>:command -nargs=* Google open google &lt;args></ex></code>
 
 <!-- TODO: add decent examples -->

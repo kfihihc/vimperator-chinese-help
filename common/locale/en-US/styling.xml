@@ -5,10 +5,10 @@
 
 <document
     name="styling"
-    title="&liberator.appname; Styling"
+    title="&liberator.appname; 样式化"
     xmlns="http://vimperator.org/namespaces/liberator"
     xmlns:html="http://www.w3.org/1999/xhtml">
-<h1 tag="styling">Styling the GUI and web pages</h1>
+<h1 tag="styling">样式化 GUI 与网页</h1>
 <toc start="2"/>
 
 <p>
@@ -16,6 +16,7 @@
     styling is specified via CSS. Although you may style any user interface element
     via the <ex>:style</ex> command, most &liberator.appname; elements can be styled with the
     <ex>:highlight</ex> command, for convenience.
+	&liberator.appname; 允许你样式化浏览器及你所见的任何网页。所有的样式化都通过 CSS。虽然你可以通过 <ex>:style</ex> 命令样式化任何用户界面元素，但大部分的 &liberator.appname; 元素为了方便，可以通过 <ex>:highlight</ex> 命令来样式化。
 </p>
 
 <item>
@@ -25,6 +26,7 @@
         <p>
             Load a color scheme. <a>name</a> is found by searching the <o>runtimepath</o> for the
             first file matching colors/<a>name</a>.vimp.
+			载入一个配色方案。
         </p>
 
         <p>

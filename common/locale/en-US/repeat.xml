@@ -8,12 +8,12 @@
     title="&liberator.appname; Repeating Commands"
     xmlns="http://vimperator.org/namespaces/liberator"
     xmlns:html="http://www.w3.org/1999/xhtml">
-<h1 tag="repeating">Repeating commands</h1>
+<h1 tag="repeating">重复命令</h1>
 <toc start="2"/>
 
-<p>&liberator.appname; can repeat a number of commands and record macros.</p>
+<p>&liberator.appname; 可以重放许多命令，并且可以记录宏。</p>
 
-<h2 tag="single-repeat">Single repeats</h2>
+<h2 tag="single-repeat">单次重放</h2>
 
 <item>
     <tags>.</tags>
@@ -23,6 +23,7 @@
             Repeat the last keyboard mapping <oa>count</oa> times. Note that, unlike in Vim, this
             does not apply solely to editing commands, mainly because &liberator.appname; doesn't
             have them.
+			重复最后一次键映射 <oa>count</oa> 次。注意，与 Vim 不同的是，这并无法应用于编辑命令，主要因为 &liberator.appname; 并没有这些。
         </p>
     </description>
 </item>
@@ -32,13 +33,13 @@
     <tags>@:</tags>
     <spec><oa>count</oa>@:</spec>
     <description>
-        <p>Repeat the last Ex command <oa>count</oa> times.</p>
+        <p>重复 <oa>count</oa> 次最后一个 Ex 命令。Repeat the last Ex command <oa>count</oa> times.</p>
     </description>
 </item>
 
 
 
-<h2 tag="macros complex-repeat">Macros</h2>
+<h2 tag="macros complex-repeat">宏</h2>
 
 <item>
     <tags>q</tags>
@@ -48,6 +49,8 @@
             Record a key sequence into a macro.
             Available macros are {0-9a-zA-Z} (uppercase to append).
             Type <k>q</k> to stop recording.
+			录制一个键序列到宏中。可用的宏有{0-9a-zA-Z}()。
+			按 <k>q</k> 停止录制。
         </p>
     </description>
 </item>
@@ -60,6 +63,7 @@
         <p>
             List recorded macros matching the optional regular expression <oa>pat</oa>. If
             no regex is given, list all macros.
+			列出符合可选的正则规则 <oa>pat</oa> 的宏。如果没有正则规则，请列出所有宏。
         </p>
     </description>
 </item>
@@ -73,6 +77,7 @@
         <p>
             Delete recorded macros matching the regular expression <a>args</a>. If <oa>!</oa> is given
             all macros are deleted.
+			删除所有符合正则表达式 <a>args</a> 的录制宏。如果指定 <oa>!</oa>，则删除所有宏。
         </p>
     </description>
 </item>
@@ -101,7 +106,7 @@
 
 
 
-<h2 tag="using-scripts">Using scripts</h2>
+<h2 tag="using-scripts">使用脚本</h2>
 
 <item>
     <tags>:so :source</tags>
@@ -111,6 +116,7 @@
             Read Ex commands, JavaScript, or CSS from <a>file</a>. You can either source files
             which mostly contain Ex commands like <ex>map &lt; gt</ex> and put JavaScript code
             within a:
+			从 <a>file</a> 里读入 Ex 命令，JavaScript 或 CSS。你或者可以导入一种文件，它们大量包含 Ex 命令如 <ex>map &lt; gt</ex> 然后把 JavaScript 代码放入以下格式中：
         </p>
 
         <code><![CDATA[
@@ -122,6 +128,7 @@ EOF
 ]]></code>
 
         <p>
+			又或者你可以导入以 <tt>.js</tt> 结尾的文件。这些文件将作为纯正的 JavaScript 文件自动导入。
             Or you can alternatively source a file which ends in <tt>.js</tt>. These files are
             automatically sourced as pure JavaScript files.
         </p>
@@ -129,6 +136,7 @@ EOF
         <p>
             Note: In both cases you must add functions to the global window object like
             shown above, functions written as:
+			注意：两种情况下，你都必须将函数添加到全局窗口对象，比如上面例子所示，函数写作：
         </p>
 
 <code><![CDATA[
@@ -136,7 +144,7 @@ function hello2() {
     alert("Hello world");
 }
 ]]></code>
-        <p>are only available within the scope of the script.</p>
+        <p>则只在脚本范围内可用。</p>
 
         <p>
             The <tt>.&liberator.name;rc</tt> file in your home directory and any
@@ -144,6 +152,7 @@ function hello2() {
             sourced at startup. <tt>~</tt> is supported as a
             shortcut for the <tt>$HOME</tt> directory. If <oa>!</oa> is
             specified, errors are not printed.
+			你的主目录下的 <tt>.&liberator.name;rc</tt> 文件及其他任何 <tt>~/.&liberator.name;/plugin/</tt> 文件夹下的文件也会在启动时导入。<tt>~</tt>是一个快捷方式，指示 <tt>$HOME</tt> 目录。如果给出 <oa>!</oa>，则不输出错误信息。
         </p>
     </description>
 </item>
@@ -159,6 +168,7 @@ function hello2() {
             in the &liberator.name;rc file if &liberator.name;rc also includes commands that are
             implemented by plugins. Additionally, this command allows for sourcing
             new plugins without restarting &liberator.appname;.
+			立即加载所有卸下的插件。因为插件在 &liberator.name;rc 文件导入到自动加载，所以如果 &liberator.name;rc 文件中含有插件要应用的命令，则本命令必须放在 &liberator.name;rc 文件的前头。另外，这个命令还允许载入新的插件而不无需重启 &liberator.appname;。
         </p>
     </description>
 </item>
@@ -184,7 +194,7 @@ function hello2() {
     <tags>:scrip :scriptnames</tags>
     <spec>:scrip<oa>tnames</oa></spec>
     <description>
-        <p>List all sourced script names, in the order they were first sourced.</p>
+        <p>列出所有导入的脚本名称，按它们第一次导入的顺序排列。List all sourced script names, in the order they were first sourced.</p>
     </description>
 </item>
 
@@ -196,6 +206,7 @@ function hello2() {
         <p>
             Stop sourcing a script file. This can only be called from within a &liberator.appname;
             script file.
+			停止载入脚本文件。这个命令只能从 &liberator.appname; 脚本文件内容调用。
         </p>
     </description>
 </item>

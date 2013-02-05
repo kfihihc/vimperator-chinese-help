@@ -18,19 +18,18 @@ function array(obj) {
 
 function allkeys(obj) {
     for(; obj; obj = obj.__proto__)
-        for (let [, prop] in Iterator(Object.getOwnPropertyNames(obj)))
+        for (let prop of Object.getOwnPropertyNames(obj))
             yield prop;
 }
 
 function keys(obj) {
-    for (let [, prop] in Iterator(Object.getOwnPropertyNames(obj)))
+    for (let prop of Object.getOwnPropertyNames(obj))
         yield prop;
 }
 
 function values(obj) {
-    for (var k in obj)
-        if (obj.hasOwnProperty(k))
-            yield obj[k];
+    for (var k of Object.keys(obj))
+        yield obj[k];
 }
 
 function foreach(iter, fn, self) {
@@ -46,16 +45,6 @@ function dict(ary) {
     }
     return obj;
 }
-
-function set(ary) {
-    var obj = {};
-    if (ary)
-        for (var i = 0; i < ary.length; i++)
-            obj[ary[i]] = true;
-    return obj;
-}
-set.add = function (set, key) { set[key] = true; }
-set.remove = function (set, key) { delete set[key]; }
 
 function iter(obj) {
     if (obj instanceof Ci.nsISimpleEnumerator)
@@ -77,11 +66,11 @@ function iter(obj) {
             catch (e) {}
         })();
     if (isinstance(obj, [HTMLCollection, NodeList]))
-        return util.Array.iteritems(obj);
+        return (node for (node of obj));
     if (obj instanceof NamedNodeMap)
         return (function () {
-            for (let i = 0; i < obj.length; i++)
-                yield [obj.name, obj];
+            for (let i = 0, len = obj.length; i < len; ++i)
+                yield [obj[i].name, obj[i]];
         })();
     return Iterator(obj);
 }
@@ -152,8 +141,8 @@ function callable(val) {
     return typeof val === "function";
 }
 
-function call(fn) {
-    fn.apply(arguments[1], Array.slice(arguments, 2));
+function call(fn, context, ...args) {
+    fn.apply(context, args);
     return fn;
 }
 
@@ -223,32 +212,27 @@ function curry(fn, length, self, acc) {
  *    May be provided multiple times.
  * @returns {Object} Returns its updated first argument.
  */
-function update(target) {
-    for (let i = 1; i < arguments.length; i++) {
-        let src = arguments[i];
-        foreach(keys(src || {}), function (k) {
-            var get = src.__lookupGetter__(k),
-                set = src.__lookupSetter__(k);
-            if (!get && !set) {
-                var v = src[k];
-                target[k] = v;
-                if (target.__proto__ && callable(v)) {
-                    if (callable(target.__proto__[k])) {
-                        v.superapply = function superapply(self, args) {
-                            return target.__proto__[k].apply(self, args);
-                        };
-                        v.supercall = function supercall(self) {
-                            return v.superapply(self, Array.slice(arguments, 1));
-                        };
-                    }
-                    else
-                        v.superapply = v.supercall = function dummy() {};
-                }
+function update(target, ...sources) {
+    for (let src of sources) {
+        if (!src)
+            continue;
+
+        foreach(keys(src), function (k) {
+            let desc = Object.getOwnPropertyDescriptor(src, k);
+            Object.defineProperty(target, k, desc);
+            if (("value" in desc) && callable(desc.value)) {
+                let v = desc.value,
+                    proto = Object.getPrototypeOf(target);
+                if (proto && (k in proto) && callable(proto[k])) {
+                    v.superapply = function superapply(self, args) {
+                        return proto[k].apply(self, args);
+                    };
+                    v.supercall = function supercall(self, ...args) {
+                        return v.superapply(self, args);
+                    };
+                } else
+                    v.superapply = v.supercall = function dummy() {};
             }
-            if (get)
-                target.__defineGetter__(k, get);
-            if (set)
-                target.__defineSetter__(k, set);
         });
     }
     return target;
@@ -393,23 +377,25 @@ Class.prototype = {
  *
  * @returns {function} The constructor for the new Struct.
  */
-function Struct() {
-    let args = Array.slice(arguments);
+function Struct(...args) {
     const Struct = Class("Struct", StructBase, {
         length: args.length,
         members: args
     });
     args.forEach(function (name, i) {
-        Struct.prototype.__defineGetter__(name, function () this[i]);
-        Struct.prototype.__defineSetter__(name, function (val) { this[i] = val; });
+        Object.defineProperty(Struct.prototype, name, {
+            get: function () this[i],
+            set: function (val) { this[i] = val },
+            enumerable: true,
+        });
     });
     return Struct;
 }
 const StructBase = Class("StructBase", {
-    init: function () {
-        for (let i = 0; i < arguments.length; i++)
-            if (arguments[i] != undefined)
-                this[i] = arguments[i];
+    init: function (...args) {
+        for (var i = 0, len = args.length; i < len; ++i)
+            if (args[i] != null)
+                this[i] = args[i];
     },
 
     clone: function clone() this.constructor.apply(null, this.slice()),
@@ -417,7 +403,7 @@ const StructBase = Class("StructBase", {
     // Iterator over our named members
     __iterator__: function () {
         let self = this;
-        return ([k, self[k]] for (k in values(self.members)))
+        return ([k, self[i]] for ([i, k] in Iterator(self.members)))
     }
 }, {
     /**
@@ -431,11 +417,32 @@ const StructBase = Class("StructBase", {
      *     the default value.
      */
     defaultValue: function (key, val) {
-        let i = this.prototype.members.indexOf(key);
-        this.prototype.__defineGetter__(i, function () (this[i] = val.call(this), this[i])); // Kludge for FF 3.0
-        this.prototype.__defineSetter__(i, function (value) {
-            this.__defineGetter__(i, function () value);
-            this.__defineSetter__(i, function (val) { value = val; });
+        let proto = this.prototype;
+        let i = proto.members.indexOf(key);
+        if (i === -1)
+            return;
+
+        Object.defineProperty(this.prototype, i, {
+            get: function () {
+                if (this === proto)
+                    return;
+
+                var value = val.call(this);
+                Object.defineProperty(this, i, {
+                    value: value,
+                    writable: true
+                });
+                return value;
+            },
+            set: function (value) {
+                if (this === proto)
+                    return;
+
+                Object.defineProperty(this, i, {
+                    value: value,
+                    writable: true,
+                })
+            },
         });
     }
 });

@@ -8,25 +8,25 @@
     xmlns:html="http://www.w3.org/1999/xhtml">
 
 <dl tag="autocommand-list" replace="autocommand-list">
-    <dt>BookmarkAdd</dt>       <dd>Triggered after a page is bookmarked</dd>
-    <dt>ColorScheme</dt>       <dd>Triggered after a color scheme has been loaded</dd>
-    <dt>DOMLoad</dt>           <dd>Triggered when a page's DOM content has fully loaded</dd>
-    <dt>DownloadPost</dt>      <dd>Triggered when a download has completed</dd>
-    <dt>Fullscreen</dt>        <dd>Triggered when the browser's fullscreen state changes</dd>
-    <dt>LocationChange</dt>    <dd>Triggered when changing tabs or when navigating to a new location</dd>
-    <dt>PageLoadPre</dt>       <dd>Triggered after a page load is initiated</dd>
-    <dt>PageLoad</dt>          <dd>Triggered when a page gets (re)loaded/opened</dd>
-    <dt>PrivateMode</dt>       <dd>Triggered when private mode is activated or deactivated</dd>
-    <dt>Sanitize</dt>	       <dd>Triggered when privata data are sanitized</dd>
-    <dt>ShellCmdPost</dt>      <dd>Triggered after executing a shell command with <ex>:!</ex><a>cmd</a></dd>
-    <dt>&liberator.appname;Enter</dt>   <dd>Triggered after &liberator.host; starts</dd>
-    <dt>&liberator.appname;LeavePre</dt><dd>Triggered before exiting &liberator.host;, just before destroying each module</dd>
-    <dt>&liberator.appname;Leave</dt>   <dd>Triggered before exiting &liberator.host;</dd>
+    <dt>BookmarkAdd</dt>       <dd>在页面被收藏后触发Triggered after a page is bookmarked</dd>
+    <dt>ColorScheme</dt>       <dd>在载入配色方案后触发Triggered after a color scheme has been loaded</dd>
+    <dt>DOMLoad</dt>           <dd>页面 DOM 内容完全加载后触发Triggered when a page's DOM content has fully loaded</dd>
+    <dt>DownloadPost</dt>      <dd>在一个下载任务完全后触发Triggered when a download has completed</dd>
+    <dt>Fullscreen</dt>        <dd>在浏览器全屏状态改变时触发Triggered when the browser's fullscreen state changes</dd>
+    <dt>LocationChange</dt>    <dd>在切换标签页或导航至新位置时触发Triggered when changing tabs or when navigating to a new location</dd>
+    <dt>PageLoadPre</dt>       <dd>在页面载入初始化后触发Triggered after a page load is initiated</dd>
+    <dt>PageLoad</dt>          <dd>在页面载入(重载)或打开时触发Triggered when a page gets (re)loaded/opened</dd>
+    <dt>PrivateMode</dt>       <dd>在隐私模式启用或禁用时触发Triggered when private mode is activated or deactivated</dd>
+    <dt>Sanitize</dt>	       <dd>在清除隐私模式时触发Triggered when privata data are sanitized</dd>
+	<dt>ShellCmdPost</dt>      <dd>在执行 <ex>:!</ex><a>cmd</a> shell 命令后触发Triggered after executing a shell command with <ex>:!</ex><a>cmd</a></dd>
+    <dt>&liberator.appname;Enter</dt>   <dd>在 &liberator.host; 启动后触发Triggered after &liberator.host; starts</dd>
+    <dt>&liberator.appname;LeavePre</dt><dd>退出 &liberator.host; 之后、销毁每个模块之前触发Triggered before exiting &liberator.host;, just before destroying each module</dd>
+    <dt>&liberator.appname;Leave</dt>   <dd>在退出 &liberator.host; 之前触发Triggered before exiting &liberator.host;</dd>
 </dl>
 
 <dl tag="autocommand-args" replace="autocommand-args">
     <dt>&lt;url></dt>       <dd>The URL against which the event was selected.</dd>
-    <dt>&lt;title></dt>     <dd>The page, bookmark or download title.</dd>
+    <dt>&lt;title></dt>     <dd>页面、书签或下载的标题。The page, bookmark or download title.</dd>
     <dt>&lt;doc></dt>       <dd>The document for which the event occurred. Only for <em>DOMLoad</em>, <em>PageLoad</em> and <em>PageLoadPre</em>.</dd>
     <dt>&lt;tab></dt>       <dd>The tab in which the event occurred. Only for <em>DOMLoad</em>, <em>PageLoad</em> and <em>PageLoadPre</em>.</dd>
     <dt>&lt;tags></dt>      <dd>The tags applied to &lt;url>. Only for <em>BookmarkAdd</em>.</dd>

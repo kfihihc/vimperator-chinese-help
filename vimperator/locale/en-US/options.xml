@@ -58,6 +58,7 @@
     <description>
         <p>Transform the current tab into an app tab. Firefox always displays
             app tabs at the left of all tabs and minimizes it to its favicon.
+			将当前标签页转为 app 标签页。Firefox 将 app 标签面始终显示在所有标签页的左侧，并将其标签页大小最小化至 favicon 大小。
         </p>
     </description>
 </item>

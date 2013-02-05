@@ -70,7 +70,7 @@ const Buffer = Module("buffer", {
                     nFeed++;
                     let type = feedTypes[feed.type] || "RSS";
                     if (verbose)
-                        yield [feed.title, template.highlightURL(feed.href, true) + <span class="extra-info">&#xa0;({type})</span>];
+                        yield [feed.title, xml`${template.highlightURL(feed.href, true)}<span class="extra-info">&#xa0;(${type})</span>`];
                 }
             }
 
@@ -85,7 +85,7 @@ const Buffer = Module("buffer", {
             const ACCESS_READ = Ci.nsICache.ACCESS_READ;
             let cacheKey = doc.location.toString().replace(/#.*$/, "");
 
-            for (let proto in util.Array.itervalues(["HTTP", "FTP"])) {
+            for (let proto of ["HTTP", "FTP"]) {
                 try {
                     var cacheEntryDescriptor = services.get("cache").createSession(proto, 0, true)
                                                        .openCacheEntry(cacheKey, ACCESS_READ, false);
@@ -552,7 +552,7 @@ const Buffer = Module("buffer", {
             }
 
             let res = util.evaluateXPath(options.get("hinttags").value, frame.document);
-            for (let [, regex] in Iterator(regexes)) {
+            for (let regex of regexes) {
                 for (let i in util.range(res.snapshotLength, 0, -1)) {
                     let elem = res.snapshotItem(i);
                     if (regex.test(elem.textContent) || regex.test(elem.title) ||
@@ -675,7 +675,7 @@ const Buffer = Module("buffer", {
             window.urlSecurityCheck(url, doc.nodePrincipal);
             // we always want to save that link relative to the current working directory
             options.setPref("browser.download.lastDir", io.getCurrentDirectory().path);
-            window.saveURL(url, text, null, true, skipPrompt, makeURI(url, doc.characterSet));
+            window.saveURL(url, text, null, true, skipPrompt, makeURI(url, doc.characterSet), doc);
         }
         catch (e) {
             liberator.echoerr(e);
@@ -858,7 +858,7 @@ const Buffer = Module("buffer", {
 
         // add the frame indicator
         let doc = frames[next].document;
-        let indicator = util.xmlToDom(<div highlight="FrameIndicator"/>, doc);
+        let indicator = util.xmlToDom(xml`<div highlight="FrameIndicator"/>`, doc);
         doc.body.appendChild(indicator);
 
         setTimeout(function () { doc.body.removeChild(indicator); }, 500);
@@ -876,7 +876,7 @@ const Buffer = Module("buffer", {
      * @param {Node} elem The element to query.
      */
     showElementInfo: function (elem) {
-        liberator.echo(<>Element:<br/>{util.objectToString(elem, true)}</>, commandline.FORCE_MULTILINE);
+        liberator.echo(xml`Element:<br/>${util.objectToString(elem, true)}`, commandline.FORCE_MULTILINE);
     },
 
     /**
@@ -893,23 +893,23 @@ const Buffer = Module("buffer", {
             let file = content.document.location.pathname.split("/").pop() || "[No Name]";
             let title = content.document.title || "[No Title]";
 
-            let info = template.map("gf",
-                function (opt) template.map(buffer.pageInfo[opt][0](), util.identity, ", "),
+            let info = template.map2(xml, "gf",
+                function (opt) template.map2(xml, buffer.pageInfo[opt][0](), util.identity, ", "),
                 ", ");
 
             if (bookmarks.isBookmarked(this.URL))
-                info += ", bookmarked";
+                xml["+="](info, ", bookmarked");
 
-            let pageInfoText = <>{file.quote()} [{info}] {title}</>;
+            let pageInfoText = xml`${file.quote()} [${info}] ${title}`;
             liberator.echo(pageInfoText, commandline.FORCE_SINGLELINE);
             return;
         }
 
         let option = sections || options["pageinfo"];
-        let list = template.map(option, function (option) {
+        let list = template.map2(xml, option, function (option) {
             let opt = buffer.pageInfo[option];
-            return opt ? template.table(opt[1], opt[0](true)) : undefined;
-        }, <br/>);
+            return opt ? template.table2(xml, opt[1], opt[0](true)) : undefined;
+        }, xml`<br/>`);
         liberator.echo(template.genericOutput("Page Information", list), commandline.FORCE_MULTILINE);
     },
 
@@ -952,7 +952,7 @@ const Buffer = Module("buffer", {
             editor.editFileExternally(url);
         else {
             const PREFIX = "view-source:";
-            if (url.indexOf(PREFIX) == 0)
+            if (url.startsWith(PREFIX))
                 url = url.substr(PREFIX.length);
             else
                 url = PREFIX + url;
@@ -998,7 +998,7 @@ const Buffer = Module("buffer", {
             html.blur();
 
             selection.removeAllRanges();
-            for (let [,r] in Iterator(ranges))
+            for (let r of ranges)
                 selection.addRange(r);
             events.onFocusChange({});
         } else
@@ -1274,7 +1274,7 @@ const Buffer = Module("buffer", {
 
                 window.internalSave(doc.location.href, doc, null, contentDisposition,
                     doc.contentType, false, null, chosenData, doc.referrer ?
-                    window.makeURI(doc.referrer) : null, true);
+                    window.makeURI(doc.referrer) : null, doc, true);
             },
             {
                 argCount: "?",
@@ -1354,11 +1354,15 @@ const Buffer = Module("buffer", {
             return " ";
         }
         function getURLFromTab (tab) {
-            if ("linkedBrowser" in tab)
-                return ("__SS_restoreState" in tab.linkedBrowser && "__SS_data" in tab.linkedBrowser) ?
-                    tab.linkedBrowser.__SS_data.entries.slice(-1)[0].url :
-                    tab.linkedBrowser.contentDocument.location.href;
-            else {
+            if ("linkedBrowser" in tab) {
+                if ("__SS_restoreState" in tab.linkedBrowser && "__SS_data" in tab.linkedBrowser) {
+                    if (tab.linkedBrowser.__SS_data.entries.length)
+                        return tab.linkedBrowser.__SS_data.entries.slice(-1)[0].url;
+                    else
+                        return tab.linkedBrowser.__SS_data.userTypedValue || 'about:blank';
+                } else
+                    return tab.linkedBrowser.contentDocument.location.href;
+            } else {
                 let i = config.tabbrowser.mTabContainer.getIndexOfItem(tab);
                 let info = config.tabbrowser.tabInfo[i];
                 return info.browser ?
@@ -1413,10 +1417,10 @@ const Buffer = Module("buffer", {
             context.compare = CompletionContext.Sort.number;
             let process = context.process[0];
             context.process = [function (item, text)
-                    <>
-                        <span highlight="Indicator" style="display: inline-block; width: 2ex; padding-right: 0.5ex; text-align: right">{item.item.indicator}</span>
-                        { process.call(this, item, text) }
-                    </>];
+                    xml`
+                        <span highlight="Indicator" style="display: inline-block; width: 2ex; padding-right: 0.5ex; text-align: right">${item.item.indicator}</span>
+                        ${ process.call(this, item, text) }
+                    `];
 
             let tabs;
             if (!flags) {
@@ -1436,7 +1440,7 @@ const Buffer = Module("buffer", {
             if (flags & this.buffer.GROUPS) {
                 let activeGroup = groups.getActiveGroupItem();
                 let activeGroupId = activeGroup === null ? null : activeGroup.id;
-                for (let [i, group] in Iterator(groups.groupItems)) {
+                for (let group of groups.groupItems) {
                     if (group.id != activeGroupId) {
                         let groupName = group.getTitle();
                         context.fork("GROUP_" + group.id, 0, this, function (context) {

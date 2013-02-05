@@ -24,7 +24,7 @@ const Script = Class("Script", {
         this.__proto__ = plugins;
 
         // This belongs elsewhere
-        for (let [, dir] in Iterator(io.getRuntimeDirectories("plugin"))) {
+        for (let dir of io.getRuntimeDirectories("plugin")) {
             if (dir.contains(file, false))
                 plugins[this.NAME] = this;
         }
@@ -332,7 +332,7 @@ const IO = Module("io", {
 
         this.downloadListener = {
             onDownloadStateChange: function (state, download) {
-                if (download.state == services.get("downloadManager").DOWNLOAD_FINISHED) {
+                if (download.state == services.get("downloads").DOWNLOAD_FINISHED) {
                     let url   = download.source.spec;
                     let title = download.displayName;
                     let file  = download.targetFile.path;
@@ -346,14 +346,11 @@ const IO = Module("io", {
             onProgressChange: function () {},
             onSecurityChange: function () {}
         };
-
-        services.add("UUID",  "@mozilla.org/uuid-generator;1", Ci.nsIUUIDGenerator);
-
-        services.get("downloadManager").addListener(this.downloadListener);
+        services.get("downloads").addListener(this.downloadListener);
     },
 
     destroy: function () {
-        services.get("downloadManager").removeListener(this.downloadListener);
+        services.get("downloads").removeListener(this.downloadListener);
         for (let [, plugin] in Iterator(plugins.contexts))
             if (plugin.onUnload)
                 plugin.onUnload();
@@ -516,7 +513,7 @@ const IO = Module("io", {
                 dirs = [io.getCurrentDirectory().path].concat(dirs);
 
 lookup:
-            for (let [, dir] in Iterator(dirs)) {
+            for (let dir of dirs) {
                 file = File.joinPaths(dir, program);
                 try {
                     if (file.exists())
@@ -526,7 +523,7 @@ lookup:
                     // automatically try to add the executable path extensions on windows
                     if (liberator.has("Windows")) {
                         let extensions = services.get("environment").get("PATHEXT").split(";");
-                        for (let [, extension] in Iterator(extensions)) {
+                        for (let extension of extensions) {
                             file = File.joinPaths(dir, program + extension);
                             if (file.exists())
                                 break lookup;
@@ -580,8 +577,8 @@ lookup:
         liberator.log("Searching for \"" + paths.join(" ") + "\" in \"" + options["runtimepath"] + "\"");
 
         outer:
-        for (let [, dir] in Iterator(dirs)) {
-            for (let [, path] in Iterator(paths)) {
+        for (let dir of dirs) {
+            for (let path of paths) {
                 let file = File.joinPaths(dir, path);
 
                 if (file.exists() && file.isFile() && file.isReadable()) {
@@ -646,7 +643,7 @@ lookup:
                     let err = new Error();
                     for (let [k, v] in Iterator(e))
                         err[k] = v;
-                    err.echoerr = <>{file.path}:{e.lineNumber}: {e}</>;
+                    err.echoerr = xml`${file.path}:${e.lineNumber}: ${e}`;
                     throw err;
                 }
             }
@@ -846,7 +843,7 @@ lookup:
                     let dirs = File.getPathsFromPathList(options["cdpath"]);
                     let found = false;
 
-                    for (let [, dir] in Iterator(dirs)) {
+                    for (let dir of dirs) {
                         dir = File.joinPaths(dir, arg);
 
                         if (dir.exists() && dir.isDirectory() && dir.isReadable()) {
@@ -970,7 +967,7 @@ lookup:
                 let output = io.system(arg);
 
                 commandline.command = "!" + arg;
-                commandline.echo(template.genericOutput("Command Output: " + arg, <span highlight="CmdOutput">{output}</span>));
+                commandline.echo(template.genericOutput("Command Output: " + arg, xml`a<span highlight="CmdOutput">${String(output)}</span>`));
 
                 autocommands.trigger("ShellCmdPost", {});
             }, {
@@ -1062,7 +1059,7 @@ lookup:
                 let dirNames = services.get("environment").get("PATH").split(RegExp(liberator.has("Windows") ? ";" : ":"));
                 let commands = [];
 
-                for (let [, dirName] in Iterator(dirNames)) {
+                for (let dirName of dirNames) {
                     let dir = io.File(dirName);
                     if (dir.exists() && dir.isDirectory()) {
                         commands.push([[file.leafName, dir.path] for (file in dir.iterDirectory())

@@ -12,7 +12,7 @@ const Config = Module("config", ConfigBase, {
     /*** required options, no checks done if they really exist, so be careful ***/
     name: "Vimperator",
     hostApplication: "Firefox",
-    features: ["bookmarks", "hints", "history", "marks", "quickmarks", "sanitizer", "session", "tabs", "tabs_undo", "windows", "tabgroup"],
+    features: new Set(["bookmarks", "hints", "history", "marks", "quickmarks", "sanitizer", "session", "tabs", "tabs_undo", "windows", "tabgroup", "privatebrowsing"]),
 
     /*** optional options, there are checked for existence and a fallback provided  ***/
 
@@ -24,6 +24,7 @@ const Config = Module("config", ConfigBase, {
                    ["LocationChange",     "Triggered when changing tabs or when navigation to a new location"],
                    ["PageLoadPre",        "Triggered after a page load is initiated"],
                    ["PageLoad",           "Triggered when a page gets (re)loaded/opened"],
+                   // TODO: remove when FF ESR's version is over 20
                    ["PrivateMode",        "Triggered when private mode is activated or deactivated"],
                    ["Sanitize",           "Triggered when a sanitizeable item is cleared"],
                    ["ShellCmdPost",       "Triggered after executing a shell command with :!cmd"],
@@ -42,7 +43,7 @@ const Config = Module("config", ConfigBase, {
         ["addbookmark",      "Add bookmark for the current page",
             function () { PlacesCommandHook.bookmarkCurrentPage(true, PlacesUtils.bookmarksRootId); }],
         ["addons",           "Manage Add-ons",
-            function () { window.BrowserOpenAddonsMgr(); }],
+            function () { window.toOpenWindowByType("Addons:Manager", "about:addons", "chrome,centerscreen,resizable,dialog=no,width=700,height=600"); }],
         ["bookmarks",        "List your bookmarks",
             function () { window.openDialog("chrome://browser/content/bookmarks/bookmarksPanel.xul", "Bookmarks", "dialog,centerscreen,width=600,height=600"); }],
         ["checkupdates",     "Check for updates", // show the About dialog which includes the Check For Updates button
@@ -63,7 +64,7 @@ const Config = Module("config", ConfigBase, {
         ["history",          "List your history",
             function () { window.openDialog("chrome://browser/content/history/history-panel.xul", "History", "dialog,centerscreen,width=600,height=600"); }],
         ["import",           "Import Preferences, Bookmarks, History, etc. from other browsers",
-            function () { window.BrowserImport(); }],
+            function () { var tmp = {}; Cu.import("resource://gre/modules/MigrationUtils.jsm", tmp); tmp.MigrationUtils.showMigrationWizard(window); } ],
         ["openfile",         "Open the file selector dialog",
             function () { window.BrowserOpenFileWindow(); }],
         ["pageinfo",         "Show information about the current page",
@@ -75,7 +76,11 @@ const Config = Module("config", ConfigBase, {
         ["places",           "Places Organizer: Manage your bookmarks and history",
             function () { PlacesCommandHook.showPlacesOrganizer(ORGANIZER_ROOT_BOOKMARKS); }],
         ["preferences",      "Show Firefox preferences dialog",
-            function () { window.openPreferences(); }],
+            function () {
+                var features = "chrome,titlebar,toolbar,centerscreen," +
+                               (options.getPref("browser.preferences.instantApply", false) ? "dialog=no" : "modal");
+                window.toOpenWindowByType("Browser:Preferences", "chrome://browser/content/preferences/preferences.xul", features);
+             }],
         ["printpreview",     "Preview the page before printing",
             function () { PrintUtils.printPreview(PrintPreviewListener); }],
         ["printsetup",       "Setup the page size and orientation before printing",
@@ -203,12 +208,16 @@ const Config = Module("config", ConfigBase, {
         commands.add(["wind[ow]"],
             "Execute a command and tell it to output in a new window",
             function (args) {
-                liberator.forceNewWindow = true;
-                liberator.execute(args.string, null, true);
-                liberator.forceNewWindow = false;
+                var prop = args["-private"] ? "forceNewPrivateWindow" : "forceNewWindow";
+                liberator[prop] = true;
+                liberator.execute(args.literalArg, null, true);
+                liberator[prop] = false;
             },
             {
                 argCount: "+",
+                options: [
+                    [["-private", "-p"], commands.OPTION_NOARG],
+                ],
                 completer: function (context) completion.ex(context),
                 literal: 0
             });
@@ -221,14 +230,18 @@ const Config = Module("config", ConfigBase, {
         commands.add(["wino[pen]", "wo[pen]"],
             "Open one or more URLs in a new window",
             function (args) {
-                args = args.string;
+                var where = args["-private"] ? liberator.NEW_PRIVATE_WINDOW : liberator.NEW_WINDOW;
+                args = args.literalArg;
 
                 if (args)
-                    liberator.open(args, liberator.NEW_WINDOW);
+                    liberator.open(args, where);
                 else
-                    liberator.open("", liberator.NEW_WINDOW);
+                    liberator.open("", where);
             },
             {
+                options: [
+                    [["-private", "-p"], commands.OPTION_NOARG],
+                ],
                 completer: function (context) completion.url(context),
                 literal: 0,
                 privateData: true

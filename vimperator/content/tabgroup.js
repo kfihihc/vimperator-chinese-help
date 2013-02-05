@@ -32,7 +32,7 @@ const TabGroup = Module("tabGroup", {
 
     get appTabs () {
         var apps = [];
-        for (let [, tab] in Iterator(config.tabbrowser.tabs)) {
+        for (let tab of config.tabbrowser.tabs) {
             if (tab.pinned)
                 apps.push(tab);
             else
@@ -68,7 +68,7 @@ const TabGroup = Module("tabGroup", {
             else
                 test = function (g) g.getTitle().toLowerCase() == name;
         }
-        for (let [, group] in Iterator(this.tabView.GroupItems.groupItems)) {
+        for (let group of this.tabView.GroupItems.groupItems) {
             if (test(group)) {
                 i++;
                 if (i == count)
@@ -125,9 +125,13 @@ const TabGroup = Module("tabGroup", {
             if (target)
               gBrowser.mTabContainer.selectedItem = target.tab;
             // for empty group
-            else if (group && apps.length != 0) {
-              GI.setActiveGroupItem(group);
-              tabGroup.tabView.UI.goToTab(tabs.getTab(0));
+            else if (group) {
+                if (apps.length === 0)
+                    group.newTab();
+                else {
+                    GI.setActiveGroupItem(group);
+                    tabGroup.tabView.UI.goToTab(tabs.getTab(0));
+                }
             }
             else if (relative)
               groupSwitch(index + offset, true);
@@ -380,6 +384,7 @@ const TabGroup = Module("tabGroup", {
                     groupItems = groupItems.filter(function(group) group.id != activeGroup.id);
             }
             context.title = ["Tab Group"];
+            context.anchored = false;
             context.completions = groupItems.map(function(group) {
                 let title = group.id + ": " + (group.getTitle() || "(Untitled)");
                 let desc = "Tabs: " + group.getChildren().length;

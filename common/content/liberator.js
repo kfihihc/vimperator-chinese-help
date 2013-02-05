@@ -67,9 +67,9 @@ const Liberator = Module("liberator", {
         this.profileName = services.get("dirsvc").get("ProfD", Ci.nsIFile).leafName.replace(/^.+?\./, "");
 
         let platform = Liberator.getPlatformFeature()
-        config.features.push(platform);
+        config.features.add(platform);
         if (/^Win(32|64)$/.test(platform))
-            config.features.push('Windows');
+            config.features.add('Windows');
         
         if (AddonManager) {
             let self = this;
@@ -123,9 +123,11 @@ const Liberator = Module("liberator", {
     NEW_TAB: [],
     NEW_BACKGROUND_TAB: [],
     NEW_WINDOW: [],
+    NEW_PRIVATE_WINDOW: [],
 
     forceNewTab: false,
     forceNewWindow: false,
+    forceNewPrivateWindow: false,
 
     /** @property {string} The Liberator version string. */
     version: "###VERSION### (created: ###DATE###)", // these VERSION and DATE tokens are replaced by the Makefile
@@ -163,7 +165,7 @@ const Liberator = Module("liberator", {
     // TODO: "zoom": if the zoom value of the current buffer changed
     triggerObserver: function (type) {
         let args = Array.slice(arguments, 1);
-        for (let [, func] in Iterator(this.observers[type] || []))
+        for (let func of this.observers[type] || [])
             func.apply(null, args);
     },
 
@@ -285,21 +287,20 @@ const Liberator = Module("liberator", {
 
             // For errors, also print the stack trace to our :messages list
             if (str instanceof Error) {
-                let stackTrace = <></>;
+                let stackTrace = xml``;
                 let stackItems = new Error().stack.split('\n');
                 // ignore the first element intenationally!
-                for (let i = 1; i < stackItems.length; i++) {
-                    let stackItem = stackItems[i];
+                stackTrace = template.map2(xml, stackItems.slice(1), function (stackItema) {
                     let atIndex = stackItem.lastIndexOf("@");
-                    if (atIndex < 0)
-                        continue;
+                    if (n === 0 || atIndex < 0)
+                        return "";
                     let stackLocation = stackItem.substring(atIndex + 1);
                     let stackArguments = stackItem.substring(0, atIndex);
                     if (stackArguments)
                         stackArguments = " - " + stackArguments;
 
-                    stackTrace += <><span style="font-weight: normal">&#xa0;&#xa0;at </span>{stackLocation}<span style="font-weight: normal">{stackArguments}</span><br/></>;
-                }
+                    return xml`<span style="font-weight: normal">&#xa0;&#xa0;xxx at </span>${stackLocation}<span style="font-weight: normal">${stackArguments}</span><br/>`;
+                });
                 commandline.messages.add({str: stackTrace, highlight: commandline.HL_ERRORMSG});
             }
         } catch (e) {
@@ -331,8 +332,11 @@ const Liberator = Module("liberator", {
      *     should be loaded.
      */
     loadScript: function (uri, context) {
-        XML.ignoreWhitespace = false;
-        XML.prettyPrinting = false;
+        if (options.expandtemplate) {
+            var prefix = "liberator://template/";
+            if (uri.lastIndexOf(prefix, 0) === -1)
+                uri = prefix + uri;
+        }
         services.get("scriptloader").loadSubScript(uri, context, "UTF-8");
     },
 
@@ -340,6 +344,13 @@ const Liberator = Module("liberator", {
         try {
             if (!context)
                 context = userContext;
+
+            if (options.expandtemplate) {
+                var obj = new Object;
+                Cu.import("resource://liberator/template.js", obj);
+                str = obj.convert(str);
+            }
+
             context[EVAL_ERROR] = null;
             context[EVAL_STRING] = str;
             context[EVAL_RESULT] = null;
@@ -460,7 +471,7 @@ const Liberator = Module("liberator", {
      * @param {string} feature The feature name.
      * @returns {boolean}
      */
-    has: function (feature) config.features.indexOf(feature) >= 0,
+    has: function (feature) config.features.has(feature),
 
     /**
      * Returns whether the host application has the specified extension
@@ -489,7 +500,7 @@ const Liberator = Module("liberator", {
 
         function format(item) item.description + "#" + encodeURIComponent(item.text);
 
-        for (let [i, item] in Iterator(items)) {
+        for (let item of items) {
             if (item.text == topic)
                 return format(item);
             else if (!partialMatch && topic)
@@ -524,7 +535,7 @@ const Liberator = Module("liberator", {
         // Find help and overlay files with the given name.
         function findHelpFile(file) {
             let result = [];
-            for (let [, namespace] in Iterator(namespaces)) {
+            for (let namespace of namespaces) {
                 let url = ["chrome://", namespace, "/locale/", file, ".xml"].join("");
                 let res = util.httpGet(url);
                 if (res) {
@@ -562,42 +573,42 @@ const Liberator = Module("liberator", {
         });
 
         // Process plugin help entries.
-        XML.ignoreWhitespace = false;
-        XML.prettyPrinting = false;
-        XML.prettyPrinting = true; // Should be false, but ignoreWhitespace=false doesn't work correctly. This is the lesser evil.
-        XML.prettyIndent = 4;
-
         let lang = options.getPref("general.useragent.locale", "en-US");
-        function chooseByLang(elems) {
-            if (!elems)
-                return null;
-            function get(lang) {
-                let i = elems.length();
-                while (i-- > 0){
-                    if ((elems[i].@lang).toString() == lang)
-                        return elems[i];
-                }
+        const ps = new DOMParser;
+        const encoder = Cc["@mozilla.org/layout/documentEncoder;1?type=text/xml"].getService(Ci.nsIDocumentEncoder);
+        encoder.init(document, "text/xml", 0);
+        body = xml.map([con for ([,con] in Iterator(plugins.contexts))], function (context) {
+            try { // debug
+            var info = context.INFO;
+            if (!info) return "";
+            var div = ps.parseFromString(xml`<div xmlns=${XHTML}>${info}</div>`, "text/xml").documentElement;
+            var list = div.querySelectorAll("plugin");
+            var res = {};
+            for (var i = 0, j = list.length; i < j; i++) {
+                var info = list[i];
+                var value = info.getAttribute("lang") || "";
+                res[i] = res[value] = info;
             }
-            elems = elems.(function::nodeKind() == "element");
-            return get(lang) || get(lang.split("-", 2).shift()) || get("") || get("en-US") || get("en") || elems[0] || elems;
-        }
-        let body = XML();
-        for (let [, context] in Iterator(plugins.contexts)) {
-            if (context.INFO instanceof XML) {
-                let info = chooseByLang(context.INFO);
-                body += <h2 xmlns={NS.uri} tag={info.@name + '-plugin'}>{info.@summary}</h2> + info;
+            var info = res[lang] || res[lang.split("-", 2).shift()] || res[0];
+            if (!info) return "";
+            encoder.setNode(info);
+            return xml`<h2 xmlns=${NS.uri} tag=${info.getAttribute("name") + '-plugin'}>${
+                info.getAttribute("summary")}</h2>${xml.raw`${encoder.encodeToString()}`}`;
+            } catch (ex) {
+                Cu.reportError(ex);
+                alert(ex);
             }
-        }
+        });
 
         let help = '<?xml version="1.0"?>\n' +
                    '<?xml-stylesheet type="text/xsl" href="chrome://liberator/content/help.xsl"?>\n' +
                    '<!DOCTYPE document SYSTEM "chrome://liberator/content/liberator.dtd">' +
-            <document xmlns={NS}
-                name="plugins" title={config.name + " Plugins"}>
+            xml`<document xmlns=${NS}
+                name="plugins" title=${config.name + " Plugins"}>
                 <h1 tag="using-plugins">Using Plugins</h1>
 
-                {body}
-            </document>.toXMLString();
+                ${body}
+            </document>`.toString();
         fileMap["plugins"] = function () ['text/xml;charset=UTF-8', help];
 
         addTags("plugins", util.httpGet("liberator://help/plugins").responseXML);
@@ -664,7 +675,7 @@ const Liberator = Module("liberator", {
         }
 
         liberator.log('Searching for "plugin/**/*.{js,vimp}" in "'
-                            + [dir.path.replace(/.plugin$/, "") for ([, dir] in Iterator(dirs))].join(",") + '"');
+                            + [dir.path.replace(/.plugin$/, "") for (dir of dirs)].join(",") + '"');
 
         dirs.forEach(function (dir) {
             liberator.log("Searching for \"" + (dir.path + "/**/*.{js,vimp}") + "\"", 3);
@@ -741,6 +752,8 @@ const Liberator = Module("liberator", {
             where = liberator.NEW_TAB;
         else if (liberator.forceNewWindow)
             where = liberator.NEW_WINDOW;
+        else if (liberator.forceNewPrivateWindow)
+            where = liberator.NEW_PRIVATE_WINDOW;
 
         if ("from" in params && liberator.has("tabs")) {
             if (!('where' in params) && options["newtab"] && options.get("newtab").has("all", params.from))
@@ -757,7 +770,13 @@ const Liberator = Module("liberator", {
             return;
 
         let browser = config.browser;
+        let urlTasks = [];
         function open(urls, where) {
+            if (!browser) {
+                urlTasks.push(urls);
+                return;
+            }
+
             try {
                 let url = "", postdata;
                 if (typeof urls === "string")
@@ -787,18 +806,34 @@ const Liberator = Module("liberator", {
                     });
                     break;
 
+                case liberator.NEW_PRIVATE_WINDOW:
                 case liberator.NEW_WINDOW:
-                    window.open();
-                    let win = services.get("wm").getMostRecentWindow("navigator:browser");
-                    win.loadURI(url, null, postdata);
-                    browser = win.getBrowser();
+                    let sa = Cc["@mozilla.org/supports-array;1"].createInstance(Ci.nsISupportsArray);
+                    let wuri = Cc["@mozilla.org/supports-string;1"].createInstance(Ci.nsISupportsString);
+                    wuri.data = url;
+                    sa.AppendElement(wuri);
+                    sa.AppendElement(null); // charset
+                    sa.AppendElement(null); // referrerURI
+                    sa.AppendElement(postdata);
+                    sa.AppendElement(null); // allowThirdPartyFixup
+
+                    let features = "chrome,dialog=no,all" + (where === liberator.NEW_PRIVATE_WINDOW ? ",private" : "");
+                    let win = services.get("ww").openWindow(window, "chrome://browser/content/browser.xul", null, features, sa);
+                    browser = null;
+                    win.addEventListener("load", function onload(aEvent) {
+                        win.removeEventListener("load", onload, false);
+                        browser = win.getBrowser();
+                        for (let url of urlTasks)
+                            open(url, liberator.NEW_BACKGROUND_TAB);
+                        urlTasks = [];
+                    }, false);
                     break;
                 }
             }
             catch (e) {}
         }
 
-        for (let [, url] in Iterator(urls)) {
+        for (let url of urls) {
             open(url, where);
             where = liberator.NEW_BACKGROUND_TAB;
         }
@@ -1021,7 +1056,7 @@ const Liberator = Module("liberator", {
     // TODO: move this
     getMenuItems: function () {
         function addChildren(node, parent) {
-            for (let [, item] in Iterator(node.childNodes)) {
+            for (let item of node.childNodes) {
                 if (item.childNodes.length == 0 && item.localName == "menuitem"
                     && !/rdf:http:/.test(item.getAttribute("label"))) { // FIXME
                     item.fullMenuPath = parent + item.getAttribute("label");
@@ -1113,15 +1148,20 @@ const Liberator = Module("liberator", {
                         document.title = document.title.replace(RegExp("(.*)" + util.escapeRegex(old)), "$1" + current);
                     }
 
-                    if (services.get("privateBrowsing")) {
+                    if (liberator.has("privatebrowsing")) {
+                        liberator.log("has feature: privateBrowsing");
                         let oldValue = win.getAttribute("titlemodifier_normal");
                         let suffix = win.getAttribute("titlemodifier_privatebrowsing").substr(oldValue.length);
 
                         win.setAttribute("titlemodifier_normal", value);
                         win.setAttribute("titlemodifier_privatebrowsing", value + suffix);
 
-                        if (services.get("privateBrowsing").privateBrowsingEnabled) {
+                        if (window.QueryInterface(Ci.nsIInterfaceRequestor)
+                                  .getInterface(Ci.nsIWebNavigation)
+                                  .QueryInterface(Ci.nsILoadContext)
+                                  .usePrivateBrowsing) {
                             updateTitle(oldValue + suffix, value + suffix);
+                            win.setAttribute("titlemodifier", value + suffix);
                             return value;
                         }
                     }
@@ -1143,38 +1183,37 @@ const Liberator = Module("liberator", {
                     // Used in order to avoid multiple collapse/uncollapse actions
                     // for values like :set gui=none,tabs
                     let actions = {};
-                    for (let [, action] in Iterator(this.parseValues(values))) {
-                        if (action == "all" || action == "none") {
+                    for (let action of this.parseValues(values)) {
+                        if (action === "all" || action === "none") {
                             for (let [name, toolbar] in Iterator(toolbars)) {
-                                let ids = toolbar[0] || [];
-                                ids.forEach(function (id) actions[id] = action == "none");
+                                for (let id of toolbar[0] || [])
+                                    actions[id] = action === "none";
                             }
                         } else {
                             let toolbarName = action.replace(/^(no|inv)/, "");
                             let toolbar = toolbars[toolbarName];
                             if (toolbar) {
-                                let ids = toolbar[0] || [];
-                                ids.forEach(function (id) {
+                                for (let id of toolbar[0] || []) {
                                     let elem = document.getElementById(id);
                                     if (!elem)
-                                        return;
+                                        continue;
 
                                     let collapsed = false;
-                                    if (action.indexOf("no") == 0)
+                                    if (action.startsWith("no"))
                                         collapsed = true;
-                                    else if (action.indexOf("inv") == 0) {
-                                        if (typeof(actions[id]) == "boolean")
+                                    else if (action.startsWith("inv")) {
+                                        if (typeof(actions[id]) === "boolean")
                                             collapsed = !actions[id];
                                         else {
-                                            let hidingAttribute = elem.getAttribute("type") == "menubar" ? "autohide" : "collapsed";
-                                            collapsed = !(elem.getAttribute(hidingAttribute) == "true");
+                                            let hidingAttribute = elem.getAttribute("type") === "menubar" ? "autohide" : "collapsed";
+                                            collapsed = !(elem.getAttribute(hidingAttribute) === "true");
                                         }
                                     }
                                     else
                                         collapsed = false;
                                     
                                     actions[id] = collapsed; // add the action, or change an existing action
-                                });
+                                }
                             }
                         }
                     }
@@ -1276,10 +1315,7 @@ const Liberator = Module("liberator", {
     commands: function () {
         commands.add(["addo[ns]"],
             "Manage available Extensions and Themes",
-            function () {
-                liberator.open("chrome://mozapps/content/extensions/extensions.xul",
-                    { from: "addons" });
-            },
+            function () { liberator.open("about:addons", { from: "addons" }); },
             { argCount: "0" });
 
         commands.add(["beep"],
@@ -1296,7 +1332,7 @@ const Liberator = Module("liberator", {
                     // TODO: why are these sorts of properties arrays? --djk
                     let dialogs = config.dialogs;
 
-                    for (let [, dialog] in Iterator(dialogs)) {
+                    for (let dialog of dialogs) {
                         if (util.compareIgnoreCase(arg, dialog[0]) == 0) {
                             dialog[2]();
                             return;
@@ -1460,8 +1496,8 @@ const Liberator = Module("liberator", {
                         ["Name", "Version", "Status", "Description"],
                         ([template.icon(e, e.name),
                           e.version,
-                          e.enabled ? <span highlight="Enabled">enabled</span>
-                                    : <span highlight="Disabled">disabled</span>,
+                          e.enabled ? xml`<span highlight="Enabled">enabled</span>`
+                                    : xml`<span highlight="Disabled">disabled</span>`,
                           e.description] for ([, e] in Iterator(extensions)))
                     );
 
@@ -1596,11 +1632,11 @@ const Liberator = Module("liberator", {
                             totalUnits = "msec";
 
                         let str = template.genericOutput("Code execution summary",
-                                <table>
-                                    <tr><td>Executed:</td><td align="right"><span class="times-executed">{count}</span></td><td>times</td></tr>
-                                    <tr><td>Average time:</td><td align="right"><span class="time-average">{each.toFixed(2)}</span></td><td>{eachUnits}</td></tr>
-                                    <tr><td>Total time:</td><td align="right"><span class="time-total">{total.toFixed(2)}</span></td><td>{totalUnits}</td></tr>
-                                </table>);
+                                xml`<table>
+                                    <tr><td>Executed:</td><td align="right"><span class="times-executed">${count}</span></td><td>times</td></tr>
+                                    <tr><td>Average time:</td><td align="right"><span class="time-average">${each.toFixed(2)}</span></td><td>{eachUnits}</td></tr>
+                                    <tr><td>Total time:</td><td align="right"><span class="time-total">${total.toFixed(2)}</span></td><td>{totalUnits}</td></tr>
+                                </table>`);
                         commandline.echo(str, commandline.HL_NORMAL, commandline.FORCE_MULTILINE);
                     }
                     else {
@@ -1675,9 +1711,9 @@ const Liberator = Module("liberator", {
             "List all commands, mappings and options with a short description",
             function (args) {
                 let usage = {
-                    mappings: function() template.table("Mappings", [[item.name || item.names[0], item.description] for (item in mappings)].sort()),
-                    commands: function() template.table("Commands", [[item.name || item.names[0], item.description] for (item in commands)]),
-                    options:  function() template.table("Options",  [[item.name || item.names[0], item.description] for (item in options)])
+                    mappings: function() template.table2(xml, "Mappings", [[item.name || item.names[0], item.description] for (item in mappings)].sort()),
+                    commands: function() template.table2(xml, "Commands", [[item.name || item.names[0], item.description] for (item in commands)]),
+                    options:  function() template.table2(xml, "Options",  [[item.name || item.names[0], item.description] for (item in options)])
                 }
 
                 if (args[0] && !usage[args[0]])
@@ -1686,7 +1722,7 @@ const Liberator = Module("liberator", {
                 if (args[0])
                     var usage = template.genericOutput(config.name + " Usage", usage[args[0]]());
                 else
-                    var usage = template.genericOutput(config.name + " Usage", usage["mappings"]() + <br/> + usage["commands"]() + <br/> + usage["options"]());
+                    var usage = template.genericOutput(config.name + " Usage", xml`${ usage["mappings"]() }<br/>${ usage["commands"]() }<br/>${ usage["options"]()}`);
                 liberator.echo(usage, commandline.FORCE_MULTILINE);
             }, {
                 argCount: "?",

@@ -5,10 +5,22 @@
 
 /** @scope modules */
 
-const XHTML = Namespace("html", "http://www.w3.org/1999/xhtml");
-const XUL = Namespace("xul", "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
-const NS = Namespace("liberator", "http://vimperator.org/namespaces/liberator");
-default xml namespace = XHTML;
+//xxx:
+this.$$Namespace = function (prefix, uri) {
+    return "XMLList" in window ? Namespace(prefix, uri)
+        : {
+            prefix: prefix,
+            uri: uri,
+            toString: function () {
+                return this.uri;
+            },
+    };
+}
+const XHTML = $$Namespace("html", "http://www.w3.org/1999/xhtml");
+const XUL = $$Namespace("xul", "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+const NS =  $$Namespace("liberator", "http://vimperator.org/namespaces/liberator");
+if ("XMLList" in window) eval("default xml namespace = XHTML");
+delete this.$$Namespace;
 
 const Util = Module("util", {
     init: function () {
@@ -193,22 +205,6 @@ const Util = Module("util", {
         return delimiter + str.replace(/([\\'"])/g, "\\$1").replace("\n", "\\n", "g").replace("\t", "\\t", "g") + delimiter;
     },
 
-    extend: function extend(dest) {
-        Array.slice(arguments, 1).filter(util.identity).forEach(function (src) {
-            for (let [k, v] in Iterator(src)) {
-                let get = src.__lookupGetter__(k),
-                    set = src.__lookupSetter__(k);
-                if (!get && !set)
-                    dest[k] = v;
-                if (get)
-                    dest.__defineGetter__(k, get);
-                if (set)
-                    dest.__defineSetter__(k, set);
-            }
-        });
-        return dest;
-    },
-
     /**
      * Returns an XPath union expression constructed from the specified node
      * tests. An expression is built with node tests for both the null and
@@ -369,7 +365,7 @@ const Util = Module("util", {
                             data.push(" ");
                             data.push(name);
                             data.push('="');
-                            data.push(<>{value}</>.toXMLString());
+                            data.push(xml`${value}`.toString());
                             data.push('"')
                         }
                         if (node.localName in empty)
@@ -377,13 +373,13 @@ const Util = Module("util", {
                         else {
                             data.push(">");
                             if (node instanceof HTMLHeadElement)
-                                data.push(<link rel="stylesheet" type="text/css" href="help.css"/>.toXMLString());
+                                data.push(`<link rel="stylesheet" type="text/css" href="help.css"/>`/*toXMLString()*/);
                             Array.map(node.childNodes, arguments.callee);
                             data.push("</"); data.push(node.localName); data.push(">");
                         }
                         break;
                     case Node.TEXT_NODE:
-                        data.push(<>{node.textContent}</>.toXMLString());
+                        data.push(xml`${node.textContent}`.toString());
                 }
             }
             fix(content.document.documentElement);
@@ -553,13 +549,6 @@ const Util = Module("util", {
      * @returns {string}
      */
     objectToString: function objectToString(object, color) {
-        // Use E4X literals so html is automatically quoted
-        // only when it's asked for. No one wants to see &lt;
-        // on their console or :map :foo in their buffer
-        // when they expect :map <C-f> :foo.
-        XML.prettyPrinting = false;
-        XML.ignoreWhitespace = false;
-
         if (object === null)
             return "null\n";
 
@@ -582,14 +571,11 @@ const Util = Module("util", {
                 return node.localName.toLowerCase();
             }
             try {
-                let tag = "<" + [namespaced(elem)].concat(
-                    [namespaced(a) + "=" +  template.highlight(a.value, true)
-                     for ([i, a] in util.Array.iteritems(elem.attributes))]).join(" ");
-
-                if (!elem.firstChild || /^\s*$/.test(elem.firstChild) && !elem.firstChild.nextSibling)
-                    tag += '/>';
-                else
-                    tag += '>...</' + namespaced(elem) + '>';
+                let tag = xml`${`<${namespaced(elem)} `}${
+                    template.map2(xml, elem.attributes,
+                        function (a) xml`${namespaced(a)}=${template.highlight(a.value, true)}`, " ")}${
+                    !elem.firstChild || /^\s*$/.test(elem.firstChild) && !elem.firstChild.nextSibling
+                        ? "/>" : `>...</${namespaced(elem)}>`}`;
                 return tag;
             }
             catch (e) {
@@ -603,8 +589,8 @@ const Util = Module("util", {
         catch (e) {
             obj = "[Object]";
         }
-        obj = template.highlightFilter(util.clip(obj, 150), "\n", !color ? function () "^J" : function () <span highlight="NonText">^J</span>);
-        let string = <><span highlight="Title Object">{obj}</span>::<br/>&#xa;</>;
+        obj = template.highlightFilter(util.clip(obj, 150), "\n", !color ? function () "^J" : function () xml`<span highlight="NonText">^J</span>`);
+        let string = xml`<span highlight="Title Object">${obj}</span>::<br/>&#xa;`;
 
         let keys = [];
         try { // window.content often does not want to be queried with "var i in object"
@@ -614,7 +600,7 @@ const Util = Module("util", {
                 hasValue = false;
             }
             for (let i in object) {
-                let value = <><![CDATA[<no value>]]></>;
+                let value = xml`<![CDATA[<no value>]]>`;
                 try {
                     value = object[i];
                 }
@@ -627,12 +613,12 @@ const Util = Module("util", {
                 }
 
                 value = template.highlight(value, true, 150);
-                let key = <span highlight="Key">{i}</span>;
+                let key = xml`<span highlight="Key">${i}</span>`;
                 if (!isNaN(i))
                     i = parseInt(i);
                 else if (/^[A-Z_]+$/.test(i))
                     i = "";
-                keys.push([i, <>{key}{noVal ? "" : <>: {value}</>}<br/>&#xa;</>]);
+                keys.push([i, xml`${key}${noVal ? "" : xml`: ${value}`}<br/>&#xa;`]);
             }
         }
         catch (e) {}
@@ -642,7 +628,7 @@ const Util = Module("util", {
                 return a[0] - b[0];
             return String.localeCompare(a[0], b[0]);
         }
-        string += template.map(keys.sort(compare), function (f) f[1]);
+        xml["+="](string, template.map2(xml, keys.sort(compare), function (f) f[1]));
         return color ? string : [s for each (s in string)].join("");
     },
 
@@ -788,16 +774,42 @@ const Util = Module("util", {
     },
 
     /**
+     * Converts an string, TemplateXML object or E4X literal to a DOM node.
+     *
+     * @param {String|TemplateXML|xml} node
+     * @param {Document} doc
+     * @param {Object} nodes If present, nodes with the "key" attribute are
+     *     stored here, keyed to the value thereof.
+     * @returns {Node|DocumentFragment}
+     */
+    xmlToDom: function xmlToDom(node, doc, nodes) {
+        if (typeof node === "xml")
+            return this.xmlToDomForE4X(node, doc, nodes);
+
+        var dom = this.xmlToDomForTemplate(node, doc, nodes);
+
+        //xxx: change highlight's namespace
+        const str = "highlight";
+        var attr,
+            list = (dom.nodeType === 11 ? dom : dom.parentNode).querySelectorAll("[highlight]");
+        for (let node of list) {
+            attr = node.getAttribute(str);
+            node.removeAttribute(str);
+            node.setAttributeNS(NS, str, attr);
+        }
+        return dom;
+    },
+    /**
      * Converts an E4X XML literal to a DOM node.
      *
      * @param {Node} node
      * @param {Document} doc
-     * @param {Object} nodes If present, nodes with the "key" attribute are
-     *     stored here, keyed to the value thereof.
+     * @param {Object} nodes
      * @returns {Node}
+     * @deprecated
+     * @see util.xmlToDom
      */
-    xmlToDom: function xmlToDom(node, doc, nodes) {
-        XML.prettyPrinting = false;
+    xmlToDomForE4X: function xmlToDomForE4X(node, doc, nodes) {
         if (node.length() != 1) {
             let domnode = doc.createDocumentFragment();
             for each (let child in node)
@@ -809,17 +821,48 @@ const Util = Module("util", {
             return doc.createTextNode(String(node));
         case "element":
             let domnode = doc.createElementNS(node.namespace(), node.localName());
-            for each (let attr in node.@*)
+            for each (let attr in node.attributes())
                 domnode.setAttributeNS(attr.name() == "highlight" ? NS.uri : attr.namespace(), attr.name(), String(attr));
-            for each (let child in node.*)
+            for each (let child in node.children())
                 domnode.appendChild(arguments.callee(child, doc, nodes));
-            if (nodes && node.@key)
-                nodes[node.@key] = domnode;
+            if (nodes && node.attribute("key"))
+                nodes[node.attribute("key")] = domnode;
             return domnode;
         default:
             return null;
         }
-    }
+    },
+    /**
+     * Converts an string of TemplateXML object to a DOM node.
+     *
+     * @param {String|TemplateXML} node
+     * @param {Document} doc
+     * @param {Object} nodes
+     * @returns {Node|DocumentFragment}
+     * @see util.xmlToDom
+     */
+    xmlToDomForTemplate: function xmlToDomForTemplate(node, doc, nodes) {
+        var dom = doc.createDocumentFragment();
+        var range = doc.createRange();
+        var fragment = range.createContextualFragment(
+            xml`<div xmlns:ns=${NS} xmlns:xul=${XUL} xmlns=${XHTML}>${node}</div>`.toString());
+        for (let node of fragment.firstChild.childNodes)
+            dom.appendChild(node);
+
+        range.detach();
+
+        if (nodes) {
+            for (let elm of dom.querySelectorAll("[key]"))
+                nodes[elm.getAttribute("key")] = elm;
+        }
+        return dom.childNodes.length === 1 ? dom.childNodes[0] : dom;
+    },
+    domToStr: function domToStr(node) {
+        var enc=Cc["@mozilla.org/layout/documentEncoder;1?type=text/plain"].getService(Ci.nsIDocumentEncoder);
+        enc.init(node.ownerDocument, "text/html", 0);
+        enc.setNode(node);
+        return enc.encodeToString();
+    },
 }, {
     // TODO: Why don't we just push all util.BuiltinType up into modules? --djk
     /**
@@ -915,22 +958,7 @@ const Util = Module("util", {
          * @param {boolean} unsorted
          * @returns {Array}
          */
-        uniq: function uniq(ary, unsorted) {
-            let ret = [];
-            if (unsorted) {
-                for (let [, item] in Iterator(ary))
-                    if (ret.indexOf(item) == -1)
-                        ret.push(item);
-            }
-            else {
-                for (let [, item] in Iterator(ary.sort())) {
-                    if (item != last || !ret.length)
-                        ret.push(item);
-                    var last = item;
-                }
-            }
-            return ret;
-        }
+        uniq: function uniq(ary, unsorted) [...new Set(unsorted ? ary : ary.sort())],
     })
 });
 

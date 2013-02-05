@@ -30,10 +30,6 @@ const Services = Module("services", {
                 class_: "@mozilla.org/js/jsd/debugger-service;1",
                 iface:  Ci.jsdIDebuggerService
             },
-            "downloadManager": {
-                class_: "@mozilla.org/download-manager;1",
-                iface:  Ci.nsIDownloadManager
-            },
             "environment": {
                 class_: "@mozilla.org/process/environment;1",
                 iface:  Ci.nsIEnvironment
@@ -65,6 +61,10 @@ const Services = Module("services", {
             "threadManager": {
                 class_: "@mozilla.org/thread-manager;1",
                 iface:  Ci.nsIThreadManager
+            },
+            "UUID": {
+                class_: "@mozilla.org/uuid-generator;1",
+                iface:  Ci.nsIUUIDGenerator
             },
         };
 
@@ -145,8 +145,9 @@ const Services = Module("services", {
      * @param {string} name The class's cache key.
      */
     create: function (name) this.classes[name]()
-}, {
-}, {
+},
+window.Services,
+{
     completion: function () {
         JavaScript.setCompleter(this.get, [
             function () Object.keys(services.jsm).concat(Object.keys(services.services)).map(function(key) [key, ""])

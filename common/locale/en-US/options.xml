@@ -12,16 +12,14 @@
 <toc start="2"/>
 
 <p>
-    &liberator.appname; has a number of internal variables and switches which can be set to
-    achieve special effects. These options come in 5 forms:
-	&liberator.appname; 有若干内有变量与开关，设置它们可以达到某些特别效果。这些选项有 5 种形式：
+	&liberator.appname; 有许多内置的变量和开关，可用于达到某些特殊效果。这些选项有5种形式：
 </p>
 
 <dl>
     <dt>boolean</dt>       <dd>只能是 on 或 off</dd>
     <dt>number</dt>        <dd>有一个数字值</dd>
     <dt>string</dt>        <dd>有一个字符串值</dd>
-    <dt>charlist</dt>      <dd>类似字符串，但是是独立的字符</dd>
+    <dt>charlist</dt>      <dd>类似字符串，不过是唯一字符</dd>
     <dt>stringlist</dt>    <dd>由逗号分隔的字符串列表</dd>
 </dl>
 
@@ -53,9 +51,9 @@
     <spec>:se[t] <a>option</a> […]</spec>
     <description>
         <dl>
-            <dt>Toggle option</dt> <dd>set, switch it on.</dd>
-            <dt>Number option</dt> <dd>show value.</dd>
-            <dt>String option</dt> <dd>show value.</dd>
+            <dt>开关式选项</dt> <dd>设置，开启选项。</dd>
+            <dt>数值式选项</dt> <dd>显示值。</dd>
+            <dt>字符式选项</dt> <dd>显示值。</dd>
         </dl>
     </description>
 </item>
@@ -63,7 +61,7 @@
 <item>
     <spec>:se[t] no<a>option</a> […]</spec>
     <description>
-        <p>切换选项：重置，关闭它。</p>
+        <p>开关式选项：重置，关闭它。</p>
     </description>
 </item>
 
@@ -71,7 +69,7 @@
     <spec>:se[t] <a>option</a>! […]</spec>
     <spec>:se[t] inv<a>option</a> […]</spec>
     <description>
-        <p>Toggle option: Invert value.</p>
+        <p>开关式选项： 反转值。</p>
     </description>
 </item>
 
@@ -79,13 +77,13 @@
     <spec>:se[t] inv<a>option</a>=<a>value</a> […]</spec>
     <spec>:se[t] <a>option</a>!=<a>value</a> […]</spec>
     <description>
-        <p>For list options, toggle the specified values.</p>
+        <p>对列表式选项，切换指定的值。</p>
 
-        <p>If the option is a list, the given values are toggled. Given</p>
+        <p>如果选项是个列表，则给定的值被反转。比如：</p>
         <code><ex>:set opt=foo,bar</ex></code>
-        <p>then,</p>
+        <p>然后，</p>
         <code><ex>:set opt!=foo,baz</ex></code>
-        <p>has the same result as</p>
+        <p>跟以下命令作用相同</p>
         <code><ex>:set opt=bar,baz</ex></code>
     </description>
 </item>
@@ -94,14 +92,14 @@
     <tags>:set-default</tags>
     <spec>:se[t] <a>option</a>&amp; […]</spec>
     <description>
-        <p>将选项值重置为其默认值。</p>
+        <p>将选项值重置回默认值。</p>
     </description>
 </item>
 
 <item>
     <spec>:se[t] all&amp;</spec>
     <description>
-        <p>重置所有选项值。</p>
+        <p>重置所有选项值回默认值。</p>
     </description>
 </item>
 
@@ -110,9 +108,7 @@
     <spec>:se[t] <a>option</a>=<a>value</a> […]</spec>
     <description>
         <p>
-            Set string or number option to <a>value</a>.
-            For numeric options the value must be given in decimal.
-            The old value can be inserted by typing <k name="Tab"/>.
+			给字符式或数值式选项赋值 <a>value</a>。对于数值式选项，给定的值必须是十进制的。旧的取值可以按 <k name="Tab"/> 键插入。
         </p>
     </description>
 </item>
@@ -122,11 +118,7 @@
     <spec>:se[t] <a>option</a>+=<a>value</a> […]</spec>
     <description>
         <p>
-            Add the <a>value</a> to a number option, or append the <a>value</a>
-            to a string option.  When the option is a comma separated list, a
-            comma is added, unless the value was empty. If the option is a list
-            of flags, superfluous flags are removed.  When adding a flag that
-            was already present the option value doesn't change.
+			将 <a>value</a> 值增加给数值式选项值，又或者将其追加给字符式选项值。如果选项值是一个逗号分隔的列表，则会添加一个逗号，除非 value 是空的。如果选项值是 flags 列表，则多余的 flags 被移除。如果增加的 flag 值在原先的值里已有，则选项值不变。
         </p>
     </description>
 </item>
@@ -136,9 +128,7 @@
     <spec>:se[t] <a>option</a>^=<a>value</a> […]</spec>
     <description>
         <p>
-            Multiply the <a>value</a> to a number option, or prepend the
-            <a>value</a> to a string option. When the option is a comma
-            separated list, a comma is added, unless the value was empty.
+			将 <a>value</a> 值乘以数值式选项的值，如果是字符式选项，则将 <a>value</a> 置入选项值前。当选项是一个逗号分隔的列表时，除非 value 值为空，否则增补一个逗号。
         </p>
     </description>
 </item>
@@ -148,13 +138,7 @@
     <spec>:se[t] <a>option</a>-=<a>value</a> […]</spec>
     <description>
         <p>
-            Subtract the <a>value</a> from a number option, or remove the
-            <a>value</a> from a string option if it is there. If the
-            <a>value</a> is not found in a string option, there is no error or
-            warning. When the option is a comma separated list, a comma is
-            deleted, unless the option becomes empty. When the option is a list
-            of flags, <a>value</a> must be exactly as they appear in the option.
-            Remove flags one by one to avoid problems.
+			从数值式选项的值中减去 <a>value</a>值，如果字符式选项值中含有 <a>value</a>，则将其移除。如果字符式选项中没有 <a>value</a> 值，不显示错误或警告。如果选项是一个逗号分隔的列表，则删减一个逗号，除非该选项值变成空的。当选项值是一个 flags 列表时，<a>value</a> 必须与它们在选项值中呈现的完全一致。为防止出现问题，可以一个个移除 flags。
         </p>
     </description>
 </item>
@@ -175,8 +159,7 @@
     <spec>:setl[ocal] <a>option</a>-=<a>value</a></spec>
     <description>
         <p>
-            The same as <ex>:set</ex> command, but operates on current tab options
-            only. See <ex>:set</ex> for details.
+			作用与 <ex>:set</ex> 命令相同，不过操作仅作用于当前标签页的选项。更多细节请看 <ex>:set</ex> 命令。
         </p>
     </description>
 </item>
@@ -197,8 +180,7 @@
     <spec>:setg[lobal] <a>option</a>-=<a>value</a></spec>
     <description>
         <p>
-            The same as <ex>:set</ex> command, but operates on global options only.
-            See <ex>:set</ex> for details.
+			与 <ex>:set</ex> 命令相同，但仅作用于全局选项。更多细节查看 <ex>:set</ex>。
         </p>
     </description>
 </item>
@@ -206,25 +188,19 @@
 <tags>expand-environment-var expand-env :set_env</tags>
 
 <p>
-    Environment variables are expanded for path options like <o>cdpath</o> and
-    <o>runtimepath</o>. The variable notation is <em>$VAR</em> (terminated by a non-word
-    character) or <em>$<a>VAR</a></em>. <em>%VAR%</em> is also supported on Windows.
+	在路径选项如 <o>cdpath</o> 和 <o>runtimepath</o> 中环境变量会被展开。其变量符号是 <em>$VAR</em>(由非单词字符限定) 或 <em>$<a>VAR</a></em>。<em>%VAR%</em> 在 Windows 平台同样支持。
 </p>
 
-<h2 tag="&liberator.host;-options preferences">Setting &liberator.host; options</h2>
+<h2 tag="&liberator.host;-options preferences">设置 &liberator.host; 首选项</h2>
 
-<p>&liberator.host; options can be viewed and set with the following commands:</p>
+<p>&liberator.host; 首选项可以通过下列命令查看、设置：</p>
 
 <item>
     <tags>:prefs :preferences</tags>
     <spec>:pref[erences]</spec>
     <description>
         <p>
-            Show the &liberator.host; preferences dialog. You can change the browser
-            preferences from this dialog. Be aware that not all &liberator.host;
-            preferences work, because &liberator.appname; overrides some key bindings and
-            changes &liberator.host;'s GUI.
-			打开 &liberator.host; 选项对话框。你可以从这儿更改浏览器选项。
+			打开 &liberator.host; 首选项对话框。你可以从该对话框中更改浏览器首选项。请注意，不是所有的 &liberator.host; 首选项都会生效，因为 &liberator.appname; 覆盖了某些键绑定，并且更改 &liberator.host; 的 GUI。
         </p>
     </description>
 </item>
@@ -234,9 +210,7 @@
     <spec>:pref[erences]!</spec>
     <description>
         <p>
-            Opens about:config in the current tab where you can change advanced &liberator.host;
-            preferences.
-			在当前标签页中打开 about:config，这里你可以修改更高阶的 &liberator.host; 选项。
+			在当前标签页中打开 about:config，这里你可以修改更高级的 &liberator.host; 选项。
         </p>
     </description>
 </item>
@@ -246,9 +220,7 @@
     <spec>:se[t]! <a>preference</a>=<a>value</a></spec>
     <description>
         <p>
-            Change any &liberator.host; <a>preference</a> (those in the about:config
-            window). You can also reset/delete those preferences with
-            <ex>:set! <a>preference</a>&amp;</ex>.
+			更改任何 &liberator.host; <a>首选项</a>(这些在 about:config 窗口中的)。你也可以通过 <ex>:set! <a>preference</a>&amp;</ex> 命令来重置/删除这些首选项。
         </p>
     </description>
 </item>
@@ -256,12 +228,10 @@
 <tags>overridden-preferences</tags>
 
 <p>
-    &liberator.appname; sets several &liberator.host; preferences at startup. If this is undesirable,
-    they can be changed to a different value in your RC file using
-    <ex>:set! <a>preference</a>=<a>value</a></ex>
+	&liberator.appname; 在启动时设置了一些 &liberator.host; 首选项。如果这并非必要，则可以通过在 RC 配置文件中使用 <ex>:set! <a>preference</a>=<a>value</a></ex> 来修改成其他的值。
 </p>
 
-<p>The following preferences are set:</p>
+<p>以下首选项被设置过：</p>
 
 <ul>
     <li><link topic="http://kb.mozillazine.org/Dom.popup_allowed_events">dom.popup_allowed_events</link></li>
@@ -279,18 +249,18 @@
     <type>stringlist</type>
     <default>addons,downloads,extoptions,help,homepage,quickmark,tabopen,paste</default>
     <description>
-        <p>Define when tabs are automatically activated. Available items:</p>
+        <p>定义哪些标签页将被自动激活。可选项目如下：</p>
 
         <dl>
-            <dt>all</dt>           <dd>All tabs created by any commands and mappings</dd>
-            <dt>addons</dt>        <dd><ex>:addo[ns]</ex> command</dd>
-            <dt>downloads</dt>     <dd><ex>:downl[oads]</ex> command</dd>
-            <dt>extoptions</dt>    <dd><ex>:exto[ptions]</ex> command</dd>
-            <dt>help</dt>          <dd><ex>:h[elp]</ex> command</dd>
-            <dt>homepage</dt>      <dd><k>gH</k> mapping</dd>
-            <dt>quickmark</dt>     <dd><k>go</k> and <k>gn</k> mappings</dd>
-            <dt>tabopen</dt>       <dd><ex>:tabopen[!]</ex> command</dd>
-            <dt>paste</dt>         <dd><k>P</k> and <k>gP</k> mappings</dd>
+            <dt>all</dt>           <dd>任何命令及映射创建的所有标签页</dd>
+            <dt>addons</dt>        <dd><ex>:addo[ns]</ex> 命令</dd>
+            <dt>downloads</dt>     <dd><ex>:downl[oads]</ex> 命令</dd>
+            <dt>extoptions</dt>    <dd><ex>:exto[ptions]</ex> 命令</dd>
+            <dt>help</dt>          <dd><ex>:h[elp]</ex> 命令</dd>
+            <dt>homepage</dt>      <dd><k>gH</k> 映射</dd>
+            <dt>quickmark</dt>     <dd><k>go</k> 和 <k>gn</k> 映射</dd>
+            <dt>tabopen</dt>       <dd><ex>:tabopen[!]</ex>  命令</dd>
+            <dt>paste</dt>         <dd><k>P</k> 和 <k>gP</k> 映射</dd>
         </dl>
 
     </description>
@@ -303,8 +273,8 @@
     <type>boolean</type>
     <default>true</default>
     <description>
-        <p>If set, automatically list completions while typing.</p>
-        <warning>Setting this option might be slow on older hardware, so turn that option off if you experience unwanted slowdowns.</warning>
+        <p>设置开启时，在键入时自动列出补齐的内容。</p>
+        <warning>在旧硬件上开启这个选项可能会延迟，所以，如果你不想经历不必要的延迟的话，就关闭本选项。</warning>
     </description>
 </item>
 
@@ -314,12 +284,10 @@
     <tags>'cd' 'cdpath'</tags>
     <spec>'cdpath' 'cd'</spec>
     <type>string</type>
-    <default type="plain">equivalent to <em>$CDPATH</em> or <str>,,</str></default>
+    <default type="plain">相当于 <em>$CDPATH</em> 或 <str>,,</str></default>
     <description>
         <p>
-            List of directories searched when executing the <ex>:cd</ex>
-            command. This is only used for relative paths if an absolute path is
-            specified then the option is ignored.
+			当执行 <ex>:cd</ex> 命令时所搜寻的目录列表。只有当使用相对路径时本选项才会用到，如果指定的是绝对路径，则忽略选项。
         </p>
     </description>
 </item>
@@ -331,25 +299,24 @@
     <type>charlist</type>
     <default>slf</default>
     <description>
-        <p>Items which are completed at the <ex>:open</ex> prompts. Available items:</p>
+		<p>在打开 <ex>:open</ex> 命令提示时补齐的条目。可选的有：</p>
 
         <dl>
-            <dt>s</dt>     <dd>Search engines and keyword URLs</dd>
-            <dt>f</dt>     <dd>Local files</dd>
-            <dt>l</dt>     <dd>&liberator.host; location bar entries (bookmarks and history sorted in an intelligent way)</dd>
-            <dt>b</dt>     <dd>Bookmarks</dd>
-            <dt>h</dt>     <dd>History</dd>
-            <dt>S</dt>     <dd>Search engine suggestions</dd>
-            <dt>t</dt>     <dd>Open tabs</dd>
+            <dt>s</dt>     <dd>搜索引擎和关键词 URLs</dd>
+            <dt>f</dt>     <dd>本地文件</dd>
+            <dt>l</dt>     <dd>&liberator.host; 地址栏项(书签及浏览历史以智能方式排序)</dd>
+            <dt>b</dt>     <dd>书签</dd>
+            <dt>h</dt>     <dd>浏览历史</dd>
+            <dt>S</dt>     <dd>搜索引擎推荐</dd>
+            <dt>t</dt>     <dd>打开的标签页</dd>
         </dl>
 
         <p>
-            The order is important, so <ex>:set complete=bs</ex> would list bookmarks first,
-            and then any available quick searches.
+			顺序是重要的，<ex>:set complete=bs</ex> 将首先列出书签，然后是所有已有的快速搜索项 。
         </p>
 
         <warning>
-            Using <em>b</em> and <em>h</em> can make completion very slow if there are many items.
+			条目很多的情况下，使用 <em>b</em> 和 <em>h</em> 会让补齐变得很慢。
         </warning>
     </description>
 </item>
@@ -359,26 +326,18 @@
     <tags>'ds' 'defsearch'</tags>
     <spec>'defsearch' 'ds'</spec>
     <type>string</type>
-    <default>google</default>
+    <default>Your default search engine keyword or "google"</default>
     <description>
         <p>
-            Sets the default search engine. The default search engine name is
-            used in the <ex>:open [arg]</ex> command if [arg] neither
-            looks like a URL nor like a specified search engine/keyword.
 			设置默认搜索引擎。在命令 <ex>:open [arg]</ex> 中，如果 [arg] 即不像 URL 也不像某特定的搜索引擎/关键字，则默认搜索引擎的名字被调用。
         </p>
 
         <p>
-            This means that if you set <o>defsearch</o> to <str>youtube</str>,
-            then <ex>:open arnold schwarzenegger</ex> will be exactly the same as
-            <ex>:open youtube arnold schwarzenegger</ex>. Therefore, you need
-            to add a keyword or search engine <str>youtube</str> first.
-			这意味着如果你把 <o>defsearch</o> 设置为 <str>youtube</str>，则 <ex>:open arnold schwarzenegger</ex> 的结果与 <ex>:open youtube arnold schwarzennegger</ex> 是一样的。
+			这意味着，如果你把 <o>defsearch</o> 设置为 <str>youtube</str>，则 <ex>:open arnold schwarzenegger</ex> 的结果与 <ex>:open youtube arnold schwarzennegger</ex> 是一样的。只不过，在那之前你需要先增加一个关键字或搜索引擎 <str>youtube</str>。
         </p>
 
         <p>
-            If <o>defsearch</o> is empty, then &liberator.host; will always attempt to
-            open the raw [arg].
+			如果 <o>defsearch</o> 为空，则 &liberator.host; 将试图打开原始参数。
         </p>
     </description>
 </item>
@@ -391,16 +350,12 @@
     <default>gvim -f</default>
     <description>
         <p>
-            Set the external text editor.
-            Sets the editor to run when <k name="C-i"/> is pressed in Insert and TextArea
-            modes.
 			设置外部编辑器。
 			设置在插入模式及文本域模式中按 <k name="C-i"/> 所调用的外部编辑器。
         </p>
 
         <warning>
-            &liberator.appname; will not behave correctly if the editor forks its own
-            process, such as with gvim without the -f argument.
+			如果编辑器分支出自有的进程，比如 gvim，则不加 -f 参数的话 &liberator.appname; 的行为将不正常。
         </warning>
     </description>
 </item>
@@ -414,8 +369,7 @@
     <default>off</default>
     <description>
         <p>
-            Allow reading of an RC file in the current directory. This file is
-            sourced in addition to, and after, your default RC file.
+			允许从当前目录读取 RC 文件。该文件是在你的默认 RC 文件后导入的，并作为一个附加。
         </p>
     </description>
 </item>
@@ -431,7 +385,7 @@
 //xhtml:select |
 //*[@onclick or @onmouseover or @onmousedown or @onmouseup or @oncommand or @role='link']</default>
     <description>
-        <p>The XPath string of hintable elements activated by <k>;</k>.</p>
+		<p>按键 <k>;</k> 激活 hintable 元素使用的 XPath 字符串。</p>
     </description>
 </item>
 
@@ -443,7 +397,7 @@
     <type>boolean</type>
     <default>off</default>
     <description>
-        <p>Ring the bell when an error message is displayed.</p>
+        <p>在显示错误信息时鸣叫。</p>
     </description>
 </item>
 
@@ -455,8 +409,7 @@
     <default></default>
     <description>
         <p>
-            A list of autocommand event names which should be ignored. If the list contains
-            the value <str>all</str> then all events are ignored.
+			应该忽略的自动命令事件名称列表。如果列表中包含值 <str>all</str> 则所有的事件均被忽略。
         </p>
     </description>
 </item>
@@ -468,8 +421,6 @@
     <default>UTF-8</default>
     <description>
         <p>
-            Changes the character encoding of the current buffer. Valid only for
-            the current page.
 			更改当前 buffer 的字符编码。仅对当前页有效。
         </p>
     </description>
@@ -482,7 +433,7 @@
     <type>string</type>
     <default>UTF-8</default>
     <description>
-        <p>Changes the character encoding that &liberator.appname; uses to read and write files.</p>
+        <p>更改 &liberator.appname; 用于读写文件时使用的字符编码。</p>
     </description>
 </item>
 
@@ -501,9 +452,10 @@
             automatically focused on page load.  If you usually like
             <o>focuscontent</o> but sometimes you'd like to focus the first
             input field, you can use <k>gi</k> to jump to it.
+			在页面加载之后聚焦于内容。在浏览多个网站时，你如果想一直处于正常模式，这就很有用了。当选项值为 <str>on</str> 时，它会模糊任何文本框，而一般情况下，页面加载完后会自动聚焦于文本框的。如果你通常喜欢 <o>focuscontent</o> 但有时想聚焦于第一个输入域，则可以通过 <k>gi</k> 跳到它的框中。
         </p>
-        <note>Some pages use JavaScript to focus the textfield, then 'focuscontent'
-        might not work as expected.</note>
+		<note>有一些网页使用 JavaScript 聚焦文本框，则 'focuscontent' 可能就没能如预料的那样起作用了。
+        </note>
     </description>
 </item>
 
@@ -514,9 +466,9 @@
     <type>number</type>
     <default>0</default>
     <description>
-        <p>Change the behaviour of <k name="Return"/> in Hints mode.</p>
+		<p>更改 Hints 模式中 <k name="Return"/> 的行为。</p>
 
-        <p>Possible values:</p>
+        <p>可有的取值：</p>
 
         <dl>
             <dt>0</dt>      <dd>Follow the first hint as soon as typed text uniquely identifies it.</dd>
@@ -535,8 +487,6 @@
     <default>off</default>
     <description>
         <p>
-            Show the current window fullscreen. Also hide certain GUI elements like the
-            statusline.
 			全屏显示当前窗口。隐藏某些 GUI 元素，比如状态栏。
         </p>
     </description>
@@ -550,8 +500,7 @@
     <default>intro</default>
     <description>
         <p>
-            Name of the main help file. This is the tail component of the chrome
-            URL as displayed in the status line when viewing the page.
+			主要帮助文件的名称。在查看页面时，显示在状态栏的 chrome URL 尾巴组成部分。
         </p>
     </description>
 </item>
@@ -563,8 +512,8 @@
     <default>0123456789</default>
     <description>
         <p>
-            Controls which characters are used to generate hint labels.
-            Case-sensitive.
+			定义哪些字符用于生成 hint 标签。
+			大小写敏感。
         </p>
     </description>
 </item>
@@ -576,10 +525,7 @@
     <default>label,value</default>
     <description>
         <p>
-            When generating hints for input elements that do not have an
-            explicit caption, this specifies the methods to try and generate a
-            textual hint. It tries the options in the order that you give, and
-            uses the first that it finds.
+			在为没有明确指定标题的 input 元素生成 hints 时，这个选项指定了尝试生成文本式 hint 的方法。依你给定的顺序进行尝试，使用第一个可用的方法。
         </p>
 
         <dl>
@@ -643,7 +589,7 @@
     <type>number</type>
     <default>500</default>
     <description>
-        <p>Number of Ex commands and search patterns to store in the command-line history.</p>
+        <p>保存在命令行历史中的 Ex 命令及搜索模式的最多数目。</p>
     </description>
 </item>
 
@@ -655,11 +601,7 @@
     <default>off</default>
     <description>
         <p>
-            Set the <str>private browsing</str> option. In private browsing mode
-            history, cache files, cookies, form data, passwords, download list
-            entries, local and URL marks, command-line history and macros are
-            available only for the duration of the private browsing session and
-            deleted when returning to normal browsing mode.
+			设置<str>隐私浏览</str>选项。在隐私浏览模式中，浏览历史，缓存文件，cookies，表单数据，密码，下载列表项，本地及 URL 标记，命令行历史及宏都只在隐私浏览会话过程中有效，在返回普通浏览模式后统统被删除。
         </p>
     </description>
 </item>
@@ -672,7 +614,7 @@
     <type>boolean</type>
     <default>off</default>
     <description>
-        <p>Highlight previous search pattern matches</p>
+        <p>高亮显示前一个搜索模式的匹配项。</p>
     </description>
 </item>
 
@@ -901,17 +843,18 @@
     <description>
         <p>Desired info in the <ex>:pageinfo</ex> output.</p>
 
-        <p>Available items:</p>
+        <p>可选项目：</p>
 
         <dl>
-            <dt>g</dt>      <dd>General info</dd>
+            <dt>g</dt>      <dd>全面的信息</dd>
             <dt>f</dt>      <dd>Feeds</dd>
-            <dt>m</dt>      <dd>Meta tags</dd>
+            <dt>m</dt>      <dd>元标签</dd>
         </dl>
 
         <p>
             The order of the options defines the order in which they appear in
             the result.
+
         </p>
     </description>
 </item>
@@ -1081,10 +1024,10 @@
     <type>boolean</type>
     <default>on</default>
     <description>
-        <p>Show or hide the scrollbars in the main content window. If the
+        <p>显示或隐藏主内容窗口的滚动条。如果文档有框架集，则只影响最外层的滚动条。Show or hide the scrollbars in the main content window. If the
         document has a frameset, then only the outermost scrollbars are affected.</p>
 
-        <note>This option requires a page reload to take effect.</note>
+        <note>本选项需要页面重载才能生效。</note>
     </description>
 </item>
 
@@ -1096,7 +1039,7 @@
     <type>boolean</type>
     <default>on</default>
     <description>
-        <p>Defines the icon size in the main toolbar.</p>
+        <p>设置主工具栏上的 icon 图标大小。</p>
     </description>
 </item>
 
@@ -1107,7 +1050,7 @@
     <type>string</type>
     <default>_$SHELL_ or "sh", Windows: "cmd.exe"</default>
     <description>
-        <p>Shell to use for executing <ex>:!</ex> and <ex>:run</ex> commands.</p>
+		<p>当执行 <ex>:!</ex> 和 <ex>:run</ex> 命令时所使用的 Shell。Shell to use for executing <ex>:!</ex> and <ex>:run</ex> commands.</p>
     </description>
 </item>
 
@@ -1132,7 +1075,7 @@
     <type>boolean</type>
     <default>on</default>
     <description>
-        <p>Show the current mode in the command line.</p>
+        <p>在命令行中显示当前模式。</p>
     </description>
 </item>
 
@@ -1208,6 +1151,7 @@
             Tab numbers appear as small numbers in the right corner of tabs.
             They can be used to quickly get the position of a tab, which can
             be used by other commands like 12<k>gt</k> to to to tab number 12.
+			显示在标签页右侧角落的小数字，即标签页数。它们可以用来快速取得标签页的位置，然后可以用于其他命令如 12<k>gt</k> 来跳转到标签页数为12的标签页。
         </p>
     </description>
 </item>
@@ -1224,6 +1168,7 @@
             browser title from <str>Title of web page - Mozilla &liberator.host;</str>
             to <str>Title of web page - &liberator.appname;</str>.  If you don't like
             that, you can restore it with:
+			更改浏览器窗口的标题。&liberator.appname; 将浏览器标题从 <str>Title of web page - Mozilla &liberator.host;</str> 改成了 <str>Title of web page - &liberator.appname;</str>。如果你不喜欢，可以恢复它：
         </p>
         <code><ex>:set titlestring=<str>Mozilla &liberator.host;</str></ex></code>
     </description>
@@ -1236,11 +1181,12 @@
     <type>stringlist</type>
     <default></default>
     <description>
-        <p>Show or hide &liberator.host;'s GUI elements like the menu bar, toolbars or the tab bar.</p>
+        <p>显示或隐藏 &liberator.host; 的 GUI 元素，比如菜单栏，工具栏或标签栏。Show or hide &liberator.host;'s GUI elements like the menu bar, toolbars or the tab bar.</p>
         <note>Since everything in Firefox is basically a toolbar, the <o>toolbars</o> and <o>gui</o>
             aliases are equivalent and can be used interchangeably. <ex>:set gui=none,tabs</ex>
             might read better for some, whereas <ex>:set toolbars=nonavigation</ex> might be better
             in other cases.
+			因为 Firefox 中几乎一切都可以认为是工具栏，所以，<o>toolbars</o> 和 <o>gui</o> 别名作用相当，可能换用。<ex>:set gui=none,tabs</ex> 在某些情况中可能更易阅读，而<ex>:set toolbars=nonavigation</ex> 在另外一些情况下却更佳。 
         </note>
 
         <p>This option is designed to allow full UI customization with Firefox's capabilities,
@@ -1254,25 +1200,26 @@
             adding some mappings to quickly toggle certain elements.
         </p>
 
-        <p>Supported elements:</p>
+        <p>支持的元素：Supported elements:</p>
 
         <dl>
-            <dt>menu</dt>       <dd>Menu Bar</dd>
-            <dt>tabs</dt>       <dd>Tab Bar <warning>Due to a bug, currently gets shown again by Firefox</warning></dd>
+            <dt>menu</dt>       <dd>菜单栏</dd>
+            <dt>tabs</dt>       <dd>标签栏 <warning>Due to a bug, currently gets shown again by Firefox</warning></dd>
             <dt>navigation</dt> <dd>Main toolbar which contains buttons for navigating back/forward as well as the location box.</dd>
-            <dt>bookmarks</dt>  <dd>Bookmark bar</dd>
-            <dt>addons</dt>     <dd>Optional add-on bar at the bottom. By default, only shown if there are addons using it.</dd>
+            <dt>bookmarks</dt>  <dd>书签栏</dd>
+            <dt>addons</dt>     <dd>底部可选的附加组件栏。默认情况下，只在扩展组件用到它时才显示。</dd>
         </dl>
 
         <p>In order to quickly change the whole GUI, &liberator.appname; provides two more meta elements:</p>
         <dl>
-            <dt>all</dt>        <dd>Show as much GUI as possible</dd>
-            <dt>none</dt>       <dd>Hide all GUI</dd>
+            <dt>all</dt>        <dd>尽可能多地显示 GUI</dd>
+            <dt>none</dt>       <dd>隐藏所有 GUI</dd>
         </dl>
 
         Since the elements are processed sequentially, you can combine these items
         to change the whole GUI really quickly. E.g. to just show the tab bar, but
         no other GUI elements, use <ex>:set gui=none,tabs</ex>.
+		因为元素是按顺序处理的，于是你可以将它们合并，用于快速地改变整个 GUI。比如，仅显示标签栏，使用 <ex>:set gui=none,tabs</ex>。
 
 
     </description>
@@ -1286,9 +1233,9 @@
     <type>boolean</type>
     <default>off</default>
     <description>
-        <p>Show current website with a minimal style sheet to make it easily accessible.</p>
+        <p>当前网站以最简的样式表显示，使得它更易于访问。Show current website with a minimal style sheet to make it easily accessible.</p>
 
-        <note>This is a local option for now, a global value may be supported in the future.</note>
+        <note>目前这还是个局部选项，未来可能会支持全局值。This is a local option for now, a global value may be supported in the future.</note>
     </description>
 </item>
 

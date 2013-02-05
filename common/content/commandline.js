@@ -226,6 +226,14 @@ const CommandLine = Module("commandline", {
     },
 
     /**
+     * reset messasaBox
+     */
+    _resetStatusline: function () {
+        this._messageBox.value = "";
+        this._setHighlightGroup("");
+    },
+
+    /**
      * Determines whether the command line should be visible.
      *
      * @returns {boolean}
@@ -303,14 +311,8 @@ const CommandLine = Module("commandline", {
 
         liberator.triggerObserver("echoMultiline", str, highlightGroup);
 
-        // If it's already XML, assume it knows what it's doing.
-        // Otherwise, white space is significant.
-        // The problem elsewhere is that E4X tends to insert new lines
-        // after interpolated data.
-        XML.ignoreWhitespace = typeof str != "xml";
-        this._lastMowOutput = <div class="ex-command-output" style="white-space: nowrap" highlight={highlightGroup}>{template.maybeXML(str)}</div>;
+        this._lastMowOutput = xml`<div class="ex-command-output" style="white-space: nowrap" highlight=${highlightGroup}>${template.maybeXML(str)}</div>`;
         let output = util.xmlToDom(this._lastMowOutput, doc);
-        XML.ignoreWhitespace = true;
 
         // FIXME: need to make sure an open MOW is closed when commands
         //        that don't generate output are executed
@@ -475,6 +477,8 @@ const CommandLine = Module("commandline", {
         // open the completion list automatically if wanted
         if (cmd.length)
             commandline.triggerCallback("change", this._currentExtendedMode, cmd);
+
+        this._resetStatusline();
     },
 
     /**
@@ -605,14 +609,14 @@ const CommandLine = Module("commandline", {
                 action = this._echoMultiline;
             }
 
-            if ((flags & this.FORCE_MULTILINE) || (/\n/.test(str) || typeof str == "xml") && !(flags & this.FORCE_SINGLELINE))
+            if ((flags & this.FORCE_MULTILINE) || (/\n/.test(str) || typeof str == "xml" || str instanceof TemplateSupportsXML ) && !(flags & this.FORCE_SINGLELINE))
                 action = this._echoMultiline;
 
             if (single)
                 this._lastEcho = null;
             else {
                 if (this._messageBox.value == this._lastEcho)
-                    this._echoMultiline(<span highlight="Message">{this._lastEcho}</span>,
+                    this._echoMultiline(xml`<span highlight="Message">${this._lastEcho}</span>`,
                         this._messageBox.getAttributeNS(NS.uri, "highlight"));
                 this._lastEcho = (action == this._echoLine) && str;
             }
@@ -1230,7 +1234,7 @@ const CommandLine = Module("commandline", {
             }
 
             // Don't show 1-character substrings unless we've just hit backspace
-            if (substring.length < 2 && (!this._lastSubstring || this._lastSubstring.indexOf(substring) != 0))
+            if (substring.length < 2 && (!this._lastSubstring || !this._lastSubstring.startsWith(substring)))
                 return;
             this._lastSubstring = substring;
 
@@ -1240,7 +1244,7 @@ const CommandLine = Module("commandline", {
             substring = substring.substr(value.length);
             this.removeSubstring = substring;
 
-            let node = util.xmlToDom(<span highlight="Preview">{substring}</span>,
+            let node = util.xmlToDom(xml`<span highlight="Preview">${substring}</span>`,
                 document);
             let start = this.caret;
             this.editor.insertNode(node, this.editor.rootElement, 1);
@@ -1334,7 +1338,7 @@ const CommandLine = Module("commandline", {
                 let n = 0;
                 try {
                     this.waiting = true;
-                    for (let [, context] in Iterator(list)) {
+                    for (let context of list) {
                         function done() !(idx >= n + context.items.length || idx == -2 && !context.items.length);
                         while (context.incomplete && !done())
                             liberator.threadYield(false, true);
@@ -1427,13 +1431,14 @@ const CommandLine = Module("commandline", {
             return null;
         }
 
-        if (typeof arg === "object")
+        if (arg instanceof TemplateSupportsXML);
+        else if (typeof arg === "object")
             arg = util.objectToString(arg, useColor);
         else
             arg = String(arg);
 
         if (typeof arg == "string" && /\n/.test(arg))
-            arg = <span highlight="CmdOutput">{arg}</span>;
+            arg = xml`<span highlight="CmdOutput">${arg}</span>`;
 
         return arg;
     }
@@ -1459,7 +1464,9 @@ const CommandLine = Module("commandline", {
             commands.add([command.name],
                 command.description,
                 function (args) {
-                    let str = CommandLine.echoArgumentToString(args.string, true);
+                    var str = args.literalArg;
+
+                    let str = CommandLine.echoArgumentToString(str, true);
                     if (str != null)
                         command.action(str);
                 }, {
@@ -1480,9 +1487,8 @@ const CommandLine = Module("commandline", {
                     commandline.echo(message.str, message.highlight, commandline.FORCE_SINGLELINE);
                 }*/
                 else { //if (commandline._messageHistory.length > 1) {
-                    XML.ignoreWhitespace = false;
-                    let list = template.map(commandline._messageHistory.messages, function (message)
-                        <div highlight={message.highlight + " Message"}>{message.str}</div>);
+                    let list = template.map2(xml, commandline._messageHistory.messages, function (message)
+                        xml`<div highlight=${message.highlight + " Message"}>${message.str}</div>`);
                     liberator.echo(list, commandline.FORCE_MULTILINE);
                 }
             },
@@ -1704,18 +1710,18 @@ const ItemList = Class("ItemList", {
 
     _init: function () {
         this._div = this._dom(
-            <div class="ex-command-output" highlight="Normal" style="white-space: nowrap">
+            xml`<div class="ex-command-output" highlight="Normal" style="white-space: nowrap">
                 <div highlight="Completions" key="noCompletions"><span highlight="Title">No Completions</span></div>
                 <div key="completions"/>
                 <div highlight="Completions">
-                {
-                    template.map(util.range(0, options["maxitems"] * 2), function (i)
-                    <span highlight="CompItem">
+                ${
+                    template.map2(xml, util.range(0, options["maxitems"] * 2), function (i)
+                    xml`<span highlight="CompItem">
                         <li highlight="NonText">~</li>
-                    </span>)
+                    </span>`)
                 }
                 </div>
-            </div>, this._divNodes);
+            </div>`, this._divNodes);
         this._doc.body.replaceChild(this._div, this._doc.body.firstChild);
         //div.scrollIntoView(true);
 
@@ -1724,14 +1730,14 @@ const ItemList = Class("ItemList", {
             if (!context.items.length && !context.message && !context.incomplete)
                 return;
             context.cache.nodes = [];
-            this._dom(<div key="root" highlight="CompGroup">
+            this._dom(xml`<div key="root" highlight="CompGroup">
                     <div highlight="Completions">
-                        { context.createRow(context.title || [], "CompTitle") }
+                        ${ context.createRow(context.title || [], "CompTitle") }
                     </div>
                     <div key="message" highlight="CompMsg"/>
                     <div key="items" highlight="Completions"/>
-                    <div key="waiting" highlight="CompMsg">{ItemList.WAITING_MESSAGE}</div>
-                </div>, context.cache.nodes);
+                    <div key="waiting" highlight="CompMsg">${ItemList.WAITING_MESSAGE}</div>
+                </div>`, context.cache.nodes);
             this._divNodes.completions.appendChild(context.cache.nodes.root);
         }, this);
 
@@ -1745,7 +1751,6 @@ const ItemList = Class("ItemList", {
      * @param {number} offset Start at this index and show options["maxitems"].
      */
     _fill: function (offset) {
-        XML.ignoreWhitespace = false;
         let diff = offset - this._startIndex;
         if (this._items == null || offset == null || diff == 0 || offset < 0)
             return false;

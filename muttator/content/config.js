@@ -20,7 +20,7 @@ const Config = Module("config", ConfigBase, {
     /*** optional options, there are checked for existence and a fallback provided  ***/
     get features() {
         Object.defineProperty(this, "features", {
-            value: this.isComposeWindow ? ["addressbook"] : ["hints", "mail", "marks", "addressbook", "tabs"],
+            value: new Set(this.isComposeWindow ? ["addressbook"] : ["hints", "mail", "marks", "addressbook", "tabs"]),
         });
         return this.features;
     },
@@ -61,7 +61,7 @@ const Config = Module("config", ConfigBase, {
         ["about",            "About Thunderbird",
             function () { window.openAboutDialog(); }],
         ["addons",           "Manage Add-ons",
-            function () { window.openAddonsMgr(); }],
+            function () { window.toOpenWindowByType("Addons:Manager", "about:addons", "chrome,centerscreen,resizable,dialog=no,width=700,height=600"); }],
         ["addressbook",      "Address book",
             function () { window.toAddressBook(); }],
         ["accounts",      "Account Manager",

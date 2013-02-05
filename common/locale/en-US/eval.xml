@@ -8,7 +8,7 @@
     title="&liberator.appname; Expression Evaluation"
     xmlns="http://vimperator.org/namespaces/liberator"
     xmlns:html="http://www.w3.org/1999/xhtml">
-<h1 tag="expression expr eval">Expression evaluation</h1>
+<h1 tag="expression expr eval">执行表达式Expression evaluation</h1>
 <toc start="2"/>
 
 <!-- INTRO TO BE WRITTEN… -->
@@ -22,6 +22,7 @@
             can be separated by \n. <a>expr</a> can either be a quoted string, or any expression
             which can be fed to eval() like 4+5. You can also view the source code of
             objects and functions if the return value of <a>expr</a> is an object or function.
+			输出表达式。在显示提示性信息时很有用。多行的话可以用 \n 来分隔。<a>expr</a> 可以是引号括起的字符串，或是任何其他可以在 eval() 中执行的表达式，比如4+5.如果<a>expr</a> 的返回值是对象或函数，则 echo 命令可以查看到对象或函数的源代码。
         </p>
     </description>
 </item>
@@ -34,6 +35,7 @@
         <p>
             Echo the expression as an error message. Just like <ex>:ec<oa>ho</oa></ex> but echoes
             the result highlighted as ErrorMsg and saves it to the message history.
+			将表达式输出为错误信息。类似于 <ex>:ec<oa>ho</oa></ex>，但它是将表达式输出为高亮的错误信息，并且将它保存到信息历史中。
         </p>
     </description>
 </item>
@@ -46,6 +48,7 @@
         <p>
             Echo the expression as an informational message. Just like <ex>:ec<oa>ho</oa></ex> but
             also saves the message in the message history.
+			将表达式输出为提示性信息。类似于 <ex>:ec<oa>ho</oa></ex>，但它将信息保存到信息历史中。
         </p>
     </description>
 </item>
@@ -59,9 +62,10 @@
             Execute the string that results from the evaluation of <a>expr</a> as an Ex command.
             Example: <ex>:execute "source " + io.getRCFile().path</ex> sources the appropriate
             RC file.
+			将 <a>expr</a> 结果取得的字符串作为 Ex 命令执行。举例：<ex>:execute "source " + io.getRCFile().path</ex> 将导入相适的 RC 文件。
         </p>
 
-        <p>Note: Unlike Vim this currently only supports a single argument.</p>
+        <p>Note: Unlike Vim this currently only supports a single argument.注意：与 Vim 不同的是，这个目前仅支持一个参数。 </p>
     </description>
 </item>
 
@@ -80,11 +84,14 @@
             <ex>:javascript &lt;&lt;EOF</ex> reads all the lines
             until a line starting with "EOF"
             is found, and interpret them with the JavaScript <em>eval()</em> function.
+			通过 eval() 执行任何 JavaScript 命令。通过将参数传递给 <tt>eval()</tt>，它的行为相当于 JavaScript 编译器。
+			<ex>:javascript alert(<str>Hello world"</str>)</ex> 显示一个对话框，对话框中显示文字 "Hello world"。<ex>:javascript &lt;&lt;EOF</ex>则读入其后所有的行，直到遇到 "EOF" 开头的行为止，然后使用 JavaScript 的 <em>eval()</em> 函数来编译它们。
         </p>
 
         <p>
             The special version <ex>:javascript!</ex> opens the JavaScript console of
             &liberator.host;.
+			特殊版本即 <ex>:javascript!</ex> 打开 &liberator.host; 的 JavaScript 控制台。
         </p>
 
         <p>
@@ -107,6 +114,7 @@
             Sets or lists a variable. Sets the variable {var-name} to the value of the
             expression <a>expr1</a>. If no expression is given, the value of the variable is
             displayed. Without arguments, displays a list of all variables.
+			设置或列出一个变量。将变量 {var-name} 设置为表达式 <a>expr1</a> 的值。如果没有给出表达式，则列出变量的值。如果没有任何参数，则列出所有变量。
         </p>
     </description>
 </item>
@@ -119,6 +127,7 @@
         <p>
             Deletes the variable <a>name</a>. Several variable names can be given. When used
             with <oa>!</oa> no error message is output for non-existing variables.
+			删除变量 <a>name</a>。可以给定多个变量名称。当配合 <oa>!</oa> 使用时，即便是删除不存在的变量，也不会有错误信息。
         </p>
     </description>
 </item>

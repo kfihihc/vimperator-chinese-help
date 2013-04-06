@@ -386,6 +386,17 @@ const Buffer = Module("buffer", {
     },
 
     /**
+     * @property {String} The current document's character set
+     */
+    get charset() {
+        try {
+            return config.browser.docShell.charset;
+        } catch (e) {
+            return "UTF-8";
+        }
+    },
+
+    /**
      * @property {number} The buffer's height in pixels.
      */
     get pageHeight() window.content ? window.content.innerHeight : config.browser.contentWindow.innerHeight,
@@ -988,21 +999,11 @@ const Buffer = Module("buffer", {
         if (win === document.commandDispatcher.focusedWindow) return;
 
         // XXX: if win has frame and win is not content's focus window, win.focus() cannot focus.
-        if (win.frames.length && win !== this.focusedWindow) {
-            let html = win.document.documentElement;
-            let selection = win.getSelection();
-
-            let ranges = let(it = (function () {for (let i in util.range(0, selection.rangeCount)) yield selection.getRangeAt(i);})()) [r for(r in it)];
-
-            html.focus();
-            html.blur();
-
-            selection.removeAllRanges();
-            for (let r of ranges)
-                selection.addRange(r);
-            events.onFocusChange({});
-        } else
-            win.focus();
+        var e = win.document.activeElement;
+        if (e && e.contentWindow) {
+            services.get("focus").clearFocus(win);
+        }
+        win.focus();
     },
 
     getFocusedWindow: function (win) {
@@ -1060,23 +1061,18 @@ const Buffer = Module("buffer", {
     },
 
     findScrollable: function findScrollable(dir, horizontal) {
-        let pos = "scrollTop", size = "clientHeight", max = "scrollHeight", layoutSize = "offsetHeight",
-            overflow = "overflowX", border1 = "borderTopWidth", border2 = "borderBottomWidth";
+        let pos = "scrollTop", maxPos = "scrollTopMax", clientSize = "clientHeight";
         if (horizontal)
-            pos = "scrollLeft", size = "clientWidth", max = "scrollWidth", layoutSize = "offsetWidth",
-            overflow = "overflowX", border1 = "borderLeftWidth", border2 = "borderRightWidth";
+            pos = "scrollLeft", maxPos = "scrollLeftMax", clientSize = "clientWidth";
 
         function find(elem) {
+            if (!(elem instanceof Element))
+                elem = elem.parentNode;
+
             for (; elem && elem.parentNode instanceof Element; elem = elem.parentNode) {
-                let style = util.computedStyle(elem);
-                let borderSize = parseInt(style[border1]) + parseInt(style[border2]);
-                let realSize = elem[size];
-                // Stupid Gecko eccentricities. May fail for quirks mode documents.
-                if (elem[size] + borderSize >= elem[max] || elem[size] == 0) // Stupid, fallible heuristic.
+                if (elem[clientSize] == 0)
                     continue;
-                if (style[overflow] == "hidden")
-                    realSize += borderSize;
-                if (dir < 0 && elem[pos] > 0 || dir > 0 && elem[pos] + realSize < elem[max])
+                if (dir < 0 && elem[pos] > 0 || dir > 0 && elem[pos] < elem[maxPos])
                     break;
             }
             return elem;

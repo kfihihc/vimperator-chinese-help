@@ -13,3 +13,7 @@ Vimperator 中文帮助文件
 2012.7.19 common/locale/en-US/browsing.xml finished
 
 2012.7.21 common/locale/en-US/buffer.xml
+
+###第二季
+
+2013.4.12 vimperator/locale/en-US/intro.xml Done

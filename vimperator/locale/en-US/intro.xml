@@ -10,7 +10,7 @@
     xmlns:html="http://www.w3.org/1999/xhtml">
 
 <html:p style="text-align: center; font-weight: bold;">
-最初世上有 Navigator，然后 Explorer，继而则 Konqueror 的时代，而现在，该是 Imperator 的时代了，我们的 VIMperator :)
+最初世上有 Navigator，然后有 Explorer，继而则 Konqueror 的时代，而现在，该是 Imperator 的时代了，我们的 VIMperator :)
 </html:p>
 
 <h1 tag="intro">绍介</h1>
@@ -18,29 +18,29 @@
 <p>
 <link topic="http://vimperator.org">&liberator.appname;</link> 是一个
 <link topic="http://www.mozilla.com/firefox/">Firefox</link>
-浏览器扩展，它很大程度受启于 Vim 文本编辑器，希望创造出一个更快更高效的冲浪环境。它有类似于 Vim 的键绑定，你可以把它称为模式化 web 浏览器，因为不同的模式里有着不同的键绑定。比如，它有个很特别的 Hint 模式，你可以仅通过键盘就可轻松跟踪链接。几乎所有的功能都可以通过命令完成，键入 <ex>:back</ex> 会在当前网页历史中后退，就好像点击过工具条上的后退按钮。
+浏览器扩展，它的大部分灵感来自于 Vim 文本编辑器，为的是创造出一个更快更高效的冲浪环境。它有类似于 Vim 的键绑定，你可以把它称为模式化 web 浏览器，因为不同的模式里有着不同的键绑定。比如说，它有个很特别的 Hint 模式，在这个模式下，你仅仅用键盘就可轻松跟踪链接。几乎所有的功能都可以通过命令完成，键入 <ex>:back</ex> 会在当前网页历史中后退，就好像点击过工具条上的后退按钮。
 </p>
 
 <p>
-    不过，&liberator.appname; 并不打算成为 Vim 的百分百复制品，它更像是把 Vim 的思想带到21世纪里。这意味着利用好新的图形处理能力与更快的计算机。而且，我们也各方考虑，以使命令行界面更加统一、易用的同时，不失为高级用户们的有力扩展。
+    不过，&liberator.appname; 并不打算百分百复制 Vim，它更像是把 Vim 的思想带到21世纪里。这意味着利用好新图形处理能力，以及更快的计算机能力。而且，我们也各方考虑，以使命令行界面更加统一、易用，同时不失为高级用户的有力扩展。
 </p>
         
 <p>
-    但 &liberator.appname; 又不仅仅只是 Firefox 的简单命令入口 - 它同时也是个完整的开发环境。如果你是 web 开发者，你就可以享用到一个交互式的 JavaScript shell - 甚至支持补齐功能。又或者你想拓展 &liberator.appname;，可以只是拖动 JavaScript 到它的 plugin 文件夹里即可。
+    但 &liberator.appname; 还不仅仅只是 Firefox 的简单命令入口 - 它同时也是个完整的开发环境。如果你是 web 开发者，你就可以用到一个交互式的 JavaScript shell - 甚至有补齐功能。又或者你想拓展 &liberator.appname;，要做的非常简单，只是拖动 JavaScript 到它的 plugin 文件夹里。
 </p>
 
-<tags>author donation sponsor</tags>
+<tags>捐款支持作者</tags>
 <strut/>
 <p>
 	&liberator.appname; 最初由
-    <link topic="mailto:stubenschrott@vimperator.org">Martin Stubenschrott</link> 编写，但随后有许多<link topic="http://vimperator-labs.googlecode.com/hg/vimperator/AUTHORS/">不可估值的贡献者</link>帮忙捉虫、增加新特性。
-	如果你欣赏我们在 &liberator.appname; 上的工作，并打算鼓励我们做出更多，则你可以给我们发发感谢，发发补丁，又或者捐款：
+    <link topic="mailto:stubenschrott@vimperator.org">Martin Stubenschrott</link> 编写，但随后有许多<link topic="http://vimperator-labs.googlecode.com/hg/vimperator/AUTHORS/">人</link>帮忙捉虫、增加新特性，他们的贡献很大。
+	如果你欣赏我们在 &liberator.appname; 上的工作，并打算鼓励我们为它做出更多，则你可以给我们发发感谢，发发补丁，又或者捐款：
 </p>
 
 <pan><handle/></pan>
 
 <p>
-	如果你更愿意给你的钱整点好玩意儿，你也可以购买一些新潮<link topic="http://www.zazzle.com/maxauthority*">小商品</link>比如 T 恤或者杯子，这样也能支持到我们。当然，如我们所信仰的自由、开放软件一样，请仅在你真的非常喜欢 &liberator.appname; 并且钱不伤的时候支持我们 - 否则请用它，推荐它，并且喜欢它吧：）
+	如果你更愿意给你的钱整点好玩意儿，你也可以购买一些新潮<link topic="http://www.zazzle.com/maxauthority*">小物品</link>比如 T 恤或者杯子，这样也能支持到我们。当然，如我们所信仰的自由、开放软件一样，请仅在你真的非常喜欢 &liberator.appname; 并且钱不伤的时候支持我们 - 否则请用它，推荐它，并且喜欢它吧：）
 </p>
 
 <h2 tag="overview">帮助主题</h2>
@@ -52,19 +52,19 @@
     </li>
     <li>
         <link topic="starting">启动 &liberator.appname;</link>:
-	&liberator.appname; 如何启动，在哪儿读取配置文件...
+	&liberator.appname; 如何启动，在哪儿读取的配置文件...
     </li>
     <li>
-        <link topic="browsing">浏览</link>:
-	浏览网页所需的最基本键映射与命令（如何打开一个网页，又或在历史记录中后退）。
+        <link topic="browsing">网页浏览</link>:
+	浏览网页所需的最基本的键映射与命令（如何打开一个网页，又或在历史记录中后退）。
     </li>
     <li>
         <link topic="buffer">Buffer</link>:
-	在当前文档中操作，譬如滚动，譬如拷贝文本。
+	在当前文档操作，譬如滚动页面，譬如拷贝文本。
     </li>
     <li>
         <link topic="cmdline">命令行模式</link>:
-	编辑命令行。
+	命令行下的编辑。
     </li>
     <li>
         <link topic="insert">插入模式</link>:
@@ -72,35 +72,35 @@
     </li>
     <li>
         <link topic="options">选项</link>:
-	所有选项的说明。
+	所有选项的描述。
     </li>
     <li>
         <link topic="pattern">文本搜索命令</link>:
 	在当前 buffer 搜索文本。
     </li>
     <li>
-        <link topic="tabs">标签</link>:
-	管理你的标签页浏览会话。
+        <link topic="tabs">标签页</link>:
+	通过标签页管理你的浏览会话。
     </li>
     <li>
         <link topic="hints">Hints</link>:
-	选择链接及其他页面元素。
+	选择超链接及其他页面元素。
     </li>
     <li>
         <link topic="map">键映射，缩略词，及用户定义命令</link>:
 	定义新的键映射，缩略词，及用户命令。
     </li>
     <li>
-        <link topic="eval">表达式估值</link>:
+        <link topic="eval">表达式运算</link>:
 	执行 JavaScript。
     </li>
     <li>
-        <link topic="marks">标签</link>:
-	使用书签，快速标签，历史记录及本地标签。
+        <link topic="marks">标记</link>:
+	使用书签，快速标记，历史记录及页面内标记。
     </li>
     <li>
-        <link topic="repeat">重复命令</link>:
-	使用宏来执行反复的任务。
+        <link topic="repeat">重做命令</link>:
+	使用宏来执行重复的任务。
     </li>
     <li>
         <link topic="autocommands">自动化命令</link>:
@@ -116,15 +116,15 @@
     </li>
     <li>
         <link topic="styling">样式化图形用户界面和网页</link>:
-	改变内容页面的样式及 &liberator.appname; 本身的样式。
+	更改内容页面样式及 &liberator.appname; 本身的样式。
     </li>
     <li>
-        <link topic="message">错误及提示信息</link>:
-	提示信息及错误的说明。
+        <link topic="message">错误信息与提示</link>:
+	提示及错误信息说明。
     </li>
     <li>
         <link topic="developer">开发者信息</link>:
-	如何编写文档或插件。
+	如何编写文档或是插件。
     </li>
     <li>
         <link topic="various">其余命令</link>:
@@ -137,30 +137,30 @@
 </ol>
 
 <p>
-你也可以通过 <ex>:help o</ex> 或 <ex>:help :set</ex> 来直接跳转到某一特定命令的帮助内容。
+你也可以通过 <ex>:help o</ex> 或 <ex>:help :set</ex> 来直接访问到某一特定命令的帮助内容。
 </p>
 
 <h2 tag="features">特性</h2>
 
 <ul>
     <li>类似 Vim 的键绑定(<k>h</k>, <k>j</k>, <k>k</k>, <k>l</k>, <k>gg</k>, <k>G</k>, <k>0</k>, <k>$</k>, <k>ZZ</k>, <k name="C-f"/>, 等等)</li>
-    <li>Ex 命令(<ex>:quit</ex>, <ex>:open www.foo.com</ex>, …)，配备一个顺手的命令行</li>
-    <li>所有命令均有 Tab 补齐功能，可以在你键入时显示建议</li>
+    <li>Ex 命令(<ex>:quit</ex>, <ex>:open www.foo.com</ex>, …)，有一个适用的命令行</li>
+    <li>所有命令均支持按 Tab 补全，在你键入时会显示建议项</li>
     <li>Hint 模式(按 <k>f</k> 启动，用于跟踪链接)</li>
-    <li>扩展！是的，你可以使用<link href="http://ticket.vimperator.org/Vimperator/plugin/">脚本</link>扩展 Vimperator 的功能，就如你可以使用扩展组件来扩展 Firefox 功能一样。</li>
-    <li>使用 <ex>:echo window</ex> 命令来检查 JavaScript 对象，甚至还有上下文敏感的 tab 补齐。</li>
+    <li>扩展！是的，你可以使用<link href="http://ticket.vimperator.org/Vimperator/plugin/">脚本</link>扩展 Vimperator 的功能，就如你可以使用扩展组件来扩展 Firefox 功能一样</li>
+    <li>使用 <ex>:echo window</ex> 命令来查看 JavaScript 对象，甚至还有匹配上下文的 tab 补全</li>
     <li>可轻松自定义的图形用户界面(使用命令 <ex>:set gui=none</ex> 轻松隐藏所有 GUI 元素)</li>
-    <li>可以使用 <ex>:source</ex> 来获得 JavaScript 文件，如果你安装 vimperator.vim 就还可以高亮显示 <em>~/.vimperatorrc</em> 文件语法</li>
-    <li>简易快捷的搜索（<ex>:open foo</ex> 将在 google 中搜索 "foo"，<ex>:open ebay terminator</ex> 将在 ebay 上搜索 "terminator"），支持 &liberator.host; 关键词书签与搜索引擎</li>
-    <li>许多命令可以搭配数字(<em>3</em><k name="C-o"/> 将在历史记录中后退3页)</li>
+    <li>可以 <ex>:source</ex> JavaScript 文件来运行命令，如果你安装 vimperator.vim 就还可以高亮显示 <em>~/.vimperatorrc</em> 文件语法</li>
+    <li>简易快捷的搜索（<ex>:open foo</ex> 将在 google 中搜索 "foo"，<ex>:open ebay terminator</ex> 将在 ebay 上搜索 "terminator"），支持 &liberator.host; 智能关键字书签与搜索引擎</li>
+    <li>许多命令可以配合数字使用(<em>3</em><k name="C-o"/> 将在历史记录中后退3页)</li>
     <li>错误蜂鸣</li>
-    <li>支持标记(<k>m</k><em>a</em> 在网页上设置一个标记，<k>'</k><em>a</em> 跳转到那儿)</li>
-    <li>支持快速标记(可以使用命令<k>go</k><a>a-zA-Z0-9</a>)快速访问此前被标记的网页</li>
+    <li>支持标记(<k>m</k><em>a</em> 在网页上设置一个标记，<k>'</k><em>a</em> 跳转到该标记)</li>
+    <li>支持快速标记(可以使用命令<k>go</k><a>a-zA-Z0-9</a>)，可以快速访问标记过的网页</li>
     <li>支持 <ex>:map</ex> 和 <ex>:command</ex> (脚本编写者则有 feedkeys())</li>
-    <li><ex>:time</ex> support for profiling</li>
-    <li>移动文本光标，使用 Vim 按键选择文本及可视化模式</li>
-    <li>支持调用外部编辑器</li>
-    <li>宏用于重放键操作</li>
+    <li><ex>:time</ex> 命令用于查看代码执行概况</li>
+    <li>使用 Vim 按键移动文本光标、选择文本，可视模式</li>
+    <li>支持外部编辑器</li>
+    <li>宏用于重做键操作</li>
     <li>自动命令用于在特定事件上执行动作</li>
     <li>完善的帮助系统，解释所有的命令，映射与选项</li>
 </ul>
@@ -170,7 +170,7 @@
 
 <h2 tag="contact bugs patches">联系</h2>
 <p>
-	请使用项目的 <link topic="http://code.google.com/p/vimperator-labs/issues/list">bug tracker</link> 来报告任何 bug/特性请求。你也可以在那儿附上补丁。另一个办法是使用<link topic="http://www.mozdev.org/mailman/listinfo/vimperator">邮件列表</link>。你也可以在 IRC 频道 <link topic="irc://irc.freenode.neet/vimperator">#vimperator</link> 上找到我们。更多的信息或贴士可以在 <link topic="http://code.google.com/p/vimperator-labs/w/list?q=label%3Aproject-vimperator">Wiki</link> 上的<link topic="http://code.google.com/p/vimperator-labs/wiki/&liberator.appname;FAQ">常见问题 (FAQ) </link> 上找到。请确保你已经事先阅读 <link topic="http://vimperator-labs.googlecode.com/hg/vimperator/TODO">TODO</link> 文件，事实上我们知道有许多可以改进的地方，只要我们有时间就会做出改进，又或收到了补丁。
+	请使用项目的 <link topic="http://code.google.com/p/vimperator-labs/issues/list">bug tracker</link> 来报告任何 bug/特性请求。你也可以在那儿附上补丁。另一个办法是使用<link topic="http://www.mozdev.org/mailman/listinfo/vimperator">邮件列表</link>。你也可以在 IRC 频道 <link topic="irc://irc.freenode.neet/vimperator">#vimperator</link> 上找到我们。更多的信息或贴士可以在 <link topic="http://code.google.com/p/vimperator-labs/w/list?q=label%3Aproject-vimperator">Wiki</link> 上的<link topic="http://code.google.com/p/vimperator-labs/wiki/&liberator.appname;FAQ">常见问答 (FAQ) </link> 上找到。请确保你已经事先阅读 <link topic="http://vimperator-labs.googlecode.com/hg/vimperator/TODO">TODO</link> 文件，事实上我们知道有许多可以改进的地方，只要我们有时间，又或收到了补丁，就会做出改进。
 </p>
 
 </document>

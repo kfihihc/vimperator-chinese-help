@@ -12,6 +12,9 @@
     <spec><oa>count</oa>g@</spec>
     <description>
         <p>
+            跳转到第一个固定标签页，如果已经处于第一个固定标签页则跳转到下一个，
+            处于最后一个则跳转到第一个固定标签页。如果指定了 <oa>count</oa>，则
+            跳转到第 <oa>count</oa> 个固定标签页。
             Go to the first app tab. Go to the next app tab when already an app tab is selected.
             And cycles to the first app tab when the last app tab is selected.
             If <oa>count</oa> is specified go to the <oa>count</oa>th app tab.
@@ -24,6 +27,8 @@
     <spec><oa>count</oa>&lt;C-S-n></spec>
     <description>
         <p>
+            跳转到下一个标签页分组，如果处于最后一个分组则循环跳转到第一个分组。
+            如果指定了 <oa>count</oa>, 跳转到第 <oa>count</oa> 的下一个分组。
             Go to the next group. Cycles to the fist group when the last is selected.
             If <oa>count</oa> is specified go to the <oa>count</oa>th next group.
         </p>
@@ -35,6 +40,8 @@
     <spec><oa>count</oa>&lt;C-S-p></spec>
     <description>
         <p>
+            跳转到前一个标签页分组，如果处于最后一个分组，则跳转到第一个分组。如果
+            指定了 <oa>count</oa>，则跳转到第 <oa>count</oa> 个的前一个分组。
             Go to the previous group. Cycles to the fist group when the first is selected.
             If <oa>count</oa> is specified go to the <oa>count</oa>th previous group.
         </p>
@@ -51,6 +58,8 @@
     <spec>:panorama <oa>sub-command</oa></spec>
     <description>
         <p>
+            管理标签页分组（在 firefox 也称之为 Panorama）。
+            如果没有指定 <oa>sub-command</oa>，则列出当前所有的标签页分组。
             Manage tab groups (also called Panorama in Firefox).
             If the <oa>sub-command</oa> is not specified, it lists all current tab groups.
         </p>
@@ -62,10 +71,13 @@
             <spec>add<oa>group</oa><oa>!</oa> <oa>groupName</oa></spec>
             <description>
                 <p>
+                    创建一个标签页分组，并且切换到新建的标签页分组。
+                    如果指定了 <oa>groupName</oa>，则设置分组的名字为指定名称。
                     Create a tab group and switches to the group.
                     If <oa>groupName</oa> is specified, also sets the name of the group.
                 </p>
                 <p>
+                    如果指定了 <oa>!</oa>，则选定的标签页会移至新建的标签页分组。
                     The selected tab is moved to the group if used with <oa>!</oa>.
                 </p>
             </description>
@@ -76,6 +88,7 @@
             <spec>list</spec>
             <description>
                 <p>
+                    列出当前标签页分组。
                     List current tab groups.
                 </p>
             </description>
@@ -86,10 +99,13 @@
             <spec>pulltab<oa>tab</oa><oa>!</oa> <a>url|index</a></spec>
             <description>
                 <p>
+                    从其他标签页分组获取标签页。
+                    参数 <a>url|index</a> 与 <ex>:buffer</ex> 的参数相同。
                     Pull the tab from another group.
                     The argument <a>url|index</a> is the same as <ex>:buffer</ex>'s argument.
                 </p>
                 <p>
+                    如果指定了 <oa>!</oa>，则同时切换至获取的标签页。
                     Also switch to the tab if <oa>!</oa> is specified.
                 </p>
             </description>
@@ -101,9 +117,13 @@
             <spec>stash<oa>!</oa> <a>groupName</a></spec>
             <description>
                 <p>
+                    移动当前标签页至名为 <a>groupName</a> 的标签页分组。
                     Move the current tab to a group named <a>groupName</a>.
                 </p>
                 <p>
+                    如果分组不存在，你可以使用 <oa>!</oa>，使之自动创建名为
+                    <a>groupName</a> 的标签页分组，并且移动当前标签页至新建的分
+                    组。
                     If the group does not exist, you can use <oa>!</oa> 
                     to automatically create a new group named <a>groupName</a> and
                     move the tab there.
@@ -117,6 +137,8 @@
             <spec>rm<oa>group</oa> <oa>groupName</oa></spec>
             <description>
                 <p>
+                    关闭名为 <oa>groupName</oa> 的标签页分组的所有标签。如果没有
+                    指定 <oa>groupName</oa>，则关闭当前的标签页分组的标签。
                     Close all tabs in the group named <oa>groupName</oa>.
                     When <oa>groupName</oa> is omitted, close the current group.
                 </p>
@@ -128,9 +150,11 @@
             <spec><oa>count</oa>switch <a>groupName</a></spec>
             <description>
                 <p>
+                    切换至名为 <oa>groupName</oa> 的标签页分组。
                     Switch to a group named <a>groupName</a>.
                 </p>
                 <p>
+                    如果指定了 <oa>count</oa>，则切换至第 <oa>count</oa>个分组的下一个分组。
                     Switch to <oa>count</oa>th next group if <oa>count</oa> is specified.
                 </p>
             </description>

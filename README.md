@@ -17,3 +17,5 @@ Vimperator 中文帮助文件
 ###第二季
 
 2013.4.12 vimperator/locale/en-US/intro.xml Done
+
+2013.4.15 vimperator/locale/en-US/tabs.xml Done
